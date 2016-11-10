@@ -12,8 +12,40 @@
 
 ## Requirements
 
+You will need the following accounts and software to create this solution:
+
+- Source code and instructions from this GitHub repo
+
+- A [Microsoft Azure subscription](<https://azure.microsoft.com/>) 
+
+- A Microsoft Office 365 subscription for Power BI access
+
+- A network connection
+
+- [Microsoft Azure Storage Explorer](<http://storageexplorer.com/>)
+
+- [Power BI Desktop](<https://powerbi.microsoft.com/en-us/desktop>)
+
+It will take about four to five hours to implement this solution if you have all the required software/resources ready to use. 
 
 ## Architecture
+![](Figures/ReatilPriceOptSolutionArchitecture.bmp)
+
+The figure above shows the overall architecture of the Retail Price Optimization solution. Here is the explanation :
+
+- **Data Sources** : The solution uses a python application for generating simulated retail data. This application runs on Spark (not distributed) and writes the raw data on Azure Blob Storage.
+
+- **Ingest** : Raw data is copied from Azure Blob Storage to Azure Data Lake Storage, which is the Big Data storage in this solution 
+
+- **Prepare** : A Spark job reads the raw data from Azure Data Lake Storage and process/prepare it for the next steps
+
+- **Analyze** : It has two parts :
+  - First Spark Job use the processed data to traing the Retail Demand Forecasting model
+  - Second Spark Job use the forcasted data and apply Price Optimization on it
+
+- **Publish** : The result of both Retail Demand Forecasting and Pice Optimization are stored on Azure Data Lake Store
+
+- **Visualize** : Power BI is used to visualize the results
 
 
 ## Setup Steps
@@ -38,7 +70,7 @@ So for example, Steven X. Smith might use a base service name of *retailtemplate
   
   - In the resource groups page that appears, click ***Add***
   
-  - Provide a name ***energytemplate\_resourcegroup***
+  - Provide a name ***retailtemplate\_resourcegroup***
   
   - Select a ***location***. Note that resource group is a virtual group that groups all the resources in one solution. The resources don’t have to be in the same location as the resource group itself.
   
@@ -46,13 +78,13 @@ So for example, Steven X. Smith might use a base service name of *retailtemplate
 
 ### 2. Setup Azure Storage account
 
-An Azure Storage account is used by the Azure Machine Learning workspace in the Batch path. 
+An Azure Storage account is used by the Data Simulator to write raw data and by Spark to use as Primary Storage. 
 
   - Navigate to ***portal.azure.com*** and log in to your account.
 
   - On the left tab click ***+ (New) > Storage > Storage Account***
 
-  - Set the name to ***energytemplate[UI][N]***
+  - Set the name to ***retailtemplate[UI][N]***
 
   - Change the ***Deployment Model*** to ***Classic***
 
@@ -70,7 +102,7 @@ Now that the storage account has been created we need to collect some informatio
 
   - On the left tab click Resource Groups
 
-  - Click on the resource group we created earlier ***energytemplate_resourcegroup***. If you don’t see the resource group, click ***Refresh*** 
+  - Click on the resource group we created earlier ***retailtemplate_resourcegroup***. If you don’t see the resource group, click ***Refresh*** 
 
   - Click on the storage account in Resources
 
@@ -82,10 +114,23 @@ Now that the storage account has been created we need to collect some informatio
 
     | **Azure Storage Account** |                     |
     |------------------------|---------------------|
-    | Storage Account        |energytemplate\[UI][N]|
+    | Storage Account        |retailtemplate\[UI][N]|
     | Connection String      |             |
     | Primary access key     |             ||
 
+
+#### Prepare the storage account
+-	Download and install the [Microsoft Azure Storage Explorer](http://storageexplorer.com/)
+-	Log in to your Microsoft account associated with your Azure Subscription
+-	Locate the storage account created in step 2 above and expand the nodes to see *Blob Containers*, etc.
+-	Create the container named *adflibs*
+
+      1.	Right click on ***Blob Containers*** and choose ***Create Blob Container***
+      2.	Enter one of the container name
+
+-	Right click the *adflibs* container and choose ***Open Blob Container Editor***
+-	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Folder***
+-	Browse to the ***Storage Files\script*** folder in the ZIP content. This will upload the required HIVE queries that will be used in data processing.
 
 
 ### 3. Setup Azure Data Lake Store
@@ -110,7 +155,7 @@ There are 3 main components of ADF: link service, dataset and pipeline. You can 
 
 -   On the left tab click ***New&gt;Data and Analytics&gt;Data Factory***
 
--   Name: *energysolution\[UI\]\[N\]*
+-   Name: *retailsolution\[UI\]\[N\]*
 
 -   Resource Group: Choose the resource group created previously ***energysolution\_resourcegroup***
 

@@ -29,9 +29,14 @@ While different retailers could vary a lot on how to define the competing group,
 
 ## Solution Architecture
 In this session, we explain more details about how the above analytical approach is operationalized in Cortana Intelligence Suite.
+![](Manual Deployment Guide/Figures/ReatilPriceOptSolutionArchitecture.bmp)
 ### What’s Under the Hood
 Raw simulated transactional data are pushed into Azure Data Lake Storage, from where the Spark Jobs ran on HDInsight Cluster will take the raw data as inputs and: (1) Turn the unstructured raw data into structured data and aggregate the individual transactions into weekly sales data. (2) Train demand forecasting model on the aggregated sales data. (3) Run the optimization algorithm and return the optimal prices for all products in all competing groups. The final results are visualized in Power BI Dashboard. And the whole process is scheduled weekly, the data movement and scheduling are managed by Azure Data Factory.
 ### About Implementation on Spark
 A parallel version of the price optimization algorithm is implemented on Spark. Utilizing the RDD.map(), the independent price optimization problems for products in different competing group can be solved in parallelism and thus save the computational time.
+
+## Solution Dashboard
+
+
 ## References
 [1] Ferreira, Kris Johnson, Bin Hong Alex Lee, and David Simchi-Levi. "Analytics for an online retailer: Demand forecasting and price optimization." Manufacturing & Service Operations Management 18.1 (2015): 69-88.

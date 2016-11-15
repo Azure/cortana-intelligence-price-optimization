@@ -1,4 +1,4 @@
-# Retail Pirce Optimization Solution in Cortana Intelligence Suite
+# Retail Price Optimization Solution in Cortana Intelligence Suite
 Pricing has been growing as an overwhelming task for lots of retailers nowadays due to the expanding assortments. One of the greatest advantage of the data explosion era is that: huge amount of historical transactional data, which contains rich information about price elasticity of all different kinds of products and various potential drivers for demand change, are available to be utilized for a better and more efficient pricing strategy. 
 
 However, challenges always come with opportunities: How could the insights in the large volume of data be leveraged to daily pricing task? What analytical approach should be taken to optimize the price? How to operationalize the analytical solution in a regular time based schedule? And how could the solution be validated properly? 
@@ -44,6 +44,23 @@ The below snapshot below shows the Power BI dashboard that visualizes the result
 
 The dashboard contains four parts: Price Elasticity, Demand Forecasting, Price Optimization and Execution Time.
 Price Elasticity part shows the relationship between sales and price, and using the filters on the right, you can select to only view the results for a specific store, department or product. Demand Forecasting part shows the results and performance of the demand forecasting model. Price Optimization part shows the profit gain using the recommended optimal price, as well as corresponding changes in sales and price to achieve the profit gain. Execution Time part shows the time decomposition of different computational stages; thus the user can monitor the time cost over time.
+
+## Getting Started
+
+This solution template contains materials to help both technical and business audiences understand our retail price optimization solution for the retail industry built on the [Cortana Intelligence Suite](https://www.microsoft.com/en-us/server-cloud/cortana-intelligence-suite/Overview.aspx).
+
+## Business Audiences
+
+In this repository you will find a folder labelled **Solution Overview for Business Audiences**. This folder contains:
+- Infographic: Covers the benefits of using advanced analytics for price optimization in retail industry
+- Solution At-a-glance: An introduction to a Cortana Intelligence Suite solution for retail price optimization
+- Walking Deck: In-depth exploration of the solution for business audiences
+
+For more information on how to tailor Cortana Intelligence to your needs [connect with one of our partners](http://aka.ms/CISFindPartner).
+
+## Technical Audiences
+
+See the ** Manual Deployment Guide** folder for a full set of instructions on how to deploy the end-to-end pipeline, including a step by step walkthrough, files containing all the scripts that you’ll need to deploy resources. **For technical problems or questions about deploying this solution, please post in the issues tab of the repository.**
 
 ## References
 [1] Ferreira, Kris Johnson, Bin Hong Alex Lee, and David Simchi-Levi. "Analytics for an online retailer: Demand forecasting and price optimization." Manufacturing & Service Operations Management 18.1 (2015): 69-88.

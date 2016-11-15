@@ -36,6 +36,7 @@ Raw simulated transactional data are pushed into Azure Data Lake Storage, from w
 A parallel version of the price optimization algorithm is implemented on Spark. Utilizing the RDD.map(), the independent price optimization problems for products in different competing group can be solved in parallelism and thus save the computational time.
 
 ## Solution Dashboard
+![](Manual Deployment Guide/Figures/RetailPriceOptDashboard.png)
 
 
 ## References

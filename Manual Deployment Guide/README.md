@@ -1,4 +1,4 @@
-# Retail Pirce Optimization Solution in Cortana Intelligence Suite
+# Retail Price Optimization Solution in Cortana Intelligence Suite
 
 ## Table of Contents  
 - [Abstract](#abstract)  
@@ -40,12 +40,14 @@ The figure above shows the overall architecture of the Retail Price Optimization
 - **Prepare** : A Spark job reads the raw data from Azure Data Lake Storage and process/prepare it for the next steps
 
 - **Analyze** : It has two parts :
-  - First Spark Job use the processed data to traing the Retail Demand Forecasting model
-  - Second Spark Job use the forcasted data and apply Price Optimization on it
+  - First Spark Job use the processed data to train the Retail Demand Forecasting model
+  - Second Spark Job use the forecasted data and apply Price Optimization on it
 
-- **Publish** : The result of both Retail Demand Forecasting and Pice Optimization are stored on Azure Data Lake Store
+- **Publish** : The result of both Retail Demand Forecasting and Price Optimization are stored on Azure Data Lake Store
 
 - **Visualize** : Power BI is used to visualize the results
+
+- **Pipeline Scheduling** : Azure Data Factory is used to create and schedule the pipeline involving all the above mentioned activities
 
 
 ## Setup Steps
@@ -58,7 +60,7 @@ retailtemplate\[UI\]\[N\]
 Where \[UI\] is the users initials and N is a random integer that you choose. Characters must be entered in in lowercase. Several services, such as Azure Storage, require a unique name for the storage account across a region and hence this format should provide the user with a unique identifier.
 So for example, Steven X. Smith might use a base service name of *retailtemplatesxs01*  
 
-**NOTE:** We create most resources in the South Central US region. The resource availability in different regions depends on your subscription. When deploying you own resources, make sure all data storage and compute resources are created in the same region to avoid inter-region data movement. Azure Resource Group and Azure Data Factory don’t have to be in the same region as the other resources. Azure Resource Group is a virtual group that groups all the resources in one solution. Azure Data Factory is a cloud-based data integration service that automates the movement and transformation of data. Data factory orchestrates the activities of the other services.
+**NOTE:** We create most resources in the South Central US region. The resource availability in different regions depends on your subscription. When deploying you own resources, make sure all data storage and compute resources are created in the same region to avoid inter-region data movement. Azure Resource Group and Azure Data Factory don’t have to be in the same region as the other resources. Azure Resource Group is a virtual group that groups all the resources in one solution. Azure Data Factory is a cloud-based data integration service that automates the movement and transformation of data. Data factory orchestrates the activities of the other services. Use same subscription to deploy all the mentioned resources.
 
 
 
@@ -76,7 +78,39 @@ So for example, Steven X. Smith might use a base service name of *retailtemplate
   
   - Click ***Create***
 
-### 2. Setup Azure Storage account
+
+### 2. Setup Azure Data Lake Store
+
+- Navigate to ***portal.azure.com*** and log in to your account
+
+- Click **NEW**, click **Storage**, and then click **Data Lake Store**. 
+
+- Set the name to ***retailtemplate[UI][N]***
+
+- Set the resource group to the **retailtemplate\_resourcegroup** which we created, by selecting the radio button ***Use existing***
+
+- Click **Create** in the bottom left corner of the blade
+
+Now that the Azure Data Lake Store has been created we need to collect some information about it for other services like Azure Data Factory. 
+
+  - Navigate to ***portal.azure.com*** and log in to your account
+
+  - On the left tab click Resource Groups
+
+  - Click on the resource group we created earlier ***retailtemplate_resourcegroup***. If you don’t see the resource group, click ***Refresh*** 
+
+  - Click on the Data Lake Store in Resources
+
+  - From the new blade (window) under *Overview*, copy the *ADL URI* and *URL* and store it in below table
+
+    | **Azure Data Lake Store** |                     |
+    |------------------------|---------------------|
+    | DataLakeStore Name     |retailtemplate\[UI][N]|
+    | DataLakeStore URL      |             |
+    | DataLakeStore URI     |             ||
+
+
+### 3. Setup Azure Storage account
 
 An Azure Storage account is used by the Data Simulator to write raw data and by Spark to use as Primary Storage. 
 
@@ -119,24 +153,114 @@ Now that the storage account has been created we need to collect some informatio
     | Primary access key     |             ||
 
 
-#### Prepare the storage account
+
+
+### 4. Setup HDInsight with Spark
+
+- Navigate to ***portal.azure.com*** and log in to your account.
+
+- On the left tab click ***New > Intelligence + analytics > New HDInsight Cluster***
+
+- Set the cluster name to ***retailtemplate[UI][N]***
+
+- Click on ***Cluster configuration*** and select following in the new opened blade(panel) :
+    - Cluster Type : Spark
+    - Operating System : Linux
+    - Version : Spark 1.6.2 (HDI 3.4)
+    - Cluster Tier : Standard
+    - Click ***Select*** at the left bottom of the blade
+
+- Click on ***Credentials*** and provide following information on the new opened blade :
+    - Cluster Login Username : <admin/or whatever you want>
+    - Cluster Login Password : \<cluster password>
+    - SSH Username : \<secure Shell login username>
+    - SSH Password : \<SSH password>
+    - Save the credentials in the table mentioned later in this section
+    - Click ***Select*** at the left bottom of the blade
+
+- Click on ***Data Source*** and provide following information on the new opened blade :
+    - Select storage account : Select the Storage Account we created in step 3 
+    - Choose Default Container : **retailtemplate**
+    - Click on ***Cluster AAD Identity***. Here we set the permission to allow Spark Cluster to access the DataLakeStore data. On the new opened blade :
+       - Select AD Service Principal : Create New
+       - Service Principal :
+         - Service Principal Name : retailtemplate\[UI][N]
+         - Certificate password/Confirm Password : \<provide password>
+         - Click ***Confirm*** on the left bottom
+    - Click ***Select*** on the left bottom
+
+- Click on ***Pricing*** and select following on the new opened blade :
+  - Number of Worker nodes : 2 
+  - Worker Node Size : Select **D12 V2 Optimized**
+  - Head Node Size : D12 V2 (2 nodes, 8 cores) - Default
+  - Click ***Select*** on the left bottom
+  
+  **Note** : We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Custer can be scaled when the data size is huge.
+
+- Set the resource group to the **retailtemplate\_resourcegroup** which we created, by selecting the radio button ***Use existing***
+
+- Click ***Create*** to initiate the deployment of Spark HDInsight cluster. This can take 15 - 20 mins to complete
+
+- While the cluster is being deployed, you can collect following information :
+  - Navigate to the Spark Cluster under **retailtemplate\_resourcegroup** 
+  - Under **Overview** copy the **URL** and update it in the below table
+  - Click on **Secure Shell (SSH)** and copy the **Host Name** and update in the below table
+
+| **Spark on HDInsight** |                     |
+|------------------------|---------------------|
+| Cluster Name        |retailtemplate\[UI][N]|
+| Cluster Login Username     |             |
+| Cluster Login Password     |             |
+| SSH Username     |             |
+| SSH Password     |             |
+| URL     |https://\<cluster-name>.azurehdinsight.net             |
+| Host Name     |\<cluster-name>-ssh.azurehdinsight.net             |
+| 
+
+
+### 6. Update Script Files
+
+#### 1. Update Retail Data Simulator Job
+
+Data Simulator Job (RetailDataSimulator.py) is a python application which generates the simulated retail sales data and writes it to Blob Storage 
+
+  - Go to the folder **"Scripts\Data Simulator Job"** where you downloaded this GIT repo
+
+  - Open the file **RetailDataSimulator.py** in text editor
+
+  - Provide following parameters on line 36 and 37 which we have recorded in table under Step 3:
+    - storage_account_name = "\<Storage-Account-Name>"
+    - storage_account_key = "\<Storage-Account-Primary-Access-Key>"
+
+  - Save the file and close it
+
+
+#### 2. Update Package Installer Script
+
+Package Installer script (packageInstaller.sh) is used to install required python packages on Spark Cluster. Steps on how to use it will be covered in later section.
+
+
+### 7. Prepare the storage account
 -	Download and install the [Microsoft Azure Storage Explorer](http://storageexplorer.com/)
 -	Log in to your Microsoft account associated with your Azure Subscription
 -	Locate the storage account created in step 2 above and expand the nodes to see *Blob Containers*, etc.
--	Create the container named *adflibs*
+-	Create two containers named *adflibs* and *actionscript* 
 
       1.	Right click on ***Blob Containers*** and choose ***Create Blob Container***
-      2.	Enter one of the container name
+      2.	Enter one of the container name as *adflibs*
+      3.  Repeat step 1 and 2 to create another container with name *actionscript*
 
 -	Right click the *adflibs* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Folder***
 -	Browse to the ***Storage Files\script*** folder in the ZIP content. This will upload the required HIVE queries that will be used in data processing.
 
 
-### 3. Setup Azure Data Lake Store
 
 
 ### 4. Setup HDInsight with Spark
+
+
+
 
 
 ### 5 Setup Azure Data Factory (ADF)
@@ -262,6 +386,7 @@ We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At 
 
 
 ### 6. Setup Power BI[YC]
+
 
 
 

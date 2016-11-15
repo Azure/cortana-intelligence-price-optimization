@@ -1,4 +1,4 @@
-# cortana-intelligence-retail-price-optimization
+# Retail Pirce Optimization Solution in Cortana Intelligence Suite
 Pricing has been growing as an overwhelming task for lots of retailers nowadays due to the expanding assortments. One of the greatest advantage of the data explosion era is that: huge amount of historical transactional data, which contains rich information about price elasticity of all different kinds of products and various potential drivers for demand change, are available to be utilized for a better and more efficient pricing strategy. 
 
 However, challenges always come with opportunities: How could the insights in the large volume of data be leveraged to daily pricing task? What analytical approach should be taken to optimize the price? How to operationalize the analytical solution in a regular time based schedule? And how could the solution be validated properly? 

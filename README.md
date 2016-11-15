@@ -28,16 +28,22 @@ In this solution, prices are optimized within a competing group. That is to say,
 While different retailers could vary a lot on how to define the competing group, here in this solution, as a general starting example, the competing group is defined as products within the same department and sold at the same store. As a result, different stores could price the same product differently in the solution, which corresponds to the reality that retailers could have different pricing or promotional strategies for different stores with various store attributes such as average traffic, store location and store tier. Besides, different retailers could also vary a lot on the pricing change schedule. Again, as a general starting example, the price is optimized weekly based on the weekly demand prediction results.
 
 ## Solution Architecture
-In this session, we explain more details about how the above analytical approach is operationalized in Cortana Intelligence Suite.
+In this session, we explain more details about how the above analytical approach is operationalized in Cortana Intelligence Suite. The following chart describes the solution architecture.
+
 ![](Manual Deployment Guide/Figures/ReatilPriceOptSolutionArchitecture.bmp)
+
 ### What’s Under the Hood
 Raw simulated transactional data are pushed into Azure Data Lake Storage, from where the Spark Jobs ran on HDInsight Cluster will take the raw data as inputs and: (1) Turn the unstructured raw data into structured data and aggregate the individual transactions into weekly sales data. (2) Train demand forecasting model on the aggregated sales data. (3) Run the optimization algorithm and return the optimal prices for all products in all competing groups. The final results are visualized in Power BI Dashboard. And the whole process is scheduled weekly, the data movement and scheduling are managed by Azure Data Factory.
 ### About Implementation on Spark
 A parallel version of the price optimization algorithm is implemented on Spark. Utilizing the RDD.map(), the independent price optimization problems for products in different competing group can be solved in parallelism and thus save the computational time.
 
 ## Solution Dashboard
+The below snapshot below shows the Power BI dashboard that visualizes the results of retail price optimization. 
+
 ![](Manual Deployment Guide/Figures/RetailPriceOptDashboard.png)
 
+The dashboard contains four parts: Price Elasticity, Demand Forecasting, Price Optimization and Execution Time.
+Price Elasticity part shows the relationship between sales and price, and using the filters on the right, you can select to only view the results for a specific store, department or product. Demand Forecasting part shows the results and performance of the demand forecasting model. Price Optimization part shows the profit gain using the recommended optimal price, as well as corresponding changes in sales and price to achieve the profit gain. Execution Time part shows the time decomposition of different computational stages; thus the user can monitor the time cost over time.
 
 ## References
 [1] Ferreira, Kris Johnson, Bin Hong Alex Lee, and David Simchi-Levi. "Analytics for an online retailer: Demand forecasting and price optimization." Manufacturing & Service Operations Management 18.1 (2015): 69-88.

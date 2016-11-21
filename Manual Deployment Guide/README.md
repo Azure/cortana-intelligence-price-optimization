@@ -469,7 +469,7 @@ The essential goal of this part is to visualize the results from the retail pric
 
 ![](Figures/PowerBIInstructions1.png)
 
--	On the popped-out Advanced Editor window, replace the **<DataLakeStore-name>** on the first line with the name of the Azure Data Lake Store that you deployed in the previous steps. Then, click **’Done’** on the bottom-right corner of the Advanced Editor window.
+-	On the popped-out Advanced Editor window, replace the **’<DataLakeStore-name>’** on the first line with the name of the Azure Data Lake Store that you deployed in the previous steps. Then, click **’Done’** on the bottom-right corner of the Advanced Editor window.
 -	Then you will see a message saying “Please specify how to connect.”. Click on **’Edit Credentials’**.
 
 ![](Figures/PowerBIInstructions2.png)

@@ -444,14 +444,19 @@ We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At 
 
 
 ### 6. Setup Power BI
+
 The essential goal of this part is to visualize the results from the retail price optimization solution. Power BI can directly connect to an Azure Data Lake as its data source, where the results are stored.
 > Note:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize.
+
 #### 1)	Download the Power BI report file and sign-in 
+
 -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
 -	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
 -	Sign in with the same Microsoft account that you have been used for deploying the previous steps by clicking **’Sign in’** on the top-left corner.
 -	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor.
+
 #### 2)	Update the Azure Data Lake Store account of the Power BI file
+
 -	Click on **’Sales_Aggregation_Week_Start’** query and you will see that this query is highlighted in a darker color as the following screenshot. Then, click on the **’Advanced Editor’ ** on the top, which is next to the **’Refresh Preview’ **.
 
 ![](Figures/PowerBIInstructions1.png)
@@ -479,6 +484,7 @@ The essential goal of this part is to visualize the results from the retail pric
 ![](Figures/PowerBIInstructions6.png)
 
 #### 3)	[Optional] Publish the dashboard to [Power BIonline](http://www.powerbi.com/)
+
 Note that this step needs a Power BI account (or Office 365 account).
 -	 Click **’Publish’** on the top panel. Choose **'My Workspace'** and few seconds later a window appears displaying "Publishing succeeded".
 -	Click the link on the screen to open it in a browser. 

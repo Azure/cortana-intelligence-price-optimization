@@ -7,8 +7,16 @@
 - [Setup Steps](#setup-steps)
 - [Validation and Results](#validation-and-results)
 
-## Abstract[YC] 
+## Abstract
 
+Pricing has been growing as an overwhelming task for lots of retailers nowadays due to the expanding assortments. One of the greatest advantage of the data explosion era is that: huge amount of historical transactional data, which contains rich information about price elasticity of all different kinds of products and various potential drivers for demand change, are available to be utilized for a better and more efficient pricing strategy. 
+
+However, challenges always come with opportunities: How could the insights in the large volume of data be leveraged to daily pricing task? What analytical approach should be taken to optimize the price? How to operationalize the analytical solution in a regular time based schedule? And how could the solution be validated properly? 
+
+This solution provided here gives a potential way to address the questions raised above. In this solution, historical transactional data are utilized for building the demand forecasting model, which lend insights to patterns such as: How will changes of prices on one particular product impact the 
+sales of itself as well as the sales of other products in the same competing group? How will other potential attributes such as brand, department and store attributes impact the price elasticity properties of a particular product as well as the sales? After learning the patterns, future demands for a set of potential price choices are predicted. And the optimization algorithm, which aimed to maximize total profit, will takes the predictions as inputs, and solves multiple mixed integer programming problems to find the optimal prices. The whole process described above are operationalized in Cortana Intelligence Suite. 
+
+The resulted solution will enable retailers to get recommended optimal prices at a regular-time bases, achieve better profitability, and save the routine human and time resources allocated on pricing tasks.
 
 ## Requirements
 
@@ -248,10 +256,10 @@ Package Installer script (packageInstaller.sh) is used to install required pytho
 
 #### 3. Update the Spark Jobs
 
-There are five different spark jobs, each perfors a different tasks. All the Spark jobs are written in PySpark.
+There are five different spark jobs, each performs a different task. All the Spark jobs are written in PySpark.
 
 ##### 1. Spark Job Sales_Data_Aggregation
-This Spark job explodes the raw data from Json to CSV format. It also performs aggregation of the data
+This Spark job turns unstructured transational raw data in Json format to structured csv format, and also aggregates individual transactions to weekly sales data at store level.
 
 - Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
 
@@ -260,7 +268,7 @@ This Spark job explodes the raw data from Json to CSV format. It also performs a
 - On line number **54**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ##### 2. Spark Job Demand_Forecasting_Model_Training_First_Time_Pipeline
-This Spark job creates and trains the Retail Demand Forecasting model only for the first run of the pipeline *RetailDFModel_PriceOptimizationPipeline*
+This Spark job conducts feature engineering and demand forecasting model training only for the first run of the pipeline *RetailDFModel_PriceOptimizationPipeline*, when there is no forecasting model available for price optimization. 
 
 - Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
 
@@ -269,7 +277,7 @@ This Spark job creates and trains the Retail Demand Forecasting model only for t
 - On line number **49**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ##### 3. Spark Job Demand_Forecasting_Model_Training_Pipeline
-This Spark job trains the Retail Demand Forecasting model for every run of the pipeline *ModelRetrainPipeline*
+This Spark job retrains the demnand forecasting model for every run of the pipeline *ModelRetrainPipeline*. Retraining the model will improve the performance of the demand forecasting model as more training data points become available.
 
 - Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
 
@@ -278,7 +286,7 @@ This Spark job trains the Retail Demand Forecasting model for every run of the p
 - On line number **49**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ##### 4. Spark Job Price_Optimization
-This Spark job perform price optimization for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*
+This Spark job perform price optimization for stores in treatment group for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*. To validate the performance of the price optimization algorithm, stores are devided into control and treatment group. Stores in treatment group accepts the recommended optimal price from optimization algorithm every week, whereas stores in control group using random price strategy every week.  
 
 - Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
 
@@ -507,4 +515,3 @@ Note that this step needs a Power BI account (or Office 365 account).
 ![](Figures/PowerBIInstructions10.png)
 
 
-## Validation and Results[YC]

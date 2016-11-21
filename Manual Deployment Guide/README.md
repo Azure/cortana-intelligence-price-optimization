@@ -469,7 +469,8 @@ The essential goal of this part is to visualize the results from the retail pric
 
 ![](Figures/PowerBIInstructions1.png)
 
--	On the popped-out Advanced Editor window, replace the **’<DataLakeStore-name>’** on the first line with the name of the Azure Data Lake Store that you deployed in the previous steps. Then, click **’Done’** on the bottom-right corner of the Advanced Editor window.
+-	On the popped-out Advanced Editor window, replace the **\<Azuredatalakestore-Name>** on the first line with the name of the Azure Data Lake Store that you deployed in the previous steps. 
+- Then, click **’Done’** on the bottom-right corner of the Advanced Editor window.
 -	Then you will see a message saying “Please specify how to connect.”. Click on **’Edit Credentials’**.
 
 ![](Figures/PowerBIInstructions2.png)
@@ -482,7 +483,7 @@ The essential goal of this part is to visualize the results from the retail pric
 
 ![](Figures/PowerBIInstructions4.png)
 
--	Repeat the first 2 steps that you did for **’Sales_Aggregation_Week_Start’** query (click on the corresponding query, open the coresponding advanced query editor and replace the **’<DataLakeStore-name>’** with your Data Lake Store name) on the following 5 other queries: **’ Optimization_Results_Week_Start’** query, **’ Model_Performance’** query, **’ Execution_Time’** query, **’ Optimization_Results’** query, **’ Sales_Aggregation’** query. 
+-	Repeat the first 2 steps that you did for **’Sales_Aggregation_Week_Start’** query (click on the corresponding query, open the coresponding advanced query editor and replace the **\<Azuredatalakestore-Name>** with your Data Lake Store name) on the following 5 other queries: **’ Optimization_Results_Week_Start’** query, **’ Model_Performance’** query, **’ Execution_Time’** query, **’ Optimization_Results’** query, **’ Sales_Aggregation’** query. 
 -	Click on **’Close & Apply’** on the top-left, and you will see the visualization report in Power BI Desktop. 
 
 ![](Figures/PowerBIInstructions5.png)

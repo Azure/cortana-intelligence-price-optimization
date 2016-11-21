@@ -352,7 +352,6 @@ We need to update/install some python packages in order to run the Spark Web Job
 
 
 ### 8 Setup Azure Data Factory (ADF)
-### 8 Setup Azure Data Factory (ADF)
 Azure Data Factory can be used to orchestrate the entire data pipeline. In this solution, it is mainly used to schedule the data simulation, aggregation, demand forecasting and price optimization. Here is an overview of the ADF pipelines.
 
 > Note: In the demo here, ADF is scheduled to simulate, process, and output the results for **one week's** data **in one hour**. That is to say, in this solution demo, one week is condensed to one hour. In this case, you are able to view multiple weeks' results in a few hours, rather than waiting for multiple weeks to get the results for a few weeks. However, in the reality deployment, the ADF cycle time should be consistent with the real time.

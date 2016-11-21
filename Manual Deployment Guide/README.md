@@ -443,11 +443,60 @@ We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At 
 
 
 
-### 6. Setup Power BI[YC]
+### 6. Setup Power BI
+The essential goal of this part is to visualize the results from the retail price optimization solution. Power BI can directly connect to an Azure Data Lake as its data source, where the results are stored.
+> Note:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize.
+#### 1)	Download the Power BI report file and sign-in 
+-  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
+-	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
+-	Sign in with the same Microsoft account that you have been used for deploying the previous steps by clicking **’Sign in’** on the top-left corner.
+-	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor.
+#### 2)	Update the Azure Data Lake Store account of the Power BI file
+-	Click on **’Sales_Aggregation_Week_Start’** query and you will see that this query is highlighted in a darker color as the following screenshot. Then, click on the **’Advanced Editor’ ** on the top, which is next to the **’Refresh Preview’ **.
 
+![](Manual Deployment Guide/Figures/PowerBIInstructions1.png)
 
+-	On the popped-out Advanced Editor window, replace the **<DataLakeStore-name>** on the first line with the name of the Azure Data Lake Store that you deployed in the previous steps. Then, click **’Done’** on the bottom-right corner of the Advanced Editor window.
+-	Then you will see a message saying “Please specify how to connect.”. Click on **’Edit Credentials’**.
+![](Manual Deployment Guide/Figures/PowerBIInstructions2.png)
+-	Then you will be asked to Sign in again. Click on **’Sign in’** and Sign in again with the same Microsoft account as previous. After successfully signed in, you will see the message saying “You are currently sighed in.” Then, click on **’Connect’** highlighted in yellow.
 
+![](Manual Deployment Guide/Figures/PowerBIInstructions3.png)
 
+-	If the connection is successful, you can see the data appears similar as the following snapshot.
+
+![](Manual Deployment Guide/Figures/PowerBIInstructions4.png)
+
+-	Repeat the first 2 steps that you did for **’Sales_Aggregation_Week_Start’** query (click on the corresponding query and replace the **<DataLakeStore-name>**) on the following 5 other queries: **’ Optimization_Results_Week_Start’** query, **’ Model_Performance’** query, **’ Execution_Time’** query, **’ Optimization_Results’** query, **’ Sales_Aggregation’** query. 
+-	Click on **’Close & Apply’** on the top-left, and you will see the visualization report in Power BI Desktop. 
+
+![](Manual Deployment Guide/Figures/PowerBIInstructions5.png)
+
+-	[Optional] You can click on **’Refresh’** on the top anytime you want to refresh the report, when there are new data comes in.
+
+![](Manual Deployment Guide/Figures/PowerBIInstructions6.png)
+
+#### 3)	[Optional] Publish the dashboard to [Power BIonline](http://www.powerbi.com/)
+Note that this step needs a Power BI account (or Office 365 account).
+-	 Click **’Publish’** on the top panel. Choose **'My Workspace'** and few seconds later a window appears displaying "Publishing succeeded".
+-	Click the link on the screen to open it in a browser. 
+-	Click on the “three-lines” button on the top-left corner to Show the navigation pane. 
+
+![](Manual Deployment Guide/Figures/PowerBIInstructions7.png)
+
+-	On the navigation pane, go to the **’Datasets’** section, click on the “three dots” right to the **'RetailPriceOptimizationSolution'**, choose **’SCHEDULE REFRESH’**. 
+
+![](Manual Deployment Guide/Figures/PowerBIInstructions8.png)
+
+-	If you see the following message in **’Data source credentials’**, click **’Edit credentials’** and sign in with your Microsoft account again.
+
+![](Manual Deployment Guide/Figures/PowerBIInstructions9.png)
+
+-	Click on the **’Scheduled Refresh’** session, set the **’Keep your data up to date’** to **’yes’**. **’Refresh frequency’** to **’Daily’**. Click on **’Apply’**. Then this dataset will be refreshed daily as scheduled.
+-	On the navigation pane, go to the **’Reports’** section, click on **’ RetailPriceOptimizationSolution’**. Click on **’Pin Live Page’** on the top. On the popped out window, choose **’New Dashboard’**, and put the name of the new dashboard, e.g RetailPriceOptimizationSolution, and click on **’Pin Live’**.
+-	On the navigation pane, go to the **’Dashboards’** section, click on **’ RetailPriceOptimizationSolution’**. Click the three dots on the top-right of the dashboard tile (the red one). Click on the middle pencil icon to edit the tile details. In **’Functionality’**, check **’Display last refresh time’**, and click on **’Apply’**. You will see the last refresh time showing up on the top-left of the dashboard.
+
+![](Manual Deployment Guide/Figures/PowerBIInstructions10.png)
 
 
 ## Validation and Results[YC]

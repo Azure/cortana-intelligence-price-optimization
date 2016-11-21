@@ -122,7 +122,7 @@ Now that the Azure Data Lake Store has been created we need to collect some info
 
 An Azure Storage account is used by the Data Simulator to write raw data and by Spark to use as Primary Storage. 
 
-  - Navigate to ***portal.azure.com*** and log in to your account.
+  - Navigate to ***portal.azure.com*** and log in to your account
 
   - On the left tab click ***+ (New) > Storage > Storage Account***
 
@@ -156,7 +156,7 @@ Now that the storage account has been created we need to collect some informatio
 
     | **Azure Storage Account** |                     |
     |------------------------|---------------------|
-    | Storage Account        |retailtemplate\[UI][N]|
+    | Storage Account Name        |retailtemplate\[UI][N]|
     | Connection String      |             |
     | Primary access key     |             ||
 
@@ -165,7 +165,7 @@ Now that the storage account has been created we need to collect some informatio
 
 ### 4. Setup HDInsight with Spark
 
-- Navigate to ***portal.azure.com*** and log in to your account.
+- Navigate to ***portal.azure.com*** and log in to your account
 
 - On the left tab click ***New > Intelligence + analytics > New HDInsight Cluster***
 
@@ -235,7 +235,7 @@ Now that the storage account has been created we need to collect some informatio
 | Cluster Login Password     |             |
 | SSH Username     |             |
 | SSH Password     |             |
-| URL     |https://\<cluster-name>.azurehdinsight.net             |
+| Cluster URI     |https://\<cluster-name>.azurehdinsight.net             |
 | Host Name     |\<cluster-name>-ssh.azurehdinsight.net             |
 | 
 
@@ -244,16 +244,12 @@ Now that the storage account has been created we need to collect some informatio
 
 #### 1. Update Retail Data Simulator Job
 
-Data Simulator Job (RetailDataSimulator.py) is a python application which generates the simulated retail sales data and writes it to Blob Storage 
-
+Data Simulator Job (RetailDataSimulator.py) is a python application which generates the simulated retail sales data and writes it to Blob Storage. This job is run/scheduled in the pipeline *RetailDataSimulatorPipeline*. Pipeline explanation and steps to create them are covered in step 8. 
   - Go to the folder **"Scripts\Data Simulator Job"** inside the downloaded GIT repo
-
   - Open the file **RetailDataSimulator.py** in text editor
-
   - Provide following parameters on line **36** and **37** which we have recorded in table under Step 3:
     - storage_account_name = "\<Storage-Account-Name>"
     - storage_account_key = "\<Storage-Account-Primary-Access-Key>"
-
   - Save the file and close it
 
 
@@ -270,7 +266,7 @@ Package Installer script (packageInstaller.sh) is used to install required pytho
 There are five different spark jobs, each performs a different task. All the Spark jobs are written in PySpark.
 
 ##### 1. Spark Job Sales_Data_Aggregation
-This Spark job turns unstructured transational raw data in Json format to structured csv format, and also aggregates individual transactions to weekly sales data at store level.
+This Spark job turns unstructured transational raw data in Json format to structured csv format, and also aggregates individual transactions to weekly sales data at store level for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*.
 - Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
 - Open the file **Sales_Data_Aggregation.py** in text editor
 - On line number **54**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
@@ -338,7 +334,7 @@ We need to update/install some python packages in order to run the Spark Web Job
 
 - On the left tab click Resource Groups
 
-- Click on the resource group we created earlier ***retailtemplate_resourcegroup***
+- Click on the resource group we created earlier ***retailtemplate\_resourcegroup***
 
 - Click on the HDInsight Spark Cluster we created in step 4
 
@@ -367,13 +363,13 @@ There are 3 main components of ADF: link service, dataset and pipeline. You can 
 #### 1) Create Azure Data Factory
 
 
--   Navigate to ***portal.azure.com*** and login in to your account.
+  - Navigate to ***portal.azure.com*** and log in to your account
 
--   On the left tab click ***New&gt;Data and Analytics&gt;Data Factory***
+  - On the left tab click ***+ (New) > Intelligence + analytics > Data Factory***
 
 -   Name: *retailsolution\[UI\]\[N\]*
 
--   Resource Group: Choose the resource group created previously ***energysolution\_resourcegroup***
+-   Resource Group: Choose the resource group created previously ***retailtemplate\_resourcegroup***
 
 -   Location: EAST US
 
@@ -383,53 +379,53 @@ After the data factory is created successfully
 
 -   On the left tab in the portal page (portal.azure.com), click ***Resource groups***
 
--   Search for the resource group created previously, ***energysolution\_resourcegroup***
+-   Search for the resource group created previously, ***retailtemplate\_resourcegroup***
 
--   Under Resources, click on the data factory we just created, *energysolution\[UI\]\[N\]*
+-   Under Resources, click on the data factory we just created, *retailsolution\[UI\]\[N\]*
 
--   Locate the ***Actions*** panel and click on ***Author and deploy***.
+-   Locate ***Author and deploy*** on the new blade and click on it
 
 In the ***Author and deploy*** blade, we will create all the components of the data factory. Note that Datasets are dependent on Linked services, and pipelines are dependent on Linked services and Datasets. So we will create Linked services first, then Datasets, and Pipelines at last.
 
 
 #### 2) Create Linked Services
-We will create 2 Linked services in this solution. The scripts of the Linked services are located in the folder ***Azure Data Factory\\1-Linked Services*** of the solution package.
+We will create three Linked services in this solution. The scripts of the Linked services are located in the folder ***Scripts\Azure Data Factory\Linked Services*** of the solution package.
 
-- **LinkedService-AzureSQL**: This is the Linked service for the Azure SQL database.
+- **StorageLinkedService**: This is the Linked service for the Azure Storage Account.
 
-  -   Open the file ***Azure Data Factory\\1-Linked Services\\LinkedService-AzureSQL.json***. Replace the following items with your Azure SQL credentials.
-
-    - Azure SQL server name
-
-    - Azure SQL database name
-
-    - Azure SQL login user name
-
-    - Azure SQL login password
-
+  -   Open the file ***Scripts\Azure Data Factory\Linked Services\StorageLinkedService.json***. Under **connectionString** replace the following items with your Azure Storage credentials.
+    - AccountName=<Replace with Storage Account Name noted in step 3>
+    - AccountKey=<Replace with Primary access key noted in step 3>
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
+  -   Click ***New data store*** and select ***Azure Storage***
+  -   Overwrite the content in the editor window with the content of the modified *StorageLinkedService.json*
+  -   Click ***Deploy***
 
-  -   Click ***New data store*** and select ***Azure SQL***.
+- **HDInsightLinkedService**: This is the Linked service for the Azure HDInsight cluster running Spark.
 
-  -   Overwrite the content in the editor window with the content of the modified *LinkedService-AzureSQ.json*.
-
-  -   Click ***Deploy***.
-
-- **LinkedService-AzureML**: This is the Linked service for the Azure Machine Learning web service.
-
-  -   Open the file ***Azure Data Factory\\1-Linked Services\\LinkedService-AzureML.json***. Replace the following items with your Azure ML Web Service information.
-
-    - Azure Machine Learning web service URI
-
-    - Azure Machine Learning web service API key
-
+  -   Open the file ***Scripts\Azure Data Factory\Linked Services\HDInsightLinkedService.json***. Replace the following items with HDInsight with Spark information you recorded in step 4.
+    - clusterUri : "<Replace With Cluster URI recorded in step 4>"
+    - userName : "<Replace with Cluster Login Username recorded in step 4>"
+    - password : "<Replace with Cluster Login Password recorded in step 4>"
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
+  -   Click ***...More*** then ***New compute*** and select ***HDInsight cluster***
+  -   Overwrite the content in the editor window with the content of the modified HDInsightLinkedService.json
+  -   Click ***Deploy***
 
-  -   Click ***New compute*** and select ***Azure ML***.
+- **AzureDataLakeLinkedService**: This is the Linked service for the Azure Data Lake Store.
 
-  -   Overwrite the content in the editor window with the content of the modified LinkedService-AzureML.json.
+  -   Open the file ***Scripts\Azure Data Factory\Linked Services\AzureDataLakeLinkedService.json***. Replace the following items with Azure Data Lake Store information you recorded in step 2.
+    - dataLakeStoreUri : "https://\<Replace-with-DataLakeStore-Name-noted-in-step-2>.azuredatalakestore.net/webhdfs/v1"
+  -   sessionId and authorization will be updated automatically once you authorize this linked service 
+  -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
+  -   Click ***New data store*** and select ***Azure Data Lake Store***
+  -   Overwrite the content in the editor window with the content of the modified AzureDataLakeLinkedService.json
+  -   Click on the **Authorize** which will appear on top left corner of the editor (as shown in below image)
+  ![](Figures/adls_LinkedService_authoraization.png)
+  -   This will open a new window. Provide your microsoft credentials to authorize.
+  -   Once you authorice, it will update the remaining parameters of this linked service
+  -   Click ***Deploy***
 
-  -   Click ***Deploy***.
 
 #### 3) Create Datasets
 
@@ -477,7 +473,7 @@ We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At 
 
 
 
-### 6. Setup Power BI
+### 9. Setup Power BI
 
 The essential goal of this part is to visualize the results from the retail price optimization solution. Power BI can directly connect to an Azure Data Lake as its data source, where the results are stored.
 > Note:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize.

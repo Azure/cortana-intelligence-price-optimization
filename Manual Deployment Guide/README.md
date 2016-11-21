@@ -14,7 +14,7 @@
 
 You will need the following accounts and software to create this solution:
 
-- Source code and instructions from this GitHub repo
+- Source code and instructions from this GitHub repo (Download/Clone)
 
 - A [Microsoft Azure subscription](<https://azure.microsoft.com/>) 
 
@@ -224,11 +224,11 @@ Now that the storage account has been created we need to collect some informatio
 
 Data Simulator Job (RetailDataSimulator.py) is a python application which generates the simulated retail sales data and writes it to Blob Storage 
 
-  - Go to the folder **"Scripts\Data Simulator Job"** where you downloaded this GIT repo
+  - Go to the folder **"Scripts\Data Simulator Job"** inside the downloaded GIT repo
 
   - Open the file **RetailDataSimulator.py** in text editor
 
-  - Provide following parameters on line 36 and 37 which we have recorded in table under Step 3:
+  - Provide following parameters on line **36** and **37** which we have recorded in table under Step 3:
     - storage_account_name = "\<Storage-Account-Name>"
     - storage_account_key = "\<Storage-Account-Primary-Access-Key>"
 
@@ -239,6 +239,61 @@ Data Simulator Job (RetailDataSimulator.py) is a python application which genera
 
 Package Installer script (packageInstaller.sh) is used to install required python packages on Spark Cluster. Steps on how to use it will be covered in later section.
 
+- Go to the folder **"Scripts\Package Installer"** inside the downloaded GIT repo
+
+- Open the file **packageInstaller.sh** in text editor
+
+- On line number **9**, replace the **\<Storage-Account-Name>** with the one we created in step 3
+
+
+#### 3. Update the Spark Jobs
+
+There are five different spark jobs, each perfors a different tasks. All the Spark jobs are written in PySpark.
+
+##### 1. Spark Job Sales_Data_Aggregation
+This Spark job explodes the raw data from Json to CSV format. It also performs aggregation of the data
+
+- Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
+
+- Open the file **Sales_Data_Aggregation.py** in text editor
+
+- On line number **54**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
+
+##### 2. Spark Job Demand_Forecasting_Model_Training_First_Time_Pipeline
+This Spark job creates and trains the Retail Demand Forecasting model only for the first run of the pipeline *RetailDFModel_PriceOptimizationPipeline*
+
+- Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
+
+- Open the file **Demand_Forecasting_Model_Training_First_Time_Pipeline.py** in text editor
+
+- On line number **49**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
+
+##### 3. Spark Job Demand_Forecasting_Model_Training_Pipeline
+This Spark job trains the Retail Demand Forecasting model for every run of the pipeline *ModelRetrainPipeline*
+
+- Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
+
+- Open the file **Demand_Forecasting_Model_Training_Pipeline.py** in text editor
+
+- On line number **49**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
+
+##### 4. Spark Job Price_Optimization
+This Spark job perform price optimization for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*
+
+- Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
+
+- Open the file **Price_Optimization.py** in text editor
+
+- On line number **249**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
+
+##### 5. Spark Job Powerbi_Processing
+This Spark job prepares the result to be displayed in PowerBI for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*
+
+- Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
+
+- Open the file **Powerbi_Processing.py** in text editor
+
+- On line number **22**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ### 7. Prepare the storage account
 -	Download and install the [Microsoft Azure Storage Explorer](http://storageexplorer.com/)
@@ -252,14 +307,17 @@ Package Installer script (packageInstaller.sh) is used to install required pytho
 
 -	Right click the *adflibs* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Folder***
--	Browse to the ***Storage Files\script*** folder in the ZIP content. This will upload the required HIVE queries that will be used in data processing.
+-	Browse to the ***Storage Files\Script\PySpark Job*** folder inside the downloaded GIT repo. This will upload the required Spark Jobs.
+-	Browse to the ***Storage Files\Script\Data Simulator Job*** folder inside the downloaded GIT repo. This will upload the required Data Simulator Job.
+
+Now upload the Package installer scripts/files simalarly
+-	Right click the *actionscript* container and choose ***Open Blob Container Editor***
+-	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Folder***
+-	Browse to the ***Storage Files\Script\Package Installer*** folder inside the downloaded GIT repo. This will upload the files required to update spark cluster python packages.
+- 
 
 
-
-
-### 4. Setup HDInsight with Spark
-
-
+### 5 Setup Spark Secondary Storage
 
 
 

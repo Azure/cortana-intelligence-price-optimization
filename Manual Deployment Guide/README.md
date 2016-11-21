@@ -189,12 +189,26 @@ Now that the storage account has been created we need to collect some informatio
 - Click on ***Data Source*** and provide following information on the new opened blade :
     - Select storage account : Select the Storage Account we created in step 3 
     - Choose Default Container : **retailtemplate**
-    - Click on ***Cluster AAD Identity***. Here we set the permission to allow Spark Cluster to access the DataLakeStore data. On the new opened blade :
+    - Click on ***Cluster AAD Identity***. 
+    
+      Here we set the permission to allow Spark Cluster to access the Azure DataLakeStore data. If you want some clarification on below steps, you can follow this document : [Create an HDInsight cluster with Data Lake Store using Azure Portal](https://docs.microsoft.com/en-us/azure/data-lake-store/data-lake-store-hdinsight-hadoop-use-portal)
+    
+      On the new opened blade :
        - Select AD Service Principal : Create New
        - Service Principal :
          - Service Principal Name : retailtemplate\[UI][N]
          - Certificate password/Confirm Password : \<provide password>
          - Click ***Confirm*** on the left bottom
+       - Click on **Manage ADLS Access**
+         - Click on the first step **Select the permission** in the new opened blade
+            - Click on the edit icon circled in the below image and the click on 
+            ![](Figures/selectADL_S.png)
+            - On clicking the Edit icon, you will see an arrow. Click on the typing area on left of the arrow. Once you click that, you should see a list of available Data Lake Store under your subscription as shown in below image.
+            ![](Figures/selectADL_S_2.png)
+            - If you do not see the adl, type following "adl://<AzureDataLakeStore-name>.azuredatalakestore.net/" with the Azuredatalakestore name we created in step 2 and press enter
+            - Click on the check-box next to the Data Lake Store we created in Step 2 and the click **Select**
+         - Click on seocnd step **Assign selected permissions**. Click **Run** on the new opened blade and Click **Done** once run completes
+         - Click on **Done** 
     - Click ***Select*** on the left bottom
 
 - Click on ***Pricing*** and select following on the new opened blade :
@@ -226,7 +240,7 @@ Now that the storage account has been created we need to collect some informatio
 | 
 
 
-### 6. Update Script Files
+### 5. Update Script Files
 
 #### 1. Update Retail Data Simulator Job
 
@@ -246,11 +260,8 @@ Data Simulator Job (RetailDataSimulator.py) is a python application which genera
 #### 2. Update Package Installer Script
 
 Package Installer script (packageInstaller.sh) is used to install required python packages on Spark Cluster. Steps on how to use it will be covered in later section.
-
 - Go to the folder **"Scripts\Package Installer"** inside the downloaded GIT repo
-
 - Open the file **packageInstaller.sh** in text editor
-
 - On line number **9**, replace the **\<Storage-Account-Name>** with the one we created in step 3
 
 
@@ -260,50 +271,39 @@ There are five different spark jobs, each performs a different task. All the Spa
 
 ##### 1. Spark Job Sales_Data_Aggregation
 This Spark job turns unstructured transational raw data in Json format to structured csv format, and also aggregates individual transactions to weekly sales data at store level.
-
 - Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
-
 - Open the file **Sales_Data_Aggregation.py** in text editor
-
 - On line number **54**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ##### 2. Spark Job Demand_Forecasting_Model_Training_First_Time_Pipeline
 This Spark job conducts feature engineering and demand forecasting model training only for the first run of the pipeline *RetailDFModel_PriceOptimizationPipeline*, when there is no forecasting model available for price optimization. 
-
 - Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
-
 - Open the file **Demand_Forecasting_Model_Training_First_Time_Pipeline.py** in text editor
-
 - On line number **49**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ##### 3. Spark Job Demand_Forecasting_Model_Training_Pipeline
-This Spark job retrains the demnand forecasting model for every run of the pipeline *ModelRetrainPipeline*. Retraining the model will improve the performance of the demand forecasting model as more training data points become available.
 
 - Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
-
 - Open the file **Demand_Forecasting_Model_Training_Pipeline.py** in text editor
-
 - On line number **49**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ##### 4. Spark Job Price_Optimization
 This Spark job perform price optimization for stores in treatment group for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*. To validate the performance of the price optimization algorithm, stores are devided into control and treatment group. Stores in treatment group accepts the recommended optimal price from optimization algorithm every week, whereas stores in control group using random price strategy every week.  
-
 - Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
-
 - Open the file **Price_Optimization.py** in text editor
-
 - On line number **249**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ##### 5. Spark Job Powerbi_Processing
 This Spark job prepares the result to be displayed in PowerBI for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*
-
 - Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
-
 - Open the file **Powerbi_Processing.py** in text editor
-
 - On line number **22**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
-### 7. Prepare the storage account
+
+
+
+
+### 6. Prepare the storage account
 -	Download and install the [Microsoft Azure Storage Explorer](http://storageexplorer.com/)
 -	Log in to your Microsoft account associated with your Azure Subscription
 -	Locate the storage account created in step 2 above and expand the nodes to see *Blob Containers*, etc.
@@ -322,14 +322,40 @@ Now upload the Package installer scripts/files simalarly
 -	Right click the *actionscript* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Folder***
 -	Browse to the ***Storage Files\Script\Package Installer*** folder inside the downloaded GIT repo. This will upload the files required to update spark cluster python packages.
-- 
+- Right click on container *actionscript* and select **Set Public Acess Level**
+- Select the radio button with **Public read access for container and blob** and click **Apply**. This is done to make the package installer files accessible by spark.
+- Right click on the **packageInstaller.sh** in the container *actionscript* and select *Copy URL to Clipboard*. Save the URL in the below table.   
+
+  | **Package Installer on Blob Storage** |                     |
+  |------------------------|---------------------|
+  | packageInstaller.sh URL        | \<URL>||
+
+### 7 Update Spark Cluster Python Packages
+
+We need to update/install some python packages in order to run the Spark Web Jobs and Data Simulator successfully. We will use the Package intsller script to do so.
+
+- Navigate to ***portal.azure.com*** and log in to your account
+
+- On the left tab click Resource Groups
+
+- Click on the resource group we created earlier ***retailtemplate_resourcegroup***
+
+- Click on the HDInsight Spark Cluster we created in step 4
+
+- Under **CONFIGURATION** select **Script Action**
+
+- Add a new Script Action by clicking on the **Submit New** on top of the new opened blade
+  - Name : Package Installer
+  - Bash script URI : \<packageInstaller.sh URL recorded in step 6>
+  - Click **Create** and let the script run complete
 
 
-### 5 Setup Spark Secondary Storage
 
 
 
-### 5 Setup Azure Data Factory (ADF)
+
+
+### 8 Setup Azure Data Factory (ADF)
 Azure Data Factory can be used to orchestrate the entire data pipeline. In this solution, it is mainly used to schedule the data aggregation and model retraining. Here is an overview of the ADF pipeline.
 
 **Data Aggregation Pipeline**: Simulated data from Azure web job are sent to Azure SQL every 5mins. When we are building machine learning model, we use hourly data. Therefore, we write a SQL procedure to aggregate the 5mins consumption data to hourly average consumption data. One pipeline is created in Azure Data Factory to trigger the procedure so that we always have the latest hourly consumption data.

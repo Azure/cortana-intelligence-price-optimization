@@ -465,7 +465,7 @@ The essential goal of this part is to visualize the results from the retail pric
 
 #### 2)	Update the Azure Data Lake Store account of the Power BI file
 
--	Click on **’Sales_Aggregation_Week_Start’** query and you will see that this query is highlighted in a darker color as the following screenshot. Then, click on the **’Advanced Editor’ ** on the top, which is next to the **’Refresh Preview’ **.
+-	Click on **’Sales_Aggregation_Week_Start’** query and you will see that this query is highlighted in a darker color as the following screenshot. Then, click on the **’Advanced Editor’** on the top, which is next to the **’Refresh Preview’**.
 
 ![](Figures/PowerBIInstructions1.png)
 
@@ -491,7 +491,7 @@ The essential goal of this part is to visualize the results from the retail pric
 
 ![](Figures/PowerBIInstructions6.png)
 
-#### 3)	[Optional] Publish the dashboard to [Power BIonline](http://www.powerbi.com/)
+#### 3)	[Optional] Publish the dashboard to [Power BI online](http://www.powerbi.com/)
 
 Note that this step needs a Power BI account (or Office 365 account).
 -	 Click **’Publish’** on the top panel. Choose **'My Workspace'** and few seconds later a window appears displaying "Publishing succeeded".

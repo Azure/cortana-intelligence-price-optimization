@@ -6,7 +6,7 @@ The solution provided here addresses the questions raised above by utilizing his
 This solution will enable retailers to receive optimal pricing recommendations on a regular basis, improve profitability, and reduce the time and effort allocated to pricing tasks.
 
 ## Analytical Approach
-In this session, we provide more details about the analytical approach taken in the solution. The price optimization approach and algorithm used in this solution follows the method described by Ferreira et al. [1].
+In this session, we provide more details about the analytical approach taken in the solution. The price optimization approach and algorithm used in this solution follows the method described by [Ferreira et al. (2015)](#refs).
 
 ### Demand Forecasting
 
@@ -22,7 +22,7 @@ The following driving factors for demand are considered in our demand forecastin
 A decision tree model for demand forecasting is built on the features mentioned above. The model's performance is evaluated through mean absolute percentage error (MAPE). The model is retrained monthly, since continuously-acquired transaction data can be used to improve the demand forecasting accuracy and, consequently, the price optimization results.
 
 ### Price Optimization
-A competing group contains similar products that are competing against each other on the market, thus price changes on one product will affect the sales of the other products in the same competing group. (Price changes for products from different competing groups are assumed to have no impact on one another's sales.) In this solution, prices are optimized by competing group: a single mixed integer optimization problem is solved to determine optimal prices for all products in each competing group (cf. [1] for additional details). 
+A competing group contains similar products that are competing against each other on the market, thus price changes on one product will affect the sales of the other products in the same competing group. (Price changes for products from different competing groups are assumed to have no impact on one another's sales.) In this solution, prices are optimized by competing group: a single mixed integer optimization problem is solved to determine optimal prices for all products in each competing group (cf. [Ferreira et al.](#refs) for additional details). 
 
 While different retailers could vary a lot on how to define the competing group, in this solution we define the competing groups as sets of products sold in the same department and at the same store. As a result, different stores could price the same product differently in the solution, which corresponds to the reality that retailers could have different pricing or promotional strategies for different stores with various store attributes such as average traffic, store location, and store tier. Different retailers may also follow different pricing change schedules, but as a starting example, this solution implements weekly price optimization.
 
@@ -71,5 +71,6 @@ For more information on how to tailor Cortana Intelligence to your needs, [conne
 
 See the **Manual Deployment Guide** folder for a full set of instructions on how to deploy the end-to-end pipeline, including a step-by-step walkthrough and files containing all the scripts that you’ll need to deploy resources. **For technical problems or questions about deploying this solution, please post in the issues tab of the repository.**
 
+<a name="refs"></a>
 ## References
 [1] Ferreira KJ, Lee BHA, and Simchi-Levi D. (2015). "Analytics for an online retailer: Demand forecasting and price optimization." *Manufacturing & Service Operations Management* **18** (1): 69-88. [doi:10.1287/msom.2015.0561](http://dx.doi.org/10.1287/msom.2015.0561)

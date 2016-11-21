@@ -486,8 +486,9 @@ The essential goal of this part is to visualize the results from the retail pric
 
 -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
 -	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-retail-price-optimization/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
+- After opening the **'RetailPriceOptimizationSolution.pbix'** file, you might see message saying "There are pending changes in your queries that haven't been applied.". Please **’do not Apply Changes’** since the data source has not been updated yet. 
 -	Sign in with the same Microsoft account that you have been used for deploying the previous steps by clicking **’Sign in’** on the top-left corner.
--	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor.
+-	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor. You might also see an error message saying "DataFroamt.Error: Invalid URI". Please ignore this error message for now and follow the below instructions for updating the data source. Once the data source is updated, the error will gone.
 
 #### 2)	Update the Azure Data Lake Store account of the Power BI file
 

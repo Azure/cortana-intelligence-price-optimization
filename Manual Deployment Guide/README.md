@@ -459,7 +459,7 @@ The essential goal of this part is to visualize the results from the retail pric
 #### 1)	Download the Power BI report file and sign-in 
 
 -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
--	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-energy-forecasting-solution/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
+-	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-retail-price-optimization/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
 -	Sign in with the same Microsoft account that you have been used for deploying the previous steps by clicking **’Sign in’** on the top-left corner.
 -	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor.
 

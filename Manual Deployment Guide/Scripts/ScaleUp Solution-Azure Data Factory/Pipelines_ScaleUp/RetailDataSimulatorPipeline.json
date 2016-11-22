@@ -1,0 +1,44 @@
+{
+    "name": "RetailDataSimulatorPipeline",
+    "properties": {
+        "description": "Retail Price Optimization Data Simulator Pipeline",
+        "activities": [
+            {
+                "type": "HDInsightMapReduce",
+                "typeProperties": {
+                    "className": "com.adf.sparklauncher.AdfSparkJobLauncher",
+                    "jarFilePath": "adflibs/com.adf.sparklauncher.jar",
+                    "jarLinkedService": "StorageLinkedService",
+                    "arguments": [
+                        "--appFile",
+                        "wasb://adflibs@<Storage-Account-Name>.blob.core.windows.net/RetailDataSimulator.py"
+                    ]
+                },
+                "outputs": [
+                    {
+                        "name": "AzureBlobInputRawData"
+                    },
+                    {
+                        "name": "AzureBlobInputPublicParameters"
+                    }
+                ],
+                "policy": {
+                    "timeout": "00:30:00",
+                    "concurrency": 1,
+                    "retry": 1
+                },
+                "scheduler": {
+                    "frequency": "Hour",
+                    "interval": 1
+                },
+                "name": "DataSimulatorJob",
+                "description": "Submits a Spark Job",
+                "linkedServiceName": "HDInsightLinkedService"
+            }
+        ],
+        "start": "<Start-Date>",
+        "end": "<End-Date>",
+        "isPaused": false,
+        "pipelineMode": "Scheduled"
+    }
+}

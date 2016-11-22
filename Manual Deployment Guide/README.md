@@ -301,7 +301,7 @@ This Spark job prepares the result to be displayed in PowerBI for every run of t
 
 ### 6. Prepare the storage account
 -	Download and install the [Microsoft Azure Storage Explorer](http://storageexplorer.com/)
--	Log in to your Microsoft account associated with your Azure Subscription
+-	Open Azure Storage Explorer and log in to your Microsoft account associated with your Azure Subscription
 -	Locate the storage account created in step 2 above and expand the nodes to see *Blob Containers*, etc.
 -	Create two containers named *adflibs* and *actionscript* 
 
@@ -311,16 +311,16 @@ This Spark job prepares the result to be displayed in PowerBI for every run of t
 
 -	Right click the *adflibs* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
--	Browse to the ***Storage Files\Script\PySpark Job*** folder inside the downloaded GIT repo, select all the files and click **Upload**. This will upload the required Spark Jobs.
+-	Browse to the ***Storage Files\Script\PySpark Job*** folder inside the downloaded GIT repo, select all the files including **com.adf.sparklauncher.jar** and click **Upload**. This will upload the required Spark Jobs.
 -	Browse to the ***Storage Files\Script\Data Simulator Job*** folder inside the downloaded GIT repo, , select the file **RetailDataSimulator.py** and click **Upload**. This will upload the required Data Simulator Job.
 
 Now upload the Package installer scripts/files similarly
 -	Right click the *actionscript* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
--	Browse to the ***Storage Files\Script\Package Installer*** folder inside the downloaded GIT repo, select all the files including **com.adf.sparklauncher.jar** and click **Upload**. This will upload the files required to update spark cluster python packages.
+-	Browse to the ***Storage Files\Script\Package Installer*** folder inside the downloaded GIT repo, select all the files and click **Upload**. This will upload the files required to update spark cluster python packages.
 - Right click on container *actionscript* and select **Set Public Access Level**
 - Select the radio button with **Public read access for container and blob** and click **Apply**. This is done to make the package installer files accessible by spark.
-- Right click on the **packageInstaller.sh** in the container *actionscript* and select *Copy URL to Clipboard*. Save the URL in the below table.   
+- Right click on the **packageInstaller.sh** in the container *actionscript* and select **Copy URL to Clipboard**. Save the URL in the below table.   
 
   | **Package Installer on Blob Storage** |                     |
   |------------------------|---------------------|
@@ -369,17 +369,17 @@ There are 3 main components of ADF: link service, dataset and pipeline. You can 
 #### 1) Create Azure Data Factory
 
 
-  - Navigate to ***portal.azure.com*** and log in to your account
+- Navigate to ***portal.azure.com*** and log in to your account
 
-  - On the left tab click ***+ (New) > Intelligence + analytics > Data Factory***
+- On the left tab click ***+ (New) > Intelligence + analytics > Data Factory***
 
--   Name: *retailsolution\[UI\]\[N\]*
+  -   Name: *retailsolution\[UI\]\[N\]*
 
--   Resource Group: Choose the resource group created previously ***retailtemplate\_resourcegroup***
+  -   Resource Group: Choose the resource group created previously ***retailtemplate\_resourcegroup***
 
--   Location: EAST US
+  -   Location: EAST US
 
--   Click ***Create***
+  -   Click ***Create***
 
 After the data factory is created successfully
 
@@ -400,8 +400,8 @@ We will create three Linked services in this solution. The scripts of the Linked
 - **StorageLinkedService**: This is the Linked service for the Azure Storage Account.
 
   -   Open the file ***Scripts\Azure Data Factory\Linked Services\StorageLinkedService.json***. Under **connectionString** replace the following items with your Azure Storage credentials.
-    - AccountName=<Replace with Storage Account Name noted in step 3>
-    - AccountKey=<Replace with Primary access key noted in step 3>
+    - AccountName=\<Replace with Storage Account Name noted in step 3>
+    - AccountKey=\<Replace with Primary access key noted in step 3>
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
   -   Click ***New data store*** and select ***Azure Storage***
   -   Overwrite the content in the editor window with the content of the modified *StorageLinkedService.json*
@@ -410,9 +410,9 @@ We will create three Linked services in this solution. The scripts of the Linked
 - **HDInsightLinkedService**: This is the Linked service for the Azure HDInsight cluster running Spark.
 
   -   Open the file ***Scripts\Azure Data Factory\Linked Services\HDInsightLinkedService.json***. Replace the following items with HDInsight with Spark information you recorded in step 4.
-    - clusterUri : "<Replace With Cluster URI recorded in step 4>"
-    - userName : "<Replace with Cluster Login Username recorded in step 4>"
-    - password : "<Replace with Cluster Login Password recorded in step 4>"
+    - clusterUri : "\<Replace With Cluster URI recorded in step 4>"
+    - userName : "\<Replace with Cluster Login Username recorded in step 4>"
+    - password : "\<Replace with Cluster Login Password recorded in step 4>"
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
   -   Click ***...More*** then ***New compute*** and select ***HDInsight cluster***
   -   Overwrite the content in the editor window with the content of the modified HDInsightLinkedService.json
@@ -584,9 +584,34 @@ Note that this step needs a Power BI account (or Office 365 account).
 ### Solution Resource Cost
 
 
-### [Optional] Scaling Up the Solution
+### 10. [Optional] Scaling Up the Solution
 
-The solution is configured to produce small dataset so that user does not have to wait for hours to see the results. The solution is build to handle Big Data problems. If you would like to test this solution with larger dataset, this section will help you to do so.
+The solution is configured to produce small dataset so that user does not have to wait for hours to see the results. If you would like to test this solution with larger dataset, this section will help you to do so.
+
+To scale up the solution, we need to create a new Azure Data Factory and update the DataSimulator job parameters. Before that, we need to perform some cleanup. Follow the steps below:
+
+#### 1. Delete Azure Data Factory
+  -   On the left tab in the ***portal.azure.com***, click ***Resource groups***
+  -   Search for the resource group created previously, ***retailtemplate\_resourcegroup***
+  -   Under Resources, click on the data factory we just created, **retailsolution\[UI\]\[N\]**
+  -   Click **Delete** on top of the new opened blade, click Ok 
+
+#### 2. Cleanup the Folders in Azure Blob Storage
+  -	Open Azure Storage Explorer and log in to your Microsoft account associated with your Azure Subscription
+  -	Locate the storage account created in step 2 above and expand the nodes to see *Blob Containers*, etc.
+  - Delete the containers named **rawdata**, **publicparameters** and **privateparameters** by Right clicking and selecting Delete
+
+
+#### 3. Cleanup the Folders in Azure DataLakeStore
+  - Navigate to ***portal.azure.com*** and log in to your account
+  - On the left tab click Resource Groups
+  - Click on the resource group we created earlier ***retailtemplate\_resourcegroup***
+  - Click on DataLakeStore we created in step 2
+  - Under the section *Data Lake Store* select **Data Explorer**
+  - You will see a list of folders on the new opened blade
+  - Delete all the folders by doing a right click and then delete on individual folder
+
+Once the cleanup is done, we need to update the DataSimulator job and recreate the Azure Data Factory. 
 
 #### 1. Change DataSimulator Job
 You can scale up the data generation by changing following parameters for the web

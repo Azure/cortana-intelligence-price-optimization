@@ -1,0 +1,15 @@
+{
+    "name": "ADLStoreOutputPublicParameters",
+    "properties": {
+        "published": false,
+        "type": "AzureDataLakeStore",
+        "linkedServiceName": "AzureDataLakeLinkedService",
+        "typeProperties": {
+            "folderPath": "publicparameters/"
+        },
+        "availability": {
+            "frequency": "Hour",
+            "interval": 1
+        }
+    }
+}

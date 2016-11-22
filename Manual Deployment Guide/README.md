@@ -356,7 +356,7 @@ We need to update/install some python packages to run the Spark Web Jobs and Dat
 ### 8 Setup Azure Data Factory (ADF)
 Azure Data Factory can be used to orchestrate the entire data pipeline. In this solution, it is mainly used to schedule the data simulation, aggregation, demand forecasting and price optimization. Here is an overview of the ADF pipelines.
 
-> Note: In the demo here, ADF is scheduled to simulate, process, and output the results for **one week's** data **in one hour**. That is to say, in this solution demo, one week is condensed to one hour. In this case, you are able to view multiple weeks' results in a few hours, rather than waiting for multiple weeks to get the results for a few weeks. However, in the reality deployment, the ADF cycle time should be consistent with the real time.
+> **Note**: In the demo here, ADF is scheduled to simulate, process, and output the results for **one week's** data **in one hour**. That is to say, in this solution demo, one week is condensed to one hour. In this case, you are able to view multiple weeks' results in a few hours, rather than waiting for multiple weeks to get the results for a few weeks. However, in the reality deployment, the ADF cycle time should be consistent with the real time.
 
 **RetailDataSimulatorPipeline**: Raw data for each week are simulated and sent to Azure Blob Storage in each cycle.  
 
@@ -435,50 +435,89 @@ We will create three Linked services in this solution. The scripts of the Linked
 
 #### 3) Create Datasets
 
-We will create 10 ADF datasets pointing to Azure Storage and Azure DataLakeStore. We will use the JSON files located at ***Azure Data Factory\Datasets***. No modification is needed on the JSON files.
+We will create 10 ADF datasets pointing to Azure Storage and Azure DataLakeStore. We will use the JSON files located at ***Scripts\Azure Data Factory\Datasets***. No modification is needed on the JSON files.
 
 - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button
 
-For each JSON file under ***Azure Data Factory\Datasets***:
-
+For each JSON file under ***Scripts\Azure Data Factory\Datasets***:
 -   At the top of the left tab, click ***New dataset*** and select ***Azure Storage***
 -   Copy the content of the file into the editor
 -   Click ***Deploy***
 
+
 #### 4) Create Pipelines
 
-We will create 3 pipelines in total. 
+We will create 3 pipelines in total. These Pipeline's explanation is given in the start of this section.
 
-We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active and are in UTC time. You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/).
+We will use the JSON files located at ***Scripts\Azure Data Factory\Pipelines***. At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active and are in UTC time. You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/). 
 
-- Data aggregation pipeline
+We also need to update the **\<Storage-Account-Name>** in these pipelines with the name we recorded in step 3.
 
-  This pipeline trigger the SQL procedure to aggregate the 5mins consumption data to hourly data.
+- **RetailDataSimulatorPipeline**
 
-  - Open the file ***Azure Data Factory\\3-Pipelines\\Pipeline-SQLProcedure.json***
+  This pipeline runs the DataSimulator Job on Spark every hour.
 
-  - Specify an active period that you want the pipeline to run. For example, if you want to test the template for 5 days, then set the start and end time as something like:
+  - Open the file ***Scripts\Azure Data Factory\Pipelines\RetailDataSimulatorPipeline.json***
+  - On line **14** replace the **\<Storage-Account-Name>** with the **Storage Account Name** we created in step 3
+    - This is how the edited line should look like: ***"wasb://adflibs@retailsolutionhowto.blob.core.windows.net/RetailDataSimulator.py"*** where ***retailsolutionhowto*** is the sample Storage Account Name
+  - Specify an active period that you want the pipeline to run. You need to put the current date and time of one hour past. This date and time should be in UTC time. For example, if current UTC Datetime is **2016-11-22T17:08:00Z** i.e. 22nd Nov 2016 17:08, you need to put the start time one previous hour window, that is 16:00 - 17:00. Which means your pipeline start time will be **2016-11-22T16:00:00Z**. End time can be a week ahead **2016-11-29T16:00:00Z** (you can set it to few days or even few hours to save cost). Update the start and end date at the bottom of pipeline Json
 
     ```JSON
-    "start": "2016-11-01T00:00:00Z",
-    "end": "2016-11-06T00:00:00Z",
+    "start": "2016-11-22T16:00:00Z",
+    "end": "2016-11-29T16:00:00Z",
     ```
-    NOTE: Please limit the active period to the amount of time you need to test the pipeline to limit the cost incurred by data movement and processing.
+    **Note**: Please limit the active period to the amount of time you need to test the pipeline to limit the cost incurred by data movement and processing.
 
   - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button
-  - At the top of the tab, click ***More commands*** and then ***New pipeline***
-
+  - At the top of the tab, click ***...More*** and then ***New pipeline***
   - Copy the content of the modified JSON file into the editor
-
   - Click ***Deploy***
 
-Here is how your ADF configurations should look after finishing above steps :
+
+- **ModelRetrainPipeline**
+
+  This pipeline runs the Demand Forecasting model retrain Job on Spark every four hour.
+
+  - Open the file ***Scripts\Azure Data Factory\Pipelines\ModelRetrainPipeline.json***
+  - On line **14** replace the **\<Storage-Account-Name>** with the **Storage Account Name** we created in step 3
+  - Set the activity perior to be half hour ahead of the RetailDataSimulatorPipeline. If RetailDataSimulatorPipeline start datetime is  **2016-11-22T16:00:00Z** then for ModelRetrainPipeline it should be half an hour ahead, i.e.  **2016-11-22T16:30:00Z**. End time should be half an hour ahead of end time of RetailDataSimulatorPipeline, i.e.  **2016-11-29T16:30:00Z**. Update the start and end date at the bottom of pipeline Json
+
+    ```JSON
+    "start": "2016-11-22T16:30:00Z",
+    "end": "2016-11-29T16:30:00Z",
+    ```
+  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button
+  - At the top of the tab, click ***...More*** and then ***New pipeline***
+  - Copy the content of the modified JSON file into the editor
+  - Click ***Deploy***
+
+
+- **RetailDFModel_PriceOptimizationPipeline**
+
+  This pipeline runs every hour. In each cycle, raw data are copied from Azure Blob Storage to Azure Data Lake Store. Then, Spark activities will ingest the raw data from Azure Data Lake Store, aggregate the raw unstructured transaction data to weekly sales data, train demand forecasting model, solve price optimization problems and prepare the data for Power BI visualization in each cycle.
+
+  - Open the file ***Scripts\Azure Data Factory\Pipelines\RetailDFModel_PriceOptimizationPipeline.json***
+  - On line **84**, **123**, **159** and **195** replace the **\<Storage-Account-Name>** with the **Storage Account Name** we created in step 3
+  - The Start and End date for this pipeline should be exactly same as that of RetailDataSimulatorPipeline
+
+    ```JSON
+    "start": "2016-11-22T16:00:00Z",
+    "end": "2016-11-29T16:00:00Z",
+    ```
+  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button
+  - At the top of the tab, click ***...More*** and then ***New pipeline***
+  - Copy the content of the modified JSON file into the editor
+  - Click ***Deploy***
+
+Here is how your ADF configurations should look after finishing above steps:
 ![](Figures/AzureDataFactoryConfig.png)
+
+> **Note** :Once all the pipelines are deployed, the model will generate results for the first one hour, i.e. for duration **16:00 - 17:00** in the above example. With the provided Data Simulator job configuration, the model takes around 10-15 minutes to complete first run. Thus it is recommended to start Power BI setup after a gap of 15 minutes.
 
 ### 9. Setup Power BI
 
 The essential goal of this part is to visualize the results from the retail price optimization solution. Power BI can directly connect to an Azure Data Lake as its data source, where the results are stored.
-> Note:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize.
+> **Note**:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize.
 
 #### 1)	Download the Power BI report file and sign-in 
 

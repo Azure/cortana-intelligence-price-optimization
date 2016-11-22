@@ -179,7 +179,7 @@ Now that the storage account has been created we need to collect some informatio
     - Click ***Select*** at the left bottom of the blade
 
 - Click on ***Credentials*** and provide following information on the new opened blade :
-    - Cluster Login Username : <admin/or whatever you want>
+    - Cluster Login Username : \<admin/or whatever you want>
     - Cluster Login Password : \<cluster password>
     - SSH Username : \<secure Shell login username>
     - SSH Password : \<SSH password>
@@ -189,7 +189,7 @@ Now that the storage account has been created we need to collect some informatio
 - Click on ***Data Source*** and provide following information on the new opened blade :
     - Select storage account : Select the Storage Account we created in step 3 
     - Choose Default Container : **retailtemplate**
-    - Click on ***Cluster AAD Identity***. 
+    - Click on ***Cluster AAD Identity*** 
     
       Here we set the permission to allow Spark Cluster to access the Azure DataLakeStore data. If you want some clarification on below steps, you can follow this document : [Create an HDInsight cluster with Data Lake Store using Azure Portal](https://docs.microsoft.com/en-us/azure/data-lake-store/data-lake-store-hdinsight-hadoop-use-portal)
     
@@ -198,14 +198,14 @@ Now that the storage account has been created we need to collect some informatio
        - Service Principal :
          - Service Principal Name : retailtemplate\[UI][N]
          - Certificate password/Confirm Password : \<provide password>
-         - Click ***Confirm*** on the left bottom
+         - Click ***Create*** on the left bottom
        - Click on **Manage ADLS Access**
          - Click on the first step **Select the permission** in the new opened blade
             - Click on the edit icon circled in the below image and the click on 
             ![](Figures/selectADL_S.png)
             - On clicking the Edit icon, you will see an arrow. Click on the typing area on left of the arrow. Once you click that, you should see a list of available Data Lake Store under your subscription as shown in below image.
             ![](Figures/selectADL_S_2.png)
-            - If you do not see the adl, type following "adl://<AzureDataLakeStore-name>.azuredatalakestore.net/" with the Azuredatalakestore name we created in step 2 and press enter
+            - If you do not see the adl, type following ***"adl://<AzureDataLakeStore-name>.azuredatalakestore.net/"*** with the Azuredatalakestore name we created in step 2 and press enter
             - Click on the check-box next to the Data Lake Store we created in Step 2 and the click **Select**
          - Click on second step **Assign selected permissions**. Click **Run** on the new opened blade and Click **Done** once run completes
          - Click on **Done** 
@@ -310,14 +310,14 @@ This Spark job prepares the result to be displayed in PowerBI for every run of t
       3.  Repeat step 1 and 2 to create another container with name *actionscript*
 
 -	Right click the *adflibs* container and choose ***Open Blob Container Editor***
--	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Folder***
--	Browse to the ***Storage Files\Script\PySpark Job*** folder inside the downloaded GIT repo. This will upload the required Spark Jobs.
--	Browse to the ***Storage Files\Script\Data Simulator Job*** folder inside the downloaded GIT repo. This will upload the required Data Simulator Job.
+-	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
+-	Browse to the ***Storage Files\Script\PySpark Job*** folder inside the downloaded GIT repo, select all the files and click **Upload**. This will upload the required Spark Jobs.
+-	Browse to the ***Storage Files\Script\Data Simulator Job*** folder inside the downloaded GIT repo, , select the file **RetailDataSimulator.py** and click **Upload**. This will upload the required Data Simulator Job.
 
 Now upload the Package installer scripts/files similarly
 -	Right click the *actionscript* container and choose ***Open Blob Container Editor***
--	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Folder***
--	Browse to the ***Storage Files\Script\Package Installer*** folder inside the downloaded GIT repo. This will upload the files required to update spark cluster python packages.
+-	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
+-	Browse to the ***Storage Files\Script\Package Installer*** folder inside the downloaded GIT repo, select all the files and click **Upload**. This will upload the files required to update spark cluster python packages.
 - Right click on container *actionscript* and select **Set Public Access Level**
 - Select the radio button with **Public read access for container and blob** and click **Apply**. This is done to make the package installer files accessible by spark.
 - Right click on the **packageInstaller.sh** in the container *actionscript* and select *Copy URL to Clipboard*. Save the URL in the below table.   
@@ -580,3 +580,20 @@ Note that this step needs a Power BI account (or Office 365 account).
 ![](Figures/PowerBIInstructions10.png)
 
 
+
+### Solution Resource Cost
+
+
+### [Optional] Scaling Up the Solution
+
+The solution is configured to produce small dataset so that user does not have to wait for hours to see the results. The solution is build to handle Big Data problems. If you would like to test this solution with larger dataset, this section will help you to do so.
+
+#### 1. Change DataSimulator Job
+You can scale up the data generation by changing following parameters for the web
+
+
+
+
+### Deleting the Solution
+
+If you want to delete the solution, select the resource group **retailtemplate\_resourcegroup**, click on **Delete** on top of the new opened blade. Confirm the resource group name and click **Delete** on the bottom on this blade.

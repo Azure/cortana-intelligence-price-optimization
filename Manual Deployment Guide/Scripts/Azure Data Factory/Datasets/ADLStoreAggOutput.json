@@ -1,0 +1,15 @@
+{
+    "name": "ADLStoreAggOutput",
+    "properties": {
+        "published": false,
+        "type": "AzureDataLakeStore",
+        "linkedServiceName": "AzureDataLakeLinkedService",
+        "typeProperties": {
+            "folderPath": "aggregated_data/"
+        },
+        "availability": {
+            "frequency": "Hour",
+            "interval": 1
+        }
+    }
+}

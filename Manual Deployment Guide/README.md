@@ -48,8 +48,8 @@ The figure above shows the overall architecture of the Retail Price Optimization
 - **Prepare** : A Spark job reads the raw data from Azure Data Lake Storage and process/prepare it for the next steps
 
 - **Analyze** : It has two parts :
-  - First Spark Job use the processed data to train the Retail Demand Forecasting model
-  - Second Spark Job use the forecasted data and apply Price Optimization on it
+  - First Spark Job uses the processed data to train the Retail Demand Forecasting model
+  - Second Spark Job solves the Price Optimization problems and outputs the recommended optimal prices  
 
 - **Publish** : The result of both Retail Demand Forecasting and Price Optimization are stored on Azure Data Lake Store
 
@@ -207,7 +207,7 @@ Now that the storage account has been created we need to collect some informatio
             ![](Figures/selectADL_S_2.png)
             - If you do not see the adl, type following "adl://<AzureDataLakeStore-name>.azuredatalakestore.net/" with the Azuredatalakestore name we created in step 2 and press enter
             - Click on the check-box next to the Data Lake Store we created in Step 2 and the click **Select**
-         - Click on seocnd step **Assign selected permissions**. Click **Run** on the new opened blade and Click **Done** once run completes
+         - Click on second step **Assign selected permissions**. Click **Run** on the new opened blade and Click **Done** once run completes
          - Click on **Done** 
     - Click ***Select*** on the left bottom
 
@@ -217,7 +217,7 @@ Now that the storage account has been created we need to collect some informatio
   - Head Node Size : D12 V2 (2 nodes, 8 cores) - Default
   - Click ***Select*** on the left bottom
   
-  **Note** : We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Custer can be scaled when the data size is huge.
+  **Note** : We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Custer can be scaled up when the data size is huge.
 
 - Set the resource group to the **retailtemplate\_resourcegroup** which we created, by selecting the radio button ***Use existing***
 
@@ -266,7 +266,7 @@ Package Installer script (packageInstaller.sh) is used to install required pytho
 There are five different spark jobs, each performs a different task. All the Spark jobs are written in PySpark.
 
 ##### 1. Spark Job Sales_Data_Aggregation
-This Spark job turns unstructured transational raw data in Json format to structured csv format, and also aggregates individual transactions to weekly sales data at store level for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*.
+This Spark job turns unstructured transactional raw data in Json format to structured csv format, and also aggregates individual transactions to weekly sales data at store level for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*.
 - Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
 - Open the file **Sales_Data_Aggregation.py** in text editor
 - On line number **54**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
@@ -284,7 +284,7 @@ This Spark job conducts feature engineering and demand forecasting model trainin
 - On line number **49**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ##### 4. Spark Job Price_Optimization
-This Spark job perform price optimization for stores in treatment group for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*. To validate the performance of the price optimization algorithm, stores are devided into control and treatment group. Stores in treatment group accepts the recommended optimal price from optimization algorithm every week, whereas stores in control group using random price strategy every week.  
+This Spark job perform price optimization for stores in treatment group for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*. To validate the performance of the price optimization algorithm, stores are divided into control and treatment group. Stores in treatment group accepts the recommended optimal price from optimization algorithm every week, whereas stores in control group using random price strategy every week.  
 - Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
 - Open the file **Price_Optimization.py** in text editor
 - On line number **249**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
@@ -314,11 +314,11 @@ This Spark job prepares the result to be displayed in PowerBI for every run of t
 -	Browse to the ***Storage Files\Script\PySpark Job*** folder inside the downloaded GIT repo. This will upload the required Spark Jobs.
 -	Browse to the ***Storage Files\Script\Data Simulator Job*** folder inside the downloaded GIT repo. This will upload the required Data Simulator Job.
 
-Now upload the Package installer scripts/files simalarly
+Now upload the Package installer scripts/files similarly
 -	Right click the *actionscript* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Folder***
 -	Browse to the ***Storage Files\Script\Package Installer*** folder inside the downloaded GIT repo. This will upload the files required to update spark cluster python packages.
-- Right click on container *actionscript* and select **Set Public Acess Level**
+- Right click on container *actionscript* and select **Set Public Access Level**
 - Select the radio button with **Public read access for container and blob** and click **Apply**. This is done to make the package installer files accessible by spark.
 - Right click on the **packageInstaller.sh** in the container *actionscript* and select *Copy URL to Clipboard*. Save the URL in the below table.   
 
@@ -328,7 +328,7 @@ Now upload the Package installer scripts/files simalarly
 
 ### 7 Update Spark Cluster Python Packages
 
-We need to update/install some python packages in order to run the Spark Web Jobs and Data Simulator successfully. We will use the Package intsller script to do so.
+We need to update/install some python packages to run the Spark Web Jobs and Data Simulator successfully. We will use the Package installer script to do so.
 
 - Navigate to ***portal.azure.com*** and log in to your account
 
@@ -343,6 +343,8 @@ We need to update/install some python packages in order to run the Spark Web Job
 - Add a new Script Action by clicking on the **Submit New** on top of the new opened blade
   - Name : Package Installer
   - Bash script URI : \<packageInstaller.sh URL recorded in step 6>
+  - **Head** and **Worker** should be checked
+  - Check **Persist this script action to rerun when new nodes are added to the cluster** at the bottom
   - Click **Create** and let the script run complete
 
 
@@ -358,7 +360,7 @@ Azure Data Factory can be used to orchestrate the entire data pipeline. In this 
 
 **RetailDataSimulatorPipeline**: Raw data for each week are simulated and sent to Azure Blob Storage in each cycle.  
 
-**RetailDFModel_PriceOptimizationPipeline**: In each cycle, raw data are copied from Azure Blob Storage to Azure Data Lake Store. Then, Spark activities will ingest the raw data from Azure Data Lake Store, aggregate the raw unstructured transaction data to weekly sales data, train demand forecasting model, solve price optimization problems and prepare the data for Power BI visulization in each cycle.
+**RetailDFModel_PriceOptimizationPipeline**: In each cycle, raw data are copied from Azure Blob Storage to Azure Data Lake Store. Then, Spark activities will ingest the raw data from Azure Data Lake Store, aggregate the raw unstructured transaction data to weekly sales data, train demand forecasting model, solve price optimization problems and prepare the data for Power BI visualization in each cycle.
 
 **ModelRetrainPipeline**: Demand forecasting model is retrained on up-to-date sales data to keep improving the predictive performance. The **ModelRetrainPipeline** can be deployed in a different cycle time from the two pipelines above, since there are no dependencies between **ModelRetrainPipeline** and the other two pipelines. In this solution demo, the **RetailDataSimulatorPipeline** and **RetailDFModel_PriceOptimizationPipeline** are scheduled to run **hourly**, which represents **weekly** in the reality. While **ModelRetrainPipeline** is scheduled to run **every four hours**, which represents **four weeks (approximately one month)** in the reality.
 
@@ -426,30 +428,26 @@ We will create three Linked services in this solution. The scripts of the Linked
   -   Overwrite the content in the editor window with the content of the modified AzureDataLakeLinkedService.json
   -   Click on the **Authorize** which will appear on top left corner of the editor (as shown in below image)
   ![](Figures/adls_LinkedService_authoraization.png)
-  -   This will open a new window. Provide your microsoft credentials to authorize.
-  -   Once you authorice, it will update the remaining parameters of this linked service
+  -   This will open a new window. Provide your Microsoft credentials to authorize.
+  -   Once you authorize, it will update the remaining parameters of this linked service
   -   Click ***Deploy***
 
 
 #### 3) Create Datasets
 
-We will create ADF datasets pointing to Azure SQL tables. We will use the JSON files located at ***Azure Data Factory\\2-Datasets***. No modification is needed on the JSON files.
+We will create 10 ADF datasets pointing to Azure Storage and Azure DataLakeStore. We will use the JSON files located at ***Azure Data Factory\Datasets***. No modification is needed on the JSON files.
 
-- On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
+- On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button
 
-For each JSON file under ***Azure Data Factory\\2-Datasets***:
+For each JSON file under ***Azure Data Factory\Datasets***:
 
--   At the top of the left tab, click ***New dataset*** and select ***Azure SQL***
-
+-   At the top of the left tab, click ***New dataset*** and select ***Azure Storage***
 -   Copy the content of the file into the editor
-
 -   Click ***Deploy***
 
 #### 4) Create Pipelines
 
-We will create 12 pipelines in total. Here is a snapshot.
-
-![](Figures/ADFPipelineExample.png)
+We will create 3 pipelines in total. 
 
 We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active and are in UTC time. You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/).
 
@@ -474,8 +472,8 @@ We will use the JSON files located at ***Azure Data Factory\\3-Pipelines.*** At 
 
   - Click ***Deploy***
 
-
-
+Here is how your ADF configurations should look after finishing above steps :
+![](Figures/AzureDataFactoryConfig.png)
 
 ### 9. Setup Power BI
 

@@ -1,0 +1,15 @@
+{
+    "name": "ADLStorePowerBIOutput",
+    "properties": {
+        "published": false,
+        "type": "AzureDataLakeStore",
+        "linkedServiceName": "AzureDataLakeLinkedService",
+        "typeProperties": {
+            "folderPath": "powerbi_data"
+        },
+        "availability": {
+            "frequency": "Hour",
+            "interval": 1
+        }
+    }
+}

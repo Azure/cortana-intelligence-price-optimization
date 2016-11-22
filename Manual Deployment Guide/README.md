@@ -317,7 +317,7 @@ This Spark job prepares the result to be displayed in PowerBI for every run of t
 Now upload the Package installer scripts/files similarly
 -	Right click the *actionscript* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
--	Browse to the ***Storage Files\Script\Package Installer*** folder inside the downloaded GIT repo, select all the files and click **Upload**. This will upload the files required to update spark cluster python packages.
+-	Browse to the ***Storage Files\Script\Package Installer*** folder inside the downloaded GIT repo, select all the files including **com.adf.sparklauncher.jar** and click **Upload**. This will upload the files required to update spark cluster python packages.
 - Right click on container *actionscript* and select **Set Public Access Level**
 - Select the radio button with **Public read access for container and blob** and click **Apply**. This is done to make the package installer files accessible by spark.
 - Right click on the **packageInstaller.sh** in the container *actionscript* and select *Copy URL to Clipboard*. Save the URL in the below table.   

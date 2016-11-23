@@ -5,7 +5,8 @@
 - [Requirements](#requirements)
 - [Architecture](#architecture)
 - [Setup Steps](#setup-steps)
-- [Validation and Results](#validation-and-results)
+- [Scale-Up the Solution](#optional-scale-up-the-solution)
+
 
 ## Abstract
 
@@ -349,10 +350,6 @@ We need to update/install some python packages to run the Spark Web Jobs and Dat
 
 
 
-
-
-
-
 ### 8 Setup Azure Data Factory (ADF)
 Azure Data Factory can be used to orchestrate the entire data pipeline. In this solution, it is mainly used to schedule the data simulation, aggregation, demand forecasting and price optimization. Here is an overview of the ADF pipelines.
 
@@ -584,25 +581,25 @@ Note that this step needs a Power BI account (or Office 365 account).
 ### Solution Resource Cost
 
 
-### 10. [Optional] Scaling Up the Solution
+## [Optional] Scale-Up the Solution
 
 The solution is configured to produce small dataset so that user does not have to wait for hours to see the results. If you would like to test this solution with larger dataset, this section will help you to do so.
 
 To scale up the solution, we need to create a new Azure Data Factory and update the DataSimulator job parameters. Before that, we need to perform some cleanup. Follow the steps below:
 
-#### 1. Delete Azure Data Factory
+### 1. Delete Azure Data Factory
   -   On the left tab in the ***portal.azure.com***, click ***Resource groups***
   -   Search for the resource group created previously, ***retailtemplate\_resourcegroup***
   -   Under Resources, click on the data factory we just created, **retailsolution\[UI\]\[N\]**
   -   Click **Delete** on top of the new opened blade, click Ok 
 
-#### 2. Cleanup the Folders in Azure Blob Storage
+### 2. Cleanup the Folders in Azure Blob Storage
   -	Open Azure Storage Explorer and log in to your Microsoft account associated with your Azure Subscription
   -	Locate the storage account created in step 2 above and expand the nodes to see *Blob Containers*, etc.
   - Delete the containers named **rawdata**, **publicparameters** and **privateparameters** by Right clicking and selecting Delete
 
 
-#### 3. Cleanup the Folders in Azure DataLakeStore
+### 3. Cleanup the Folders in Azure DataLakeStore
   - Navigate to ***portal.azure.com*** and log in to your account
   - On the left tab click Resource Groups
   - Click on the resource group we created earlier ***retailtemplate\_resourcegroup***
@@ -613,12 +610,26 @@ To scale up the solution, we need to create a new Azure Data Factory and update 
 
 Once the cleanup is done, we need to update the DataSimulator job and recreate the Azure Data Factory. 
 
-#### 1. Change DataSimulator Job
-You can scale up the data generation by changing following parameters for the web
+### 1. Change DataSimulator Job
+You can scale up the data generation by changing following parameters for the DataSimulator job:
+ - Go to the folder **"Scripts\Data Simulator Job"** inside the downloaded GIT repo
+  - Open the file **RetailDataSimulator.py** in text editor
+  - Provide following parameters:
+    - number_of_stores = 
+    - number_of_brands = 
+    - number_of_departments = 
+    - number_of_weeks = 
+    - storage_account_name = "\<Storage-Account-Name>"
+    - storage_account_key = "\<Storage-Account-Primary-Access-Key>"
+  - Save the file and close it
 
+### 2. Upload the updated DataSimulator job to Blob Storage
 
+-	Right click the *adflibs* container and choose ***Open Blob Container Editor***
+-	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
+-	Browse to the ***Storage Files\Script\Data Simulator Job*** folder inside the downloaded GIT repo, , select the file **RetailDataSimulator.py** and click **Upload**. This will upload the updated Data Simulator Job.
 
+### 3. Setup Azure Data Factory (ADF)
 
-### Deleting the Solution
-
+## Deleting the Solution
 If you want to delete the solution, select the resource group **retailtemplate\_resourcegroup**, click on **Delete** on top of the new opened blade. Confirm the resource group name and click **Delete** on the bottom on this blade.

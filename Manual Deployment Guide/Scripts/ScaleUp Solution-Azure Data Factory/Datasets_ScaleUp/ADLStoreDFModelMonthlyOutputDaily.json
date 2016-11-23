@@ -1,15 +1,15 @@
 {
-    "name": "ADLStoreOutputPublicParameters",
+    "name": "ADLStoreDFModelMonthlyOutputDaily",
     "properties": {
         "published": false,
         "type": "AzureDataLakeStore",
         "linkedServiceName": "AzureDataLakeLinkedService",
         "typeProperties": {
-            "folderPath": "publicparameters/"
+            "folderPath": "Models/"
         },
         "availability": {
-            "frequency": "Hour",
-            "interval": 1
+            "frequency": "Day",
+            "interval": 4
         }
     }
 }

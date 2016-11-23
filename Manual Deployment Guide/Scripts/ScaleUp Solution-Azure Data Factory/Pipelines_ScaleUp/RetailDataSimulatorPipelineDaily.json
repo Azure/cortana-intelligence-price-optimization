@@ -1,5 +1,5 @@
 {
-    "name": "RetailDataSimulatorPipeline",
+    "name": "RetailDataSimulatorPipelineDaily",
     "properties": {
         "description": "Retail Price Optimization Data Simulator Pipeline",
         "activities": [
@@ -16,19 +16,18 @@
                 },
                 "outputs": [
                     {
-                        "name": "AzureBlobInputRawData"
+                        "name": "AzureBlobInputRawDataDaily"
                     },
                     {
-                        "name": "AzureBlobInputPublicParameters"
+                        "name": "AzureBlobInputPublicParametersDaily"
                     }
                 ],
                 "policy": {
-                    "timeout": "00:30:00",
                     "concurrency": 1,
                     "retry": 1
                 },
                 "scheduler": {
-                    "frequency": "Hour",
+                    "frequency": "Day",
                     "interval": 1
                 },
                 "name": "DataSimulatorJob",

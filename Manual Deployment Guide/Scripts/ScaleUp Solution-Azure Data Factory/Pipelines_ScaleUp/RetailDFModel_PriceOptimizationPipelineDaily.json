@@ -1,5 +1,5 @@
 {
-    "name": "RetailDFModel_PriceOptimizationPipeline",
+    "name": "RetailDFModel_PriceOptimizationPipeline_Daily",
     "properties": {
         "description": "Retail Price Optimization Pipeline with Model Training (weekly)",
         "activities": [
@@ -19,20 +19,20 @@
                 },
                 "inputs": [
                     {
-                        "name": "AzureBlobInputPublicParameters"
+                        "name": "AzureBlobInputPublicParametersDaily"
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "ADLStoreOutputPublicParameters"
+                        "name": "ADLStoreOutputPublicParametersDaily"
                     }
                 ],
                 "policy": {
-                    "timeout": "01:00:00",
+                    "timeout": "10:00:00",
                     "concurrency": 1
                 },
                 "scheduler": {
-                    "frequency": "Hour",
+                    "frequency": "Day",
                     "interval": 1
                 },
                 "name": "AzureBlobtoDataLakePublicParameters",
@@ -54,20 +54,20 @@
                 },
                 "inputs": [
                     {
-                        "name": "AzureBlobInputRawData"
+                        "name": "AzureBlobInputRawDataDaily"
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "ADLStoreOutputRawData"
+                        "name": "ADLStoreOutputRawDataDaily"
                     }
                 ],
                 "policy": {
-                    "timeout": "01:00:00",
+                    "timeout": "10:00:00",
                     "concurrency": 1
                 },
                 "scheduler": {
-                    "frequency": "Hour",
+                    "frequency": "Day",
                     "interval": 1
                 },
                 "name": "AzureBlobtoDataLakeRawData",
@@ -88,24 +88,24 @@
                 },
                 "inputs": [
                     {
-                        "name": "ADLStoreOutputRawData"
+                        "name": "ADLStoreOutputRawDataDaily"
                     },
                     {
-                        "name": "ADLStoreOutputPublicParameters"
+                        "name": "ADLStoreOutputPublicParametersDaily"
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "ADLStoreAggOutput"
+                        "name": "ADLStoreAggOutputDaily"
                     }
                 ],
                 "policy": {
-                    "timeout": "00:30:00",
+                    "timeout": "10:00:00",
                     "concurrency": 1,
                     "retry": 1
                 },
                 "scheduler": {
-                    "frequency": "Hour",
+                    "frequency": "Day",
                     "interval": 1
                 },
                 "name": "AggDataSparkJob",
@@ -120,28 +120,28 @@
                     "jarLinkedService": "StorageLinkedService",
                     "arguments": [
                         "--appFile",
-                        "wasb://adflibs@<Storage-Account-Name>.blob.core.windows.net/Demand_Forecasting_Model_Training_Only_First_Time.py",
+                        "wasb://adflibs@<Storage-Account-Name>.blob.core.windows.net/Demand_Forecasting_Model_Training_First_Time_Pipeline.py",
                         "--deploy_mode",
                         "cluster"
                     ]
                 },
                 "inputs": [
                     {
-                        "name": "ADLStoreAggOutput"
+                        "name": "ADLStoreAggOutputDaily"
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "ADLStoreDFModelOutput"
+                        "name": "ADLStoreDFModelOutputDaily"
                     }
                 ],
                 "policy": {
-                    "timeout": "00:30:00",
+                    "timeout": "10:00:00",
                     "concurrency": 1,
                     "retry": 1
                 },
                 "scheduler": {
-                    "frequency": "Hour",
+                    "frequency": "Day",
                     "interval": 1
                 },
                 "name": "DFMdoelSparkJob",
@@ -163,21 +163,21 @@
                 },
                 "inputs": [
                     {
-                        "name": "ADLStoreDFModelOutput"
+                        "name": "ADLStoreDFModelOutputDaily"
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "ADLStorePriceOptOutput"
+                        "name": "ADLStorePriceOptOutputDaily"
                     }
                 ],
                 "policy": {
-                    "timeout": "00:30:00",
+                    "timeout": "10:00:00",
                     "concurrency": 1,
                     "retry": 1
                 },
                 "scheduler": {
-                    "frequency": "Hour",
+                    "frequency": "Day",
                     "interval": 1
                 },
                 "name": "PriceOptSparkJob",
@@ -199,21 +199,21 @@
                 },
                 "inputs": [
                     {
-                        "name": "ADLStorePriceOptOutput"
+                        "name": "ADLStorePriceOptOutputDaily"
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "ADLStorePowerBIOutput"
+                        "name": "ADLStorePowerBIOutputDaily"
                     }
                 ],
                 "policy": {
-                    "timeout": "00:30:00",
+                    "timeout": "10:00:00",
                     "concurrency": 1,
                     "retry": 1
                 },
                 "scheduler": {
-                    "frequency": "Hour",
+                    "frequency": "Day",
                     "interval": 1
                 },
                 "name": "PowerBISparkJob",
@@ -235,20 +235,20 @@
                 },
                 "inputs": [
                     {
-                        "name": "ADLStorePriceOptOutput"
+                        "name": "ADLStorePriceOptOutputDaily"
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "AzureBlobOutputPriceChange"
+                        "name": "AzureBlobOutputPriceChangeDaily"
                     }
                 ],
                 "policy": {
-                    "timeout": "01:00:00",
+                    "timeout": "10:00:00",
                     "concurrency": 1
                 },
                 "scheduler": {
-                    "frequency": "Hour",
+                    "frequency": "Day",
                     "interval": 1
                 },
                 "name": "ADLtoBlobPriceChange",

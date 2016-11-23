@@ -1,15 +1,15 @@
 {
-    "name": "ADLStoreDFModelMonthlyOutput",
+    "name": "ADLStoreAggOutputDaily",
     "properties": {
         "published": false,
         "type": "AzureDataLakeStore",
         "linkedServiceName": "AzureDataLakeLinkedService",
         "typeProperties": {
-            "folderPath": "Models/"
+            "folderPath": "aggregated_data/"
         },
         "availability": {
-            "frequency": "Hour",
-            "interval": 4
+            "frequency": "Day",
+            "interval": 1
         }
     }
 }

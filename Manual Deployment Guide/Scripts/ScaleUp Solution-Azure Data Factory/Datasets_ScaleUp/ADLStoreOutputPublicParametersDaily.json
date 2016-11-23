@@ -1,14 +1,14 @@
 {
-    "name": "AzureBlobInputPublicParameters",
+    "name": "ADLStoreOutputPublicParametersDaily",
     "properties": {
         "published": false,
-        "type": "AzureBlob",
-        "linkedServiceName": "StorageLinkedService",
+        "type": "AzureDataLakeStore",
+        "linkedServiceName": "AzureDataLakeLinkedService",
         "typeProperties": {
             "folderPath": "publicparameters/"
         },
         "availability": {
-            "frequency": "Hour",
+            "frequency": "Day",
             "interval": 1
         }
     }

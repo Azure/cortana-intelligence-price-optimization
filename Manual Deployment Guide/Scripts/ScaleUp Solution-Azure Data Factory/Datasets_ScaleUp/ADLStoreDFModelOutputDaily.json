@@ -1,5 +1,5 @@
 {
-    "name": "ADLStoreDFModelOutput",
+    "name": "ADLStoreDFModelOutputDaily",
     "properties": {
         "published": false,
         "type": "AzureDataLakeStore",
@@ -8,7 +8,7 @@
             "folderPath": "Models/"
         },
         "availability": {
-            "frequency": "Hour",
+            "frequency": "Day",
             "interval": 1
         }
     }

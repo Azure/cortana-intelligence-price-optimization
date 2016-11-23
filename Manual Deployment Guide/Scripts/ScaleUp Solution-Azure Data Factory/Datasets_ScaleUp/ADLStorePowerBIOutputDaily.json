@@ -1,14 +1,14 @@
 {
-    "name": "ADLStoreAggOutput",
+    "name": "ADLStorePowerBIOutputDaily",
     "properties": {
         "published": false,
         "type": "AzureDataLakeStore",
         "linkedServiceName": "AzureDataLakeLinkedService",
         "typeProperties": {
-            "folderPath": "aggregated_data/"
+            "folderPath": "powerbi_data"
         },
         "availability": {
-            "frequency": "Hour",
+            "frequency": "Day",
             "interval": 1
         }
     }

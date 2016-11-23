@@ -1,5 +1,5 @@
 {
-    "name": "AzureBlobOutputPriceChange",
+    "name": "AzureBlobOutputPriceChangeDaily",
     "properties": {
         "published": false,
         "type": "AzureBlob",
@@ -14,7 +14,7 @@
             }
         },
         "availability": {
-            "frequency": "Hour",
+            "frequency": "Day",
             "interval": 1
         }
     }

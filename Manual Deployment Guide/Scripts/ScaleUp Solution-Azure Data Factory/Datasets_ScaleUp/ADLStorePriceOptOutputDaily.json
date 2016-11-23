@@ -1,5 +1,5 @@
 {
-    "name": "ADLStorePriceOptOutput",
+    "name": "ADLStorePriceOptOutputDaily",
     "properties": {
         "published": false,
         "type": "AzureDataLakeStore",
@@ -14,7 +14,7 @@
             }
         },
         "availability": {
-            "frequency": "Hour",
+            "frequency": "Day",
             "interval": 1
         }
     }

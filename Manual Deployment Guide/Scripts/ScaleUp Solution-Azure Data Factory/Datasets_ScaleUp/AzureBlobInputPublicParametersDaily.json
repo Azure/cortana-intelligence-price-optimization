@@ -1,17 +1,14 @@
 {
-    "name": "AzureBlobInputRawData",
+    "name": "AzureBlobInputPublicParametersDaily",
     "properties": {
         "published": false,
         "type": "AzureBlob",
         "linkedServiceName": "StorageLinkedService",
         "typeProperties": {
-            "folderPath": "rawdata/",
-            "format": {
-                "type": "JsonFormat"
-            }
+            "folderPath": "publicparameters/"
         },
         "availability": {
-            "frequency": "Hour",
+            "frequency": "Day",
             "interval": 1
         }
     }

@@ -1,14 +1,17 @@
 {
-    "name": "ADLStorePowerBIOutput",
+    "name": "ADLStoreOutputRawDataDaily",
     "properties": {
         "published": false,
         "type": "AzureDataLakeStore",
         "linkedServiceName": "AzureDataLakeLinkedService",
         "typeProperties": {
-            "folderPath": "powerbi_data"
+            "folderPath": "rawdata/",
+            "format": {
+                "type": "JsonFormat"
+            }
         },
         "availability": {
-            "frequency": "Hour",
+            "frequency": "Day",
             "interval": 1
         }
     }

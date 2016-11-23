@@ -363,7 +363,7 @@ Azure Data Factory can be used to orchestrate the entire data pipeline. In this 
 
 There are 3 main components of ADF: link service, dataset and pipeline. You can check the definition of each components [here](https://azure.microsoft.com/en-us/documentation/articles/data-factory-introduction/). In the following instructions, we will show you how to create them for this solution.
 
-#### 1) Create Azure Data Factory
+#### 1. Create Azure Data Factory
 
 
 - Navigate to ***portal.azure.com*** and log in to your account
@@ -391,7 +391,7 @@ After the data factory is created successfully
 In the ***Author and deploy*** blade, we will create all the components of the data factory. Note that Datasets are dependent on Linked services, and pipelines are dependent on Linked services and Datasets. So we will create Linked services first, then Datasets, and Pipelines at last.
 
 
-#### 2) Create Linked Services
+#### 2. Create Linked Services
 We will create three Linked services in this solution. The scripts of the Linked services are located in the folder ***Scripts\Azure Data Factory\Linked Services*** of the solution package.
 
 - **StorageLinkedService**: This is the Linked service for the Azure Storage Account.
@@ -430,7 +430,7 @@ We will create three Linked services in this solution. The scripts of the Linked
   -   Click ***Deploy***
 
 
-#### 3) Create Datasets
+#### 3. Create Datasets
 
 We will create 10 ADF datasets pointing to Azure Storage and Azure DataLakeStore. We will use the JSON files located at ***Scripts\Azure Data Factory\Datasets***. No modification is needed on the JSON files.
 
@@ -442,7 +442,7 @@ For each JSON file under ***Scripts\Azure Data Factory\Datasets***:
 -   Click ***Deploy***
 
 
-#### 4) Create Pipelines
+#### 4. Create Pipelines
 
 We will create 3 pipelines in total. These Pipeline's explanation is given in the start of this section.
 
@@ -516,7 +516,7 @@ Here is how your ADF configurations should look after finishing above steps:
 The essential goal of this part is to visualize the results from the retail price optimization solution. Power BI can directly connect to an Azure Data Lake as its data source, where the results are stored.
 > **Note**:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize.
 
-#### 1)	Download the Power BI report file and sign-in 
+#### 1.	Download the Power BI report file and sign-in 
 
 -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
 -	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-retail-price-optimization/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
@@ -524,7 +524,7 @@ The essential goal of this part is to visualize the results from the retail pric
 -	Sign in with the same Microsoft account that you have been used for deploying the previous steps by clicking **’Sign in’** on the top-left corner.
 -	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor. You might also see an error message saying "DataFroamt.Error: Invalid URI". Please ignore this error message for now and follow the below instructions for updating the data source. Once the data source is updated, the error will gone.
 
-#### 2)	Update the Azure Data Lake Store account of the Power BI file
+#### 2.	Update the Azure Data Lake Store account of the Power BI file
 
 -	Click on **’Sales_Aggregation_Week_Start’** query and you will see that this query is highlighted in a darker color as the following screenshot. Then, click on the **’Advanced Editor’** on the top, which is next to the **’Refresh Preview’**.
 
@@ -576,11 +576,6 @@ Note that this step needs a Power BI account (or Office 365 account).
 
 ![](Figures/PowerBIInstructions10.png)
 
-
-
-### Solution Resource Cost
-
-
 ## [Optional] Scale-Up the Solution
 
 The solution is configured to produce small dataset so that user does not have to wait for hours to see the results. If you would like to test this solution with larger dataset, this section will help you to do so.
@@ -630,6 +625,30 @@ You can scale up the data generation by changing following parameters for the Da
 -	Browse to the ***Storage Files\Script\Data Simulator Job*** folder inside the downloaded GIT repo, , select the file **RetailDataSimulator.py** and click **Upload**. This will upload the updated Data Simulator Job.
 
 ### 3. Setup Azure Data Factory (ADF)
+
+This new ADF has all the Datasets and Pipeline which are configured to run every 24 hours (once a day). **Linked Services remains the same**. New Datasets and Pipeline can be found under the path **Scripts\ScaleUp Solution-Azure Data Factory\**
+
+#### 1. Create Azure Data Factory
+
+  - Follow the instruction mentioned in step 8, section 1: **Create Azure Data Factory**
+
+#### 2. Create Linked Services
+
+- As the Linked Services remains same, use the Linked Services files which we updated earlier under the path **Scripts\Azure Data Factory\Linked Services** 
+- Follow the instruction mentioned in step 8, section 2: **Create Linked Services** and use the files under path mentioned in above step
+
+#### 3. Create Datasets
+
+- All the files for Datasets are under the path **Scripts\ScaleUp Solution-Azure Data Factory\Datasets_ScaleUp**
+- Follow the instruction mentioned in step 8, section 3: **Create Datasets** and use the files under path mentioned in above step
+
+#### 4. Create Pipelines
+
+- All the files for Datasets are under the path **Scripts\ScaleUp Solution-Azure Data Factory\Pipelines_ScaleUp**
+- Follow the instruction mentioned in step 8, section 4: **Create Pipelines** and use the files under path mentioned in above step
+
+
+## Solution Resource Cost
 
 ## Deleting the Solution
 If you want to delete the solution, select the resource group **retailtemplate\_resourcegroup**, click on **Delete** on top of the new opened blade. Confirm the resource group name and click **Delete** on the bottom on this blade.

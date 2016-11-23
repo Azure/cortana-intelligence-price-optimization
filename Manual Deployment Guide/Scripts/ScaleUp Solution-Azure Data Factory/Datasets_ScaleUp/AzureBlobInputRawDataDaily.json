@@ -1,9 +1,9 @@
 {
-    "name": "ADLStoreOutputRawData",
+    "name": "AzureBlobInputRawDataDaily",
     "properties": {
         "published": false,
-        "type": "AzureDataLakeStore",
-        "linkedServiceName": "AzureDataLakeLinkedService",
+        "type": "AzureBlob",
+        "linkedServiceName": "StorageLinkedService",
         "typeProperties": {
             "folderPath": "rawdata/",
             "format": {
@@ -11,7 +11,7 @@
             }
         },
         "availability": {
-            "frequency": "Hour",
+            "frequency": "Day",
             "interval": 1
         }
     }

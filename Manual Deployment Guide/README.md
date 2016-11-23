@@ -52,11 +52,11 @@ The figure above shows the overall architecture of the Retail Price Optimization
   - First Spark Job uses the processed data to train the Retail Demand Forecasting model
   - Second Spark Job solves the Price Optimization problems and outputs the recommended optimal prices  
 
-- **Publish** : The result of both Retail Demand Forecasting and Price Optimization are stored on Azure Data Lake Store
+- **Publish** : The results of both Retail Demand Forecasting and Price Optimization are stored on Azure Data Lake Store
 
 - **Visualize** : Power BI is used to visualize the results
 
-- **Pipeline Scheduling** : Azure Data Factory is used to create and schedule the pipeline involving all the above mentioned activities
+- **Pipeline Scheduling** : Azure Data Factory is used to create and schedule the pipelines involving all the above mentioned activities
 
 
 ## Setup Steps
@@ -151,15 +151,15 @@ Now that the storage account has been created we need to collect some informatio
 
   - In the Settings tab on the right, click ***Access Keys***
 
-  - Copy the PRIMARY CONNECTION STRING and add it to the table below
+  - Copy the Primary Connection String and add it to the table below
 
-  - Copy the Primary access key and add it to the table below
+  - Copy the Primary Access Key and add it to the table below
 
     | **Azure Storage Account** |                     |
     |------------------------|---------------------|
     | Storage Account Name        |retailtemplate\[UI][N]|
-    | Connection String      |             |
-    | Primary access key     |             ||
+    | Primary Connection String      |             |
+    | Primary Access Key     |             ||
 
 
 
@@ -204,12 +204,12 @@ Now that the storage account has been created we need to collect some informatio
          - Click on the first step **Select the permission** in the new opened blade
             - Click on the edit icon circled in the below image and the click on 
             ![](Figures/selectADL_S.png)
-            - On clicking the Edit icon, you will see an arrow. Click on the typing area on left of the arrow. Once you click that, you should see a list of available Data Lake Store under your subscription as shown in below image.
+            - On clicking the Edit icon, you will see the Edit icon changing to an arrow icon. Click on the typing area on left of the arrow. Once you click on typing area, you should see a list of available Data Lake Store under your subscription as shown in below image.
             ![](Figures/selectADL_S_2.png)
             - If you do not see the adl, type following ***"adl://<AzureDataLakeStore-name>.azuredatalakestore.net/"*** with the Azuredatalakestore name we created in step 2 and press enter
             - Click on the check-box next to the Data Lake Store we created in Step 2 and the click **Select**
          - Click on second step **Assign selected permissions**. Click **Run** on the new opened blade and Click **Done** once run completes
-         - Click on **Done** 
+        - Click on **Done** 
     - Click ***Select*** on the left bottom
 
 - Click on ***Pricing*** and select following on the new opened blade :
@@ -246,7 +246,7 @@ Now that the storage account has been created we need to collect some informatio
 #### 1. Update Retail Data Simulator Job
 
 Data Simulator Job (RetailDataSimulator.py) is a python application which generates the simulated retail sales data and writes it to Blob Storage. This job is run/scheduled in the pipeline *RetailDataSimulatorPipeline*. Pipeline explanation and steps to create them are covered in step 8. 
-  - Go to the folder **"Scripts\Data Simulator Job"** inside the downloaded GIT repo
+  - Go to the folder **"Manual Deployment Guide\Scripts\Data Simulator Job"** inside the downloaded GIT repo
   - Open the file **RetailDataSimulator.py** in text editor
   - Provide following parameters on line **36** and **37** which we have recorded in table under Step 3:
     - storage_account_name = "\<Storage-Account-Name>"
@@ -257,7 +257,7 @@ Data Simulator Job (RetailDataSimulator.py) is a python application which genera
 #### 2. Update Package Installer Script
 
 Package Installer script (packageInstaller.sh) is used to install required python packages on Spark Cluster. Steps on how to use it will be covered in later section.
-- Go to the folder **"Scripts\Package Installer"** inside the downloaded GIT repo
+- Go to the folder **"Manual Deployment Guide\Scripts\Package Installer"** inside the downloaded GIT repo
 - Open the file **packageInstaller.sh** in text editor
 - On line number **9**, replace the **\<Storage-Account-Name>** with the one we created in step 3
 
@@ -268,31 +268,31 @@ There are five different spark jobs, each performs a different task. All the Spa
 
 ##### 1. Spark Job Sales_Data_Aggregation
 This Spark job turns unstructured transactional raw data in Json format to structured csv format, and also aggregates individual transactions to weekly sales data at store level for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*.
-- Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
+- Go to the folder **"Manual Deployment Guide\Scripts\PySpark Job"** inside the downloaded GIT repo
 - Open the file **Sales_Data_Aggregation.py** in text editor
 - On line number **54**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ##### 2. Spark Job Demand_Forecasting_Model_Training_First_Time_Pipeline
 This Spark job conducts feature engineering and demand forecasting model training only for the first run of the pipeline *RetailDFModel_PriceOptimizationPipeline*, when there is no forecasting model available for price optimization. 
-- Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
+- Go to the folder **"Manual Deployment Guide\Scripts\PySpark Job"** inside the downloaded GIT repo
 - Open the file **Demand_Forecasting_Model_Training_First_Time_Pipeline.py** in text editor
 - On line number **49**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ##### 3. Spark Job Demand_Forecasting_Model_Training_Pipeline
 
-- Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
+- Go to the folder **"Manual Deployment Guide\Scripts\PySpark Job"** inside the downloaded GIT repo
 - Open the file **Demand_Forecasting_Model_Training_Pipeline.py** in text editor
 - On line number **49**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ##### 4. Spark Job Price_Optimization
 This Spark job perform price optimization for stores in treatment group for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*. To validate the performance of the price optimization algorithm, stores are divided into control and treatment group. Stores in treatment group accepts the recommended optimal price from optimization algorithm every week, whereas stores in control group using random price strategy every week.  
-- Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
+- Go to the folder **"Manual Deployment Guide\Scripts\PySpark Job"** inside the downloaded GIT repo
 - Open the file **Price_Optimization.py** in text editor
 - On line number **249**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
 ##### 5. Spark Job Powerbi_Processing
 This Spark job prepares the result to be displayed in PowerBI for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*
-- Go to the folder **"Scripts\PySpark Job"** inside the downloaded GIT repo
+- Go to the folder **"Manual Deployment Guide\Scripts\PySpark Job"** inside the downloaded GIT repo
 - Open the file **Powerbi_Processing.py** in text editor
 - On line number **22**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
 
@@ -312,13 +312,13 @@ This Spark job prepares the result to be displayed in PowerBI for every run of t
 
 -	Right click the *adflibs* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
--	Browse to the ***Storage Files\Script\PySpark Job*** folder inside the downloaded GIT repo, select all the files including **com.adf.sparklauncher.jar** and click **Upload**. This will upload the required Spark Jobs.
--	Browse to the ***Storage Files\Script\Data Simulator Job*** folder inside the downloaded GIT repo, , select the file **RetailDataSimulator.py** and click **Upload**. This will upload the required Data Simulator Job.
+-	Browse to the ***Manual Deployment Guide\Scripts\PySpark Job*** folder inside the downloaded GIT repo, select all the files including **com.adf.sparklauncher.jar** and click **Upload**. This will upload the required Spark Jobs.
+-	Browse to the ***Manual Deployment Guide\Scripts\Data Simulator Job*** folder inside the downloaded GIT repo, , select the file **RetailDataSimulator.py** and click **Upload**. This will upload the required Data Simulator Job.
 
 Now upload the Package installer scripts/files similarly
 -	Right click the *actionscript* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
--	Browse to the ***Storage Files\Script\Package Installer*** folder inside the downloaded GIT repo, select all the files and click **Upload**. This will upload the files required to update spark cluster python packages.
+-	Browse to the ***Manual Deployment Guide\Scripts\Package Installer*** folder inside the downloaded GIT repo, select all the files and click **Upload**. This will upload the files required to update spark cluster python packages.
 - Right click on container *actionscript* and select **Set Public Access Level**
 - Select the radio button with **Public read access for container and blob** and click **Apply**. This is done to make the package installer files accessible by spark.
 - Right click on the **packageInstaller.sh** in the container *actionscript* and select **Copy URL to Clipboard**. Save the URL in the below table.   
@@ -396,9 +396,9 @@ We will create three Linked services in this solution. The scripts of the Linked
 
 - **StorageLinkedService**: This is the Linked service for the Azure Storage Account.
 
-  -   Open the file ***Scripts\Azure Data Factory\Linked Services\StorageLinkedService.json***. Under **connectionString** replace the following items with your Azure Storage credentials.
+  -   Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services\StorageLinkedService.json***. Under **connectionString** replace the following items with your Azure Storage credentials.
     - AccountName=\<Replace with Storage Account Name noted in step 3>
-    - AccountKey=\<Replace with Primary access key noted in step 3>
+    - AccountKey=\<Replace with Primary Access Key noted in step 3>
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
   -   Click ***New data store*** and select ***Azure Storage***
   -   Overwrite the content in the editor window with the content of the modified *StorageLinkedService.json*
@@ -406,7 +406,7 @@ We will create three Linked services in this solution. The scripts of the Linked
 
 - **HDInsightLinkedService**: This is the Linked service for the Azure HDInsight cluster running Spark.
 
-  -   Open the file ***Scripts\Azure Data Factory\Linked Services\HDInsightLinkedService.json***. Replace the following items with HDInsight with Spark information you recorded in step 4.
+  -   Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services\HDInsightLinkedService.json***. Replace the following items with HDInsight with Spark information you recorded in step 4.
     - clusterUri : "\<Replace With Cluster URI recorded in step 4>"
     - userName : "\<Replace with Cluster Login Username recorded in step 4>"
     - password : "\<Replace with Cluster Login Password recorded in step 4>"
@@ -417,7 +417,7 @@ We will create three Linked services in this solution. The scripts of the Linked
 
 - **AzureDataLakeLinkedService**: This is the Linked service for the Azure Data Lake Store.
 
-  -   Open the file ***Scripts\Azure Data Factory\Linked Services\AzureDataLakeLinkedService.json***. Replace the following items with Azure Data Lake Store information you recorded in step 2.
+  -   Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services\AzureDataLakeLinkedService.json***. Replace the following items with Azure Data Lake Store information you recorded in step 2.
     - dataLakeStoreUri : "https://\<Replace-with-DataLakeStore-Name-noted-in-step-2>.azuredatalakestore.net/webhdfs/v1"
   -   sessionId and authorization will be updated automatically once you authorize this linked service 
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
@@ -436,7 +436,7 @@ We will create 10 ADF datasets pointing to Azure Storage and Azure DataLakeStore
 
 - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button
 
-For each JSON file under ***Scripts\Azure Data Factory\Datasets***:
+For each JSON file under ***Manual Deployment Guide\Scripts\Azure Data Factory\Datasets***:
 -   At the top of the left tab, click ***New dataset*** and select ***Azure Storage***
 -   Copy the content of the file into the editor
 -   Click ***Deploy***
@@ -446,7 +446,7 @@ For each JSON file under ***Scripts\Azure Data Factory\Datasets***:
 
 We will create 3 pipelines in total. These Pipeline's explanation is given in the start of this section.
 
-We will use the JSON files located at ***Scripts\Azure Data Factory\Pipelines***. At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active and are in UTC time. You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/). 
+We will use the JSON files located at ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines***. At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active and are in UTC time. You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/). 
 
 We also need to update the **\<Storage-Account-Name>** in these pipelines with the name we recorded in step 3.
 
@@ -454,7 +454,7 @@ We also need to update the **\<Storage-Account-Name>** in these pipelines with t
 
   This pipeline runs the DataSimulator Job on Spark every hour.
 
-  - Open the file ***Scripts\Azure Data Factory\Pipelines\RetailDataSimulatorPipeline.json***
+  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\RetailDataSimulatorPipeline.json***
   - On line **14** replace the **\<Storage-Account-Name>** with the **Storage Account Name** we created in step 3
     - This is how the edited line should look like: ***"wasb://adflibs@retailsolutionhowto.blob.core.windows.net/RetailDataSimulator.py"*** where ***retailsolutionhowto*** is the sample Storage Account Name
   - Specify an active period that you want the pipeline to run. You need to put the current date and time of one hour past. This date and time should be in UTC time. For example, if current UTC Datetime is **2016-11-22T17:08:00Z** i.e. 22nd Nov 2016 17:08, you need to put the start time one previous hour window, that is 16:00 - 17:00. Which means your pipeline start time will be **2016-11-22T16:00:00Z**. End time can be a week ahead **2016-11-29T16:00:00Z** (you can set it to few days or even few hours to save cost). Update the start and end date at the bottom of pipeline Json
@@ -475,7 +475,7 @@ We also need to update the **\<Storage-Account-Name>** in these pipelines with t
 
   This pipeline runs the Demand Forecasting model retrain Job on Spark every four hour.
 
-  - Open the file ***Scripts\Azure Data Factory\Pipelines\ModelRetrainPipeline.json***
+  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\ModelRetrainPipeline.json***
   - On line **14** replace the **\<Storage-Account-Name>** with the **Storage Account Name** we created in step 3
   - Set the activity perior to be half hour ahead of the RetailDataSimulatorPipeline. If RetailDataSimulatorPipeline start datetime is  **2016-11-22T16:00:00Z** then for ModelRetrainPipeline it should be half an hour ahead, i.e.  **2016-11-22T16:30:00Z**. End time should be half an hour ahead of end time of RetailDataSimulatorPipeline, i.e.  **2016-11-29T16:30:00Z**. Update the start and end date at the bottom of pipeline Json
 
@@ -493,7 +493,7 @@ We also need to update the **\<Storage-Account-Name>** in these pipelines with t
 
   This pipeline runs every hour. In each cycle, raw data are copied from Azure Blob Storage to Azure Data Lake Store. Then, Spark activities will ingest the raw data from Azure Data Lake Store, aggregate the raw unstructured transaction data to weekly sales data, train demand forecasting model, solve price optimization problems and prepare the data for Power BI visualization in each cycle.
 
-  - Open the file ***Scripts\Azure Data Factory\Pipelines\RetailDFModel_PriceOptimizationPipeline.json***
+  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\RetailDFModel_PriceOptimizationPipeline.json***
   - On line **84**, **123**, **159** and **195** replace the **\<Storage-Account-Name>** with the **Storage Account Name** we created in step 3
   - The Start and End date for this pipeline should be exactly same as that of RetailDataSimulatorPipeline
 
@@ -509,7 +509,9 @@ We also need to update the **\<Storage-Account-Name>** in these pipelines with t
 Here is how your ADF configurations should look after finishing above steps:
 ![](Figures/AzureDataFactoryConfig.png)
 
-> **Note** :Once all the pipelines are deployed, the model will generate results for the first one hour, i.e. for duration **16:00 - 17:00** in the above example. With the provided Data Simulator job configuration, the model takes around 10-15 minutes to complete first run. Thus it is recommended to start Power BI setup after a gap of 15 minutes.
+> **Note** :Once all the pipelines are deployed, the model will generate results for the first one hour, i.e. for duration **16:00 - 17:00** in the above example. With the provided Data Simulator job configuration, the model takes around 10-15 minutes to complete first run. 
+
+
 
 ### 9. Setup Power BI
 
@@ -521,7 +523,7 @@ The essential goal of this part is to visualize the results from the retail pric
 -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
 -	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-retail-price-optimization/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
 - After opening the **'RetailPriceOptimizationSolution.pbix'** file, you might see message saying "There are pending changes in your queries that haven't been applied.". Please **’do not Apply Changes’** since the data source has not been updated yet. 
--	Sign in with the same Microsoft account that you have been used for deploying the previous steps by clicking **’Sign in’** on the top-left corner.
+-	Sign in with the same Microsoft account that you have been used for deploying the previous steps by clicking **’Sign in’** on the top-left corner. Note: You must have a Microsoft Office 365 subscription for Power BI access.
 -	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor. You might also see an error message saying "DataFroamt.Error: Invalid URI". Please ignore this error message for now and follow the below instructions for updating the data source. Once the data source is updated, the error will gone.
 
 #### 2.	Update the Azure Data Lake Store account of the Power BI file
@@ -530,7 +532,7 @@ The essential goal of this part is to visualize the results from the retail pric
 
 ![](Figures/PowerBIInstructions1.png)
 
--	On the popped-out Advanced Editor window, replace the **\<Azuredatalakestore-Name>** on the first line with the name of the Azure Data Lake Store that you deployed in the previous steps. 
+-	On the popped-out Advanced Editor window, replace the **\<DataLakeStore-Name>** on the first line with the name of the Azure Data Lake Store that you deployed in the previous steps. 
 - Then, click **’Done’** on the bottom-right corner of the Advanced Editor window.
 -	Then you will see a message saying “Please specify how to connect.”. Click on **’Edit Credentials’**.
 
@@ -544,7 +546,7 @@ The essential goal of this part is to visualize the results from the retail pric
 
 ![](Figures/PowerBIInstructions4.png)
 
--	Repeat the first 2 steps that you did for **’Sales_Aggregation_Week_Start’** query (click on the corresponding query, open the coresponding advanced query editor and replace the **\<Azuredatalakestore-Name>** with your Data Lake Store name) on the following 5 other queries: **’ Optimization_Results_Week_Start’** query, **’ Model_Performance’** query, **’ Execution_Time’** query, **’ Optimization_Results’** query, **’ Sales_Aggregation’** query. 
+-	Repeat the first 2 steps that you did for **’Sales_Aggregation_Week_Start’** query (click on the corresponding query, open the corresponding advanced query editor and replace the **\<DataLakeStore-Name>** with your Data Lake Store name) on the following 5 other queries: **’ Optimization_Results_Week_Start’** query, **’ Model_Performance’** query, **’ Execution_Time’** query, **’ Optimization_Results’** query, **’ Sales_Aggregation’** query. 
 -	Click on **’Close & Apply’** on the top-left, and you will see the visualization report in Power BI Desktop. 
 
 ![](Figures/PowerBIInstructions5.png)
@@ -607,7 +609,7 @@ Once the cleanup is done, we need to update the DataSimulator job and recreate t
 
 ### 1. Change DataSimulator Job
 You can scale up the data generation by changing following parameters for the DataSimulator job:
- - Go to the folder **"Scripts\Data Simulator Job"** inside the downloaded GIT repo
+ - Go to the folder **"Manual Deployment Guide\Scripts\Data Simulator Job"** inside the downloaded GIT repo
   - Open the file **RetailDataSimulator.py** in text editor
   - Provide following parameters:
     - number_of_stores = 
@@ -622,11 +624,11 @@ You can scale up the data generation by changing following parameters for the Da
 
 -	Right click the *adflibs* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
--	Browse to the ***Storage Files\Script\Data Simulator Job*** folder inside the downloaded GIT repo, , select the file **RetailDataSimulator.py** and click **Upload**. This will upload the updated Data Simulator Job.
+-	Browse to the ***Manual Deployment Guide\Scripts\Data Simulator Job*** folder inside the downloaded GIT repo, , select the file **RetailDataSimulator.py** and click **Upload**. This will upload the updated Data Simulator Job.
 
 ### 3. Setup Azure Data Factory (ADF)
 
-This new ADF has all the Datasets and Pipeline which are configured to run every 24 hours (once a day). **Linked Services remains the same**. New Datasets and Pipeline can be found under the path **Scripts\ScaleUp Solution-Azure Data Factory\**
+This new ADF has all the Datasets and Pipeline which are configured to run every 24 hours (once a day). **Linked Services remains the same**. New Datasets and Pipeline can be found under the path **Manual Deployment Guide\Scripts\ScaleUp Solution-Azure Data Factory\**
 
 #### 1. Create Azure Data Factory
 
@@ -634,17 +636,17 @@ This new ADF has all the Datasets and Pipeline which are configured to run every
 
 #### 2. Create Linked Services
 
-- As the Linked Services remains same, use the Linked Services files which we updated earlier under the path **Scripts\Azure Data Factory\Linked Services** 
+- As the Linked Services remains same, use the Linked Services files which we updated earlier under the path **Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services** 
 - Follow the instruction mentioned in step 8, section 2: **Create Linked Services** and use the files under path mentioned in above step
 
 #### 3. Create Datasets
 
-- All the files for Datasets are under the path **Scripts\ScaleUp Solution-Azure Data Factory\Datasets_ScaleUp**
+- All the files for Datasets are under the path **Manual Deployment Guide\Scripts\ScaleUp Solution-Azure Data Factory\Datasets_ScaleUp**
 - Follow the instruction mentioned in step 8, section 3: **Create Datasets** and use the files under path mentioned in above step
 
 #### 4. Create Pipelines
 
-- All the files for Datasets are under the path **Scripts\ScaleUp Solution-Azure Data Factory\Pipelines_ScaleUp**
+- All the files for Datasets are under the path **Manual Deployment Guide\Scripts\ScaleUp Solution-Azure Data Factory\Pipelines_ScaleUp**
 - Follow the instruction mentioned in step 8, section 4: **Create Pipelines** and use the files under path mentioned in above step
 
 

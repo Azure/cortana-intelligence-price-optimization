@@ -11,7 +11,7 @@
                     "jarLinkedService": "StorageLinkedService",
                     "arguments": [
                         "--appFile",
-                        "wasb://adflibs@<Storage-Account-Name>.blob.core.windows.net/Demand_Forecasting_Model_Training_Individual_Pipeline.py",
+                        "wasb://adflibs@<Storage-Account-Name>.blob.core.windows.net/Demand_Forecasting_Model_Training_Pipeline.py",
                         "--deploy_mode",
                         "cluster"
                     ]

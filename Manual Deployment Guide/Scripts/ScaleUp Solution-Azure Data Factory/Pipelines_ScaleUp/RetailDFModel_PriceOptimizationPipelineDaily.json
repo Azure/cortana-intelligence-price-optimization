@@ -64,7 +64,8 @@
                 ],
                 "policy": {
                     "timeout": "10:00:00",
-                    "concurrency": 1
+                    "concurrency": 1,
+                     "retry": 3
                 },
                 "scheduler": {
                     "frequency": "Day",
@@ -245,7 +246,8 @@
                 ],
                 "policy": {
                     "timeout": "10:00:00",
-                    "concurrency": 1
+                    "concurrency": 1,
+                     "retry": 3
                 },
                 "scheduler": {
                     "frequency": "Day",

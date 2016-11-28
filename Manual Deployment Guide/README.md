@@ -206,7 +206,7 @@ Now that the storage account has been created we need to collect some informatio
             ![](Figures/selectADL_S.png)
             - On clicking the Edit icon, you will see the Edit icon changing to an arrow icon. Click on the typing area on left of the arrow. Begin typing the name of the Azure Data Lake Store you created earlier (***retailtemplate[UI][N]***), and the result should appear in a drop-down list of available Data Lake Stores under your subscription, as shown in the image below.
             ![](Figures/selectADL_S_2.png)
-            - If you do not see the ADL Store in the drop-down list, enter ***"adl://<AzureDataLakeStore-name>.azuredatalakestore.net/"*** (with the Azure Data Lake Store name we created in step 2) and press Enter.
+            - If you do not see the ADL Store in the drop-down list, enter ***"adl://\<AzureDataLakeStore-name>.azuredatalakestore.net/"*** (with the Azure Data Lake Store name we created in step 2) and press Enter.
             - Click the check-box to the left of the Data Lake Store we created in Step 2, and then click **Select**.
          - Click on the second step, **Assign selected permissions**. Click **Run** on the new opened blade and Click **Done** once run completes
         - Click on **Done** 
@@ -306,22 +306,22 @@ This Spark job prepares the result to be displayed in PowerBI for every run of t
 -	Locate the storage account created in step 2 above and expand the nodes to see *Blob Containers*, etc.
 -	Create two containers named *adflibs* and *actionscript* 
 
-      1.	Right click on ***Blob Containers*** and choose ***Create Blob Container***
-      2.	Enter one of the container name as *adflibs*
-      3.  Repeat step 1 and 2 to create another container with name *actionscript*
+	1.	Right click on ***Blob Containers*** and choose ***Create Blob Container***
+	2.	Enter the container's name as *adflibs*
+	3.  	Repeat steps (i) and (ii) to create another container with name *actionscript*
 
 -	Right click the *adflibs* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
 -	Browse to the ***Manual Deployment Guide\Scripts\PySpark Job*** folder inside the downloaded GIT repo, select all the files including **com.adf.sparklauncher.jar** and click **Upload**. This will upload the required Spark Jobs.
 -	Browse to the ***Manual Deployment Guide\Scripts\Data Simulator Job*** folder inside the downloaded GIT repo, , select the file **RetailDataSimulator.py** and click **Upload**. This will upload the required Data Simulator Job.
 
-Now upload the Package installer scripts/files similarly
--	Right click the *actionscript* container and choose ***Open Blob Container Editor***
--	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
+Now upload the Package installer scripts/files similarly:
+-	Double-click on the *actionscript* container.
+-	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***.
 -	Browse to the ***Manual Deployment Guide\Scripts\Package Installer*** folder inside the downloaded GIT repo, select all the files and click **Upload**. This will upload the files required to update spark cluster python packages.
-- Right click on container *actionscript* and select **Set Public Access Level**
-- Select the radio button with **Public read access for container and blob** and click **Apply**. This is done to make the package installer files accessible by spark.
-- Right click on the **packageInstaller.sh** in the container *actionscript* and select **Copy URL to Clipboard**. Save the URL in the below table.   
+- Right-click on container *actionscript* and select **Set Public Access Level**.
+- Select the radio button with **Public read access for container and blobs** and click **Apply**. This is done to make the package installer files accessible by Spark.
+- Right click on the **packageInstaller.sh** in the container *actionscript* and select **Copy URL to Clipboard**. Save the URL in the table below.   
 
   | **Package Installer on Blob Storage** |                     |
   |------------------------|---------------------|
@@ -331,17 +331,17 @@ Now upload the Package installer scripts/files similarly
 
 We need to update/install some python packages to run the Spark Web Jobs and Data Simulator successfully. We will use the Package installer script to do so.
 
-- Navigate to ***portal.azure.com*** and log in to your account
+- Navigate to ***portal.azure.com*** and log in to your account.
 
-- On the left tab click Resource Groups
+- On the left tab, click **Resource Groups**.
 
-- Click on the resource group we created earlier ***retailtemplate\_resourcegroup***
+- Click on the resource group we created earlier, ***retailtemplate\_resourcegroup***.
 
-- Click on the HDInsight Spark Cluster we created in step 4
+- Click on the HDInsight Spark Cluster we created in step 4.
 
-- Under **CONFIGURATION** select **Script Action**
+- Under **CONFIGURATION**, select **Script Actions**.
 
-- Add a new Script Action by clicking on the **Submit New** on top of the new opened blade
+- Add a new Script Action by clicking on the **Submit New** on top of the new opened blade:
   - Name : Package Installer
   - Bash script URI : \<packageInstaller.sh URL recorded in step 6>
   - **Head** and **Worker** should be checked

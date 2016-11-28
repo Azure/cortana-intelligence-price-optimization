@@ -168,7 +168,7 @@ Now that the storage account has been created we need to collect some informatio
 
 - Navigate to ***portal.azure.com*** and log in to your account
 
-- On the left tab click ***New > Intelligence + analytics > New HDInsight Cluster***
+- On the left tab click ***New > Intelligence + analytics > HDInsight***
 
 - Set the cluster name to ***retailtemplate[UI][N]***
 
@@ -185,7 +185,7 @@ Now that the storage account has been created we need to collect some informatio
     - SSH Username : \<secure Shell login username>
     - SSH Password : \<SSH password>
     - Save the credentials in the table mentioned later in this section
-    - Click ***Select*** at the left bottom of the blade
+    - Click ***Select*** at the bottom-left of the blade
 
 - Click on ***Data Source*** and provide following information on the new opened blade :
     - Select storage account : Select the Storage Account we created in step 3 
@@ -201,14 +201,14 @@ Now that the storage account has been created we need to collect some informatio
          - Certificate password/Confirm Password : \<provide password>
          - Click ***Create*** on the left bottom
        - Click on **Manage ADLS Access**
-         - Click on the first step **Select the permission** in the new opened blade
+         - Click on the first step, **Select file permissions**, in the new opened blade
             - Click on the edit icon circled in the below image and the click on 
             ![](Figures/selectADL_S.png)
-            - On clicking the Edit icon, you will see the Edit icon changing to an arrow icon. Click on the typing area on left of the arrow. Once you click on typing area, you should see a list of available Data Lake Store under your subscription as shown in below image.
+            - On clicking the Edit icon, you will see the Edit icon changing to an arrow icon. Click on the typing area on left of the arrow. Begin typing the name of the Azure Data Lake Store you created earlier (***retailtemplate[UI][N]***), and the result should appear in a drop-down list of available Data Lake Stores under your subscription, as shown in the image below.
             ![](Figures/selectADL_S_2.png)
-            - If you do not see the adl, type following ***"adl://<AzureDataLakeStore-name>.azuredatalakestore.net/"*** with the Azuredatalakestore name we created in step 2 and press enter
-            - Click on the check-box next to the Data Lake Store we created in Step 2 and the click **Select**
-         - Click on second step **Assign selected permissions**. Click **Run** on the new opened blade and Click **Done** once run completes
+            - If you do not see the ADL Store in the drop-down list, enter ***"adl://<AzureDataLakeStore-name>.azuredatalakestore.net/"*** (with the Azure Data Lake Store name we created in step 2) and press Enter.
+            - Click the check-box to the left of the Data Lake Store we created in Step 2, and then click **Select**.
+         - Click on the second step, **Assign selected permissions**. Click **Run** on the new opened blade and Click **Done** once run completes
         - Click on **Done** 
     - Click ***Select*** on the left bottom
 
@@ -220,13 +220,13 @@ Now that the storage account has been created we need to collect some informatio
   
   **Note** : We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Custer can be scaled up when the data size is huge.
 
-- Set the resource group to the **retailtemplate\_resourcegroup** which we created, by selecting the radio button ***Use existing***
+- Set the resource group to **retailtemplate\_resourcegroup** (which we created earlier) by selecting the radio button ***Use existing***
 
 - Click ***Create*** to initiate the deployment of Spark HDInsight cluster. This can take 15 - 20 mins to complete
 
 - While the cluster is being deployed, you can collect following information :
   - Navigate to the Spark Cluster under **retailtemplate\_resourcegroup** 
-  - Under **Overview** copy the **URL** and update it in the below table
+  - Under **Overview** copy the **URL** and update it in the table below
   - Click on **Secure Shell (SSH)** and copy the **Host Name** and update in the below table
 
 | **Spark on HDInsight** |                     |

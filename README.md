@@ -29,7 +29,7 @@ While different retailers could vary a lot on how to define the competing group,
 ## Solution Architecture
 In this session, we provide more details about how the above analytical approach is operationalized in Cortana Intelligence Suite. The following chart describes the solution architecture.
 
-![](Manual Deployment Guide/Figures/ReatilPriceOptSolutionArchitecture.bmp)
+![](Manual Deployment Guide/Figures/SolutionArchitecture.png)
 
 ### What’s Under the Hood
 Raw simulated transactional data are pushed into Azure Data Lake Storage, whence the Spark Jobs run on HDInsight Cluster will take the raw data as inputs and:

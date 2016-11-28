@@ -38,7 +38,7 @@ You will need the following accounts and software to create this solution:
 It will take about four to five hours to implement this solution if you have all the required software/resources ready to use. 
 
 ## Architecture
-![](Figures/ReatilPriceOptSolutionArchitecture.bmp)
+![](Figures/SolutionArchitecture.png)
 
 The figure above shows the overall architecture of the Retail Price Optimization solution. Here is the explanation :
 

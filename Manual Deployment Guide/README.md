@@ -366,9 +366,9 @@ There are 3 main components of ADF: link service, dataset and pipeline. You can 
 #### 1. Create Azure Data Factory
 
 
-- Navigate to ***portal.azure.com*** and log in to your account
+- Navigate to ***portal.azure.com*** and log in to your account.
 
-- On the left tab click ***+ (New) > Intelligence + analytics > Data Factory***
+- On the left tab, click ***+ (New) > Intelligence + analytics > Data Factory*** and select the following options:
 
   -   Name: *retailsolution\[UI\]\[N\]*
 
@@ -378,86 +378,82 @@ There are 3 main components of ADF: link service, dataset and pipeline. You can 
 
   -   Click ***Create***
 
-After the data factory is created successfully
+After the data factory is created successfully:
 
--   On the left tab in the portal page (portal.azure.com), click ***Resource groups***
+-   On the left tab in the portal page (portal.azure.com), click ***Resource groups***.
 
--   Search for the resource group created previously, ***retailtemplate\_resourcegroup***
+-   Search for the resource group created previously, ***retailtemplate\_resourcegroup***.
 
--   Under Resources, click on the data factory we just created, *retailsolution\[UI\]\[N\]*
+-   Under Resources, click on the data factory we just created, **retailsolution\[UI\]\[N\]**.
 
--   Locate ***Author and deploy*** on the new blade and click on it
+-   Click on ***Author and deploy*** in the new blade.
 
-In the ***Author and deploy*** blade, we will create all the components of the data factory. Note that Datasets are dependent on Linked services, and pipelines are dependent on Linked services and Datasets. So we will create Linked services first, then Datasets, and Pipelines at last.
+In the ***Author and deploy*** blade, we will create all the components of the data factory. Note that Datasets are dependent on Linked Services, and Pipelines are dependent on Linked Services and Datasets. Therefore, we will create Linked Services first, then Datasets, and finally Pipelines.
 
 
 #### 2. Create Linked Services
-We will create three Linked services in this solution. The scripts of the Linked services are located in the folder ***Scripts\Azure Data Factory\Linked Services*** of the solution package.
+We will create three Linked Services in this solution. The scripts of the Linked Services are located in the folder ***Scripts\Azure Data Factory\Linked Services*** of the solution package.
 
-- **StorageLinkedService**: This is the Linked service for the Azure Storage Account.
+- **StorageLinkedService**: This is the Linked Service for the Azure Storage Account.
 
   -   Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services\StorageLinkedService.json***. Under **connectionString** replace the following items with your Azure Storage credentials.
     - AccountName=\<Replace with Storage Account Name noted in step 3>
     - AccountKey=\<Replace with Primary Access Key noted in step 3>
-  -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
-  -   Click ***New data store*** and select ***Azure Storage***
-  -   Overwrite the content in the editor window with the content of the modified *StorageLinkedService.json*
-  -   Click ***Deploy***
+  -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com***.
+  -   Click ***New data store*** and select ***Azure Storage***.
+  -   Overwrite the content in the editor window with the content of the modified *StorageLinkedService.json*.
+  -   Click ***Deploy***.
 
-- **HDInsightLinkedService**: This is the Linked service for the Azure HDInsight cluster running Spark.
+- **HDInsightLinkedService**: This is the Linked Service for the Azure HDInsight cluster running Spark.
 
   -   Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services\HDInsightLinkedService.json***. Replace the following items with HDInsight with Spark information you recorded in step 4.
     - clusterUri : "\<Replace With Cluster URI recorded in step 4>"
     - userName : "\<Replace with Cluster Login Username recorded in step 4>"
     - password : "\<Replace with Cluster Login Password recorded in step 4>"
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
-  -   Click ***...More*** then ***New compute*** and select ***HDInsight cluster***
-  -   Overwrite the content in the editor window with the content of the modified HDInsightLinkedService.json
-  -   Click ***Deploy***
+  -   Click ***...More*** then ***New compute*** and select ***HDInsight cluster***.
+  -   Overwrite the content in the editor window with the content of the modified *HDInsightLinkedService.json*.
+  -   Click ***Deploy***.
 
-- **AzureDataLakeLinkedService**: This is the Linked service for the Azure Data Lake Store.
+- **AzureDataLakeLinkedService**: This is the Linked Service for the Azure Data Lake Store.
 
   -   Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services\AzureDataLakeLinkedService.json***. Replace the following items with Azure Data Lake Store information you recorded in step 2.
     - dataLakeStoreUri : "https://\<Replace-with-DataLakeStore-Name-noted-in-step-2>.azuredatalakestore.net/webhdfs/v1"
-  -   sessionId and authorization will be updated automatically once you authorize this linked service 
+  -   sessionId and authorization will be updated automatically once you authorize this linked service.
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
-  -   Click ***New data store*** and select ***Azure Data Lake Store***
-  -   Overwrite the content in the editor window with the content of the modified AzureDataLakeLinkedService.json
-  -   Click on the **Authorize** which will appear on top left corner of the editor (as shown in below image)
+  -   Click ***New data store*** and select ***Azure Data Lake Store***.
+  -   Overwrite the content in the editor window with the content of the modified *AzureDataLakeLinkedService.json*.
+  -   Click on the **Authorize** which will appear on top left corner of the editor (as shown in the image below):
   ![](Figures/adls_LinkedService_authoraization.png)
   -   This will open a new window. Provide your Microsoft credentials to authorize.
-  -   Once you authorize, it will update the remaining parameters of this linked service
-  -   Click ***Deploy***
+  -   Once you authorize, it will update the remaining parameters of this linked service.
+  -   Click ***Deploy***.
 
 
 #### 3. Create Datasets
 
 We will create 10 ADF datasets pointing to Azure Storage and Azure DataLakeStore. We will use the JSON files located at ***Scripts\Azure Data Factory\Datasets***. No modification is needed on the JSON files.
 
-- On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button
+- On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
 
 For each JSON file under ***Manual Deployment Guide\Scripts\Azure Data Factory\Datasets***:
--   At the top of the left tab, click ***New dataset*** and select ***Azure Storage***
--   Copy the content of the file into the editor
--   Click ***Deploy***
+-   At the top of the left tab, click ***New dataset*** and select ***Azure Blob Storage***.
+-   Copy the content of the file into the editor.
+-   Click ***Deploy***.
 
 
 #### 4. Create Pipelines
 
-We will create 3 pipelines in total. These Pipeline's explanation is given in the start of this section.
-
-We will use the JSON files located at ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines***. At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active and are in UTC time. You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/). 
-
-We also need to update the **\<Storage-Account-Name>** in these pipelines with the name we recorded in step 3.
+We will create 3 pipelines in total using the JSON files located at ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines***. At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active (in UTC time). You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/). We also need to update the **\<Storage-Account-Name>** in these pipelines with the name we recorded in step 3.
 
 - **RetailDataSimulatorPipeline**
 
   This pipeline runs the DataSimulator Job on Spark every hour.
 
-  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\RetailDataSimulatorPipeline.json***
-  - On line **14** replace the **\<Storage-Account-Name>** with the **Storage Account Name** we created in step 3
+  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\RetailDataSimulatorPipeline.json***.
+  - On line **14** replace the **\<Storage-Account-Name>** with the **Storage Account Name** we created in step 3.
     - This is how the edited line should look like: ***"wasb://adflibs@retailsolutionhowto.blob.core.windows.net/RetailDataSimulator.py"*** where ***retailsolutionhowto*** is the sample Storage Account Name
-  - Specify an active period that you want the pipeline to run. You need to put the current date and time of one hour past. This date and time should be in UTC time. For example, if current UTC Datetime is **2016-11-22T17:08:00Z** i.e. 22nd Nov 2016 17:08, you need to put the start time one previous hour window, that is 16:00 - 17:00. Which means your pipeline start time will be **2016-11-22T16:00:00Z**. End time can be a week ahead **2016-11-29T16:00:00Z** (you can set it to few days or even few hours to save cost). Update the start and end date at the bottom of pipeline Json
+  - Specify an active period that you want the pipeline to run. You need to put the current date and time of one hour past. This date and time should be in UTC time. For example, if current UTC Datetime is **2016-11-22T17:08:00Z** i.e. 22nd Nov 2016 17:08, you need to put the start time one previous hour window, that is 16:00 - 17:00. Which means your pipeline start time will be **2016-11-22T16:00:00Z**. End time can be a week ahead **2016-11-29T16:00:00Z** (you can set it to few days or even few hours to save cost). Update the start and end date near the bottom of pipeline JSON file.
 
     ```JSON
     "start": "2016-11-22T16:00:00Z",
@@ -465,28 +461,28 @@ We also need to update the **\<Storage-Account-Name>** in these pipelines with t
     ```
     **Note**: Please limit the active period to the amount of time you need to test the pipeline to limit the cost incurred by data movement and processing.
 
-  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button
-  - At the top of the tab, click ***...More*** and then ***New pipeline***
-  - Copy the content of the modified JSON file into the editor
-  - Click ***Deploy***
+  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
+  - At the top of the tab, click ***...More*** and then ***New pipeline***.
+  - Copy the content of the modified JSON file into the editor.
+  - Click ***Deploy***.
 
 
 - **ModelRetrainPipeline**
 
-  This pipeline runs the Demand Forecasting model retrain Job on Spark every four hour.
+  This pipeline runs the Demand Forecasting model retrain Job on Spark every four hours.
 
-  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\ModelRetrainPipeline.json***
-  - On line **14** replace the **\<Storage-Account-Name>** with the **Storage Account Name** we created in step 3
-  - Set the activity perior to be half hour ahead of the RetailDataSimulatorPipeline. If RetailDataSimulatorPipeline start datetime is  **2016-11-22T16:00:00Z** then for ModelRetrainPipeline it should be half an hour ahead, i.e.  **2016-11-22T16:30:00Z**. End time should be half an hour ahead of end time of RetailDataSimulatorPipeline, i.e.  **2016-11-29T16:30:00Z**. Update the start and end date at the bottom of pipeline Json
+  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\ModelRetrainPipeline.json***.
+  - On line **14** replace the **\<Storage-Account-Name>** with the **Storage Account Name** we created in step 3.
+  - Set the activity perior to be half hour ahead of the RetailDataSimulatorPipeline. If RetailDataSimulatorPipeline start datetime is  **2016-11-22T16:00:00Z** then for ModelRetrainPipeline it should be half an hour ahead, i.e.  **2016-11-22T16:30:00Z**. End time should be half an hour ahead of end time of RetailDataSimulatorPipeline, i.e.  **2016-11-29T16:30:00Z**. Update the start and end date at the bottom of pipeline JSON.
 
     ```JSON
     "start": "2016-11-22T16:30:00Z",
     "end": "2016-11-29T16:30:00Z",
     ```
-  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button
-  - At the top of the tab, click ***...More*** and then ***New pipeline***
-  - Copy the content of the modified JSON file into the editor
-  - Click ***Deploy***
+  - On ***portal.azure.com***, navigate to your data factory and click the ***Author and Deploy*** button.
+  - At the top of the tab, click ***...More*** and then ***New pipeline***.
+  - Copy the content of the modified JSON file into the editor.
+  - Click ***Deploy***.
 
 
 - **RetailDFModel_PriceOptimizationPipeline**
@@ -495,21 +491,21 @@ We also need to update the **\<Storage-Account-Name>** in these pipelines with t
 
   - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\RetailDFModel_PriceOptimizationPipeline.json***
   - On line **84**, **123**, **159** and **195** replace the **\<Storage-Account-Name>** with the **Storage Account Name** we created in step 3
-  - The Start and End date for this pipeline should be exactly same as that of RetailDataSimulatorPipeline
+  - The Start and End date for this pipeline should be exactly same as that of RetailDataSimulatorPipeline:
 
     ```JSON
     "start": "2016-11-22T16:00:00Z",
     "end": "2016-11-29T16:00:00Z",
     ```
-  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button
-  - At the top of the tab, click ***...More*** and then ***New pipeline***
-  - Copy the content of the modified JSON file into the editor
-  - Click ***Deploy***
+  - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
+  - At the top of the tab, click ***...More*** and then ***New pipeline***.
+  - Copy the content of the modified JSON file into the editor.
+  - Click ***Deploy***.
 
 Here is how your ADF configurations should look after finishing above steps:
 ![](Figures/AzureDataFactoryConfig.png)
 
-> **Note** :Once all the pipelines are deployed, the model will generate results for the first one hour, i.e. for duration **16:00 - 17:00** in the above example. With the provided Data Simulator job configuration, the model takes around 10-15 minutes to complete first run. 
+> **Note** :Once all the pipelines are deployed, the model will generate results for the first one hour, i.e. for duration **16:00 - 17:00** in the above example. With the provided Data Simulator job configuration, the model takes around 10-15 minutes to complete the first run. 
 
 
 
@@ -524,7 +520,7 @@ The essential goal of this part is to visualize the results from the retail pric
 -	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-retail-price-optimization/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
 - After opening the **'RetailPriceOptimizationSolution.pbix'** file, you might see message saying "There are pending changes in your queries that haven't been applied.". Please **’do not Apply Changes’** since the data source has not been updated yet. 
 -	Sign in with the same Microsoft account that you have been used for deploying the previous steps by clicking **’Sign in’** on the top-left corner. Note: You must have a Microsoft Office 365 subscription for Power BI access.
--	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor. You might also see an error message saying "DataFroamt.Error: Invalid URI". Please ignore this error message for now and follow the below instructions for updating the data source. Once the data source is updated, the error will gone.
+-	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor. You might also see an error message saying "DataFormat.Error: Invalid URI". Please ignore this error message for now and follow the below instructions for updating the data source. Once the data source is updated, the error will gone.
 
 #### 2.	Update the Azure Data Lake Store account of the Power BI file
 

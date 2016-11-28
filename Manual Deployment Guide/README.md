@@ -1,4 +1,4 @@
-# Retail Price Optimization Solution in Cortana Intelligence Suite
+# Retail Demand Forecasting and Price Optimization Solution in Cortana Intelligence Suite
 
 ## Table of Contents  
 - [Abstract](#abstract)  

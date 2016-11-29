@@ -10,14 +10,11 @@
 
 ## Abstract
 
-Pricing has been growing as an overwhelming task for lots of retailers nowadays due to the expanding assortments. One of the greatest advantage of the data explosion era is that: huge amount of historical transactional data, which contains rich information about price elasticity of all different kinds of products and various potential drivers for demand change, are available to be utilized for a better and more efficient pricing strategy. 
+Pricing has grown to become an overwhelming task for many retailers due to ever-expanding product assortments. One of the greatest advantages of the information explosion era is that vast troves of historical transaction data, containing rich information about price elasticity and various potential drivers for demand, are available to be utilized for a better and more efficient pricing strategy. This opportunity comes with several challenges: How can the insights in this large volume of data be identified and leveraged? What analytical approach should be taken to optimize the price? How can the pricing task be operationalized for scheduled performance? And how can the solution be validated properly? 
 
-However, challenges always come with opportunities: How could the insights in the large volume of data be leveraged to daily pricing task? What analytical approach should be taken to optimize the price? How to operationalize the analytical solution in a regular time based schedule? And how could the solution be validated properly? 
+The solution provided here addresses the challenges raised above by utilizing historical transaction data to train a demand forecasting model that predicts the impact of store, department, brand, and product attributes, including the pricing of products in a competing group, on demand and sales rates. A price optimization algorithm can then employ the model to forecast demand at various candidate price points, choosing the combination which maximizes profit. The whole process described above is operationalized and deployed in the Cortana Intelligence Suite.
 
-This solution provided here gives a potential way to address the questions raised above. In this solution, historical transactional data are utilized for building the demand forecasting model, which lend insights to patterns such as: How will changes of prices on one particular product impact the 
-sales of itself as well as the sales of other products in the same competing group? How will other potential attributes such as brand, department and store attributes impact the price elasticity properties of a particular product as well as the sales? After learning the patterns, future demands for a set of potential price choices are predicted. And the optimization algorithm, which aimed to maximize total profit, will takes the predictions as inputs, and solves multiple mixed integer programming problems to find the optimal prices. The whole process described above are operationalized in Cortana Intelligence Suite. 
-
-The resulted solution will enable retailers to get recommended optimal prices at a regular-time bases, achieve better profitability, and save the routine human and time resources allocated on pricing tasks.
+This solution will enable retailers to ingest their own data  and obtain optimal pricing recommendations on a regular basis, improve profitability, and reduce the time and effort of pricing tasks.
 
 ## Requirements
 

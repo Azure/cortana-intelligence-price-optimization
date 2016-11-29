@@ -245,9 +245,10 @@ Now that the storage account has been created we need to collect some informatio
 Data Simulator Job (RetailDataSimulator.py) is a python application which generates the simulated retail sales data and writes it to Blob Storage. This job is run/scheduled in the pipeline *RetailDataSimulatorPipeline*. Pipeline explanation and steps to create them are covered in step 8. 
   - Go to the folder **"Manual Deployment Guide\Scripts\Data Simulator Job"** inside the downloaded GIT repo
   - Open the file **RetailDataSimulator.py** in text editor
-  - Provide following parameters on line **36** and **37** which we have recorded in table under Step 3:
+  - Provide following parameters on line **51** and **52** which we have recorded in table under step 3:
     - storage_account_name = "\<Storage-Account-Name>"
     - storage_account_key = "\<Storage-Account-Primary-Access-Key>"
+  - On line number **29**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
   - Save the file and close it
 
 

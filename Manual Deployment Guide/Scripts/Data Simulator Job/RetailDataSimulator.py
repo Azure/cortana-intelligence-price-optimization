@@ -1,6 +1,16 @@
+#####################Notes
+## need to change
+## adl_name
+## storage_account_name
+## storage_account_key
+
+# coding: utf-8
+
+# In[91]:
+
 ''' Add Web App site-packages to path so we can import them '''
 import sys, os
-sys.path.append('D:\\home\\site\\wwwroot\\env\\Lib\\site-packages')
+#sys.path.append('D:\\home\\site\\wwwroot\\env\\Lib\\site-packages')
 
 import pandas as pd
 from azure.storage.blob import BlockBlobService
@@ -15,11 +25,16 @@ from pyspark import SparkContext
 #from Store import Store
 #from Inventory import Inventory
 sc = SparkContext()
-
-
-
-
-
+## adl Name
+adl_name="<Azuredatalakestore-Name>"
+## adl link
+adl_loc="adl://"+adl_name+".azuredatalakestore.net/"
+## recommended prices path
+price_change_d_loc=adl_loc+"medium_results/suggested_prices"
+## function for convert format in recommended prices
+def format_converting(p):
+    ProductID,StoreID,DateTime,Price=p
+    return([str(ProductID),int(str(StoreID)),str(DateTime),float(str(Price))])
 
 class AttributeDescription:
     def __init__(self):
@@ -36,19 +51,7 @@ class AttributeDescription:
         storage_account_name = "<Storage-Account-Name>"
         storage_account_key = "<Storage-Account-Primary-Access-Key>"
         
-        kwargs =  {"n_stores":number_of_stores, \
-           "n_brands":number_of_brands, \
-           "n_departments":number_of_departments, \
-           "start_date":"2016-10-02 00:00:00", \
-           "n_weeks":number_of_weeks, \
-           "blob_account_name":storage_account_name, \
-           "blob_account_key":storage_account_key, \
-           "blob_raw_data_container":"rawdata", \
-           "blob_public_parameters_container":"publicparameters", \
-           "shipment_frequency":'1 days', \
-           "shipment_size":300, \
-           "shelf_life":'2 days', \
-           "blob_private_parameters_container":"privateparameters"
+        kwargs =  {"n_stores":number_of_stores,            "n_brands":number_of_brands,            "n_departments":number_of_departments,            "start_date":"2016-10-02 00:00:00",            "n_weeks":number_of_weeks,            "blob_account_name":storage_account_name,            "blob_account_key":storage_account_key,            "blob_raw_data_container":"rawdata",            "blob_public_parameters_container":"publicparameters",            "shipment_frequency":'1 days',            "shipment_size":300,            "shelf_life":'2 days',            "blob_private_parameters_container":"privateparameters"
            }
        
         self.hierarchy = {}
@@ -266,11 +269,13 @@ class AttributeDescription:
         try:
             # Try loading the suggested price changes and merging with the product features.
             # This will fail during the initial round because there will be no suggested prices yet.
-            price_change_string = self.block_blob_service.get_blob_to_text(self.hierarchy['BlobPublicParametersContainer'],
-                                                                           'suggested_prices.csv')
-            price_change_string = price_change_string.content
-            price_change_df = pd.read_csv(StringIO(price_change_string), header=None,
-                                          names=['ProductID', 'StoreID', 'DateTime', 'Price'])
+            #price_change_string = self.block_blob_service.get_blob_to_text(self.hierarchy['BlobPublicParametersContainer'],
+            #                                                               'suggested_prices.csv')
+            #price_change_string = price_change_string.content
+            #price_change_df = pd.read_csv(StringIO(price_change_string), header=None,
+            #                              names=['ProductID', 'StoreID', 'DateTime', 'Price'])
+            price_change_df = sc.textFile(price_change_d_loc).map(lambda p: format_converting(p.split(','))).collect()
+            price_change_df=pd.DataFrame(price_change_df, columns=['ProductID', 'StoreID', 'DateTime', 'Price'])
             price_change_df['DateTime'] = pd.to_datetime(price_change_df['DateTime'])
             if price_change_df.DateTime.min() != price_change_df.DateTime.max():
                 raise Exception('Could not load suggested_prices.csv because prices are suggested ' +
@@ -626,28 +631,7 @@ class Store:
                                                                   sales_blob_name,
                                                                   sales_blob_string)
         self.todays_sales = []
-        return
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-    
-    
-    
-    
-    
-    
+        return    
 ''' Local classes for this simulation '''
 
 if __name__ == '__main__':
@@ -662,6 +646,4 @@ if __name__ == '__main__':
     for store_id in store_ids:
         my_store = Store(description, store_id)
         my_store.run()
-
-    
 

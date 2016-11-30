@@ -204,9 +204,8 @@ Now that the storage account has been created we need to collect some informatio
          - Click on the first step, **Select file permissions**, in the new opened blade
             - Click on the edit icon circled in the below image and the click on 
             ![](Figures/selectADL_S.png)
-            - On clicking the Edit icon, you will see the Edit icon changing to an arrow icon. Click on the typing area on left of the arrow. Begin typing the name of the Azure Data Lake Store you created earlier (***retailtemplate[UI][N]***), and the result should appear in a drop-down list of available Data Lake Stores under your subscription, as shown in the image below.
+            - On clicking the Edit icon, you will see an arrow. Click on the typing area on left of the arrow. Once you click that, you should see a list of available Data Lake Store under your subscription as shown in below image.
             ![](Figures/selectADL_S_2.png)
-            - If you do not see the ADL Store in the drop-down list, enter ***"adl://\<AzureDataLakeStore-name>.azuredatalakestore.net/"*** (with the Azure Data Lake Store name we created in step 2) and press Enter.
             - Click the check-box to the left of the Data Lake Store we created in Step 2, and then click **Select**.
          - Click on the second step, **Assign selected permissions**. Click **Run** on the new opened blade and Click **Done** once run completes
         - Click on **Done** 
@@ -218,7 +217,7 @@ Now that the storage account has been created we need to collect some informatio
   - Head Node Size : D12 V2 (2 nodes, 8 cores) - Default
   - Click ***Select*** on the left bottom
   
-  **Note** : We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Custer can be scaled up when the data size is huge.
+  **Note** : HDInsight clusters billing is pro-rated per minute, whether you are using them or not. Please be sure to delete your cluster after you have finished using it. For information on deleting a cluster, see [How to delete an HDInsight cluster](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-delete-cluster). We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Custers can be scaled with the growing data size. 
 
 - Set the resource group to **retailtemplate\_resourcegroup** (which we created earlier) by selecting the radio button ***Use existing***
 
@@ -645,9 +644,6 @@ This new ADF has all the Datasets and Pipeline which are configured to run every
 
 - All the files for Datasets are under the path **Manual Deployment Guide\Scripts\ScaleUp Solution-Azure Data Factory\Pipelines_ScaleUp**
 - Follow the instruction mentioned in step 8, section 4: **Create Pipelines** and use the files under path mentioned in above step
-
-
-## Solution Resource Cost
 
 ## Deleting the Solution
 If you want to delete the solution, select the resource group **retailtemplate\_resourcegroup**, click on **Delete** on top of the new opened blade. Confirm the resource group name and click **Delete** on the bottom on this blade.

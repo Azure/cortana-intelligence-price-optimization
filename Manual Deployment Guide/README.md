@@ -10,11 +10,7 @@
 
 ## Abstract
 
-Pricing has grown to become an overwhelming task for many retailers due to ever-expanding product assortments. One of the greatest advantages of the information explosion era is that vast troves of historical transaction data, containing rich information about price elasticity and various potential drivers for demand, are available to be utilized for a better and more efficient pricing strategy. This opportunity comes with several challenges: How can the insights in this large volume of data be identified and leveraged? What analytical approach should be taken to optimize the price? How can the pricing task be operationalized for scheduled performance? And how can the solution be validated properly? 
-
-The solution provided here addresses the challenges raised above by utilizing historical transaction data to train a demand forecasting model that predicts the impact of store, department, brand, and product attributes, including the pricing of products in a competing group, on demand and sales rates. A price optimization algorithm can then employ the model to forecast demand at various candidate price points, choosing the combination which maximizes profit. The whole process described above is operationalized and deployed in the Cortana Intelligence Suite.
-
-This solution will enable retailers to ingest their own data  and obtain optimal pricing recommendations on a regular basis, improve profitability, and reduce the time and effort of pricing tasks.
+The **Manual Deployment Guide** here explains how to biuld the **Retail Demand Forecasting and Price Optimization Solution in Cortana Intelligence Suite** step by step. Going through this manual deployment process will help implementers gain an inside view on how the solution is built and functions of each component.
 
 ## Requirements
 
@@ -535,7 +531,7 @@ The essential goal of this part is to visualize the results from the retail pric
 
 ![](Figures/PowerBIInstructions3.png)
 
--	If the connection is successful, you can see the data appears similar as the following snapshot.
+-	If the connection is successful, you can see the data appears similar as the following snapshot. If you see an error message saying "Expression.Error: The key didn't match any rows in the table", please click on the **’Refresh Preview’** on the top to refresh the preview of the data. 
 
 ![](Figures/PowerBIInstructions4.png)
 

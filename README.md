@@ -22,7 +22,7 @@ The following chart demonstrates the general process of the analytical approach 
 The following driving factors for demand are considered in our demand forecasting model: 
 
 1. Price-related features such as:
-   - the actual sales price
+   - the actual sales price and cost
    - the discount of the price compared to MSRP (manufacturer’s suggested retail price), and
    - the relative price, the ratio between a product's price and the average price of all products in the same competing group.
 2. Product attributes such as the brand desirability and department information.

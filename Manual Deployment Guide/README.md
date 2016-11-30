@@ -6,7 +6,7 @@
 - [Architecture](#architecture)
 - [Setup Steps](#setup-steps)
 - [Scale-Up the Solution](#optional-scale-up-the-solution)
-
+- [Validation and Results](#validation-and-results)
 
 ## Abstract
 
@@ -637,6 +637,48 @@ This new ADF has all the Datasets and Pipeline which are configured to run every
 
 - All the files for Datasets are under the path **Manual Deployment Guide\Scripts\ScaleUp Solution-Azure Data Factory\Pipelines_ScaleUp**
 - Follow the instruction mentioned in step 8, section 4: **Create Pipelines** and use the files under path mentioned in above step
+
+## Validation and Results
+This part explains the result datasets in more details, and also provides the instructions on how to access those datasets for post analysis.
+
+### Result Datasets Overview
+There are mainly two final result datasets: **Aggregated Sales Data** and **Optimization Result Data**. Each record of **Aggregated Sales Data** contain weekly sales, product features and store features for one product sold at one store in a specific week. Each record of **Optimization Result Data** contain predicted weekly sales on this record's features, recommended optimal price, product features and store features for one product sold at one store in a specific week. **Aggregated Sales Data** only contain historical data, whereas **Optimization Result Data** contain historical recommendations as well as the future price recommendation for the coming week. **Aggregated Sales Data** contain records for all stores, whereas **Optimization Result Data** only contain records for stores in treatment group, because only stores in treatment group accepts/needs the recommended price from optimization algorithm.
+
+For both **Aggregated Sales Data** and **Optimization Result Data**, the solution produces two datasets with two different data formats which contains the exact same data. One format is [**Parquet file**](<http://parquet.apache.org/>), which a columnar storage format in the Hadoop ecosystem. The other format is **Text file**, created by `RDD.saveAsTextFile()` in Spark. The **Parquet file** versions are read and written in all the computations within Spark ecosystem, whereas the **Text file** are produced for Power BI dashboard inputs. The **Parquet file** versions can be access by sql query, using `%%sql` magic in **Jupyter Notebook** pre-installed on HDinsight Spark Cluster, whereas **Text file** can be downloaded from **Azure Data Lake Store** and open as .csv file in **Microsoft Excel**. Implmenters can choose from the above two formats for both result datasets based on their prefered access way.
+
+All the result datasets are stored on Azure Data Lake Store, to access them, please:
+  - Navigate to ***portal.azure.com*** and log in to your account
+  - On the left tab click Resource Groups
+  - Click on the resource group we created earlier ***retailtemplate\_resourcegroup***
+  - Click on DataLakeStore we created in step 2
+  - Under the section *Data Lake Store* select **Data Explorer**
+  - You will see a list of folders on the new opened blade
+
+### How to Access Parquet Files
+The **Parquet file** versions for **Aggregated Sales Data** and **Optimization Result Data** are respectively in folder **aggregated_sales_data** and **opt_results_data**. They are both partitioned by week and the name for each partition indicates the start date of the corresponding week.
+To access them in **Jupyter Notebook** on HDinsight Spark Cluster, please:
+  - Navigate to ***portal.azure.com*** and log in to your account.
+  - On the left tab click Resource Groups.
+  - Click on the resource group we created earlier ***retailtemplate\_resourcegroup***.
+  - Click on the HDInsight Spark Cluster we created in step 4.
+  - Click **Cluster Dashboards** under **Quick Links** session, and click on **Jupyter Notebook** on the popped-out blade.
+  - On the popped-out window, enter Cluster Login Username and Cluster Login Password recorded in step 4. After authentication, you will see the **jupyter notebook** for the HDInsight Spark cluster launched.
+  - Click on **Upload** on the top right. Browse to the *Manual Deployment Guide\Scripts\Validation Results PySpark Code* folder inside the downloaded GIT repo, and select **Sql_Query_on_Parquet_Files_Example.ipynb**. Then, click **upload** to upload the script.
+  - Click on **Sql_Query_on_Parquet_Files_Example.ipynb** to open the example notebook, which contains a toy example of how to run sql query against the Parquet file versions of the two result datasets.
+  - Replace the adl_name <Azuredatalakestore-Name> on the line 1 of the first cell with the one we created in step 2.
+  - Click on the first cell, and Click **Cell** on the top and select **Run Cells**. The codes in the first cell will ingest the two Parquet files and register them as temporary tables.
+  - Then use the same way to run the second and third cell. Any cells using [`%%sql` magic](<https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-jupyter-notebook-kernels#parameters-supported-with-the-sql-magic>) are able to run the **SQL queries** on the registerd temporary tables. You can write your own customized queries for post analysis. The sample SQL queries select the first 10 records in the **Aggregated Sales Data** and **Optimization Result Data**, and you can also see various visualization of the query result by choosing a different **Type** other than **Table**.
+
+### How to Access Text Files
+The **Text file** versions for **Aggregated Sales Data** and **Optimization Result Data** are respectively **aggregated_sales_data.csv** and **opt_data.csv** 
+under *powerbi_data\csv_data* folder.
+
+To access them:
+
+ - Click on **aggregated_sales_data.csv** and click on **part-00000** on the popped-out blade.
+ - Click on **Download** on the top to download the file. Find the downloaded file and renamed it **aggregated_sales_data.csv**, and you can now open the result datasets on Excel.  
+ - Repeat the steps above on **opt_data.csv** and you can conduct post analysis on the result csv datasets with your preferred analyzing tools such as R and Python.
+
 
 ## Deleting the Solution
 If you want to delete the solution, select the resource group **retailtemplate\_resourcegroup**, click on **Delete** on top of the new opened blade. Confirm the resource group name and click **Delete** on the bottom on this blade.

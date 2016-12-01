@@ -1,12 +1,10 @@
 # Retail Demand Forecasting and Price Optimization Solution in Cortana Intelligence Suite
 
-While pricing is recognized as a key leverage in retail industry, it is also one of the most challenging merchandising tasks. Retailers face various difficulties to achieve margin improvement using pricing strategies, including accurate forecast on financial impact of potential pricing tactics, reasonable consideration of core business constraints and fair validation of the executed pricing decisions. Indeed, expanding assortments could make it additionally overwhelming with further computational efficiency requirements to make in-time pricing decisions.
-
+While pricing is recognized as a pivotal determinant of success in the retail industry, it is also one of the most challenging merchandising tasks. Retailers face many challenges when cchoosing pricing strategies to maximize profit, including accurately forecasting financial impact of potential pricing tactics, taking reasonable consideration of core business constraints, and fairly validating the executed pricing decisions. Expanding product offerings add further computational requirements to make in-time pricing decisions, compounding the difficulty of this already overwhelming task.
 
 The solution provided here addresses the challenges raised above by utilizing historical transaction data to train a demand forecasting model that predicts the impact of store, department, brand, and product attributes on demand and sales rates. Pricing of products in a competing group is also incorporated to predict cross product impact such as cannibalization. A price optimization algorithm can then employ the model to forecast demand at various candidate price points while considering business constraints such as feasible price ranges, and choose the combination which maximizes profit. An experiment on store level is designed to evaluate algorithm performance, compared to the alternate pricing strategy. The whole process described above is operationalized and deployed in the Cortana Intelligence Suite.
 
-
-This solution will enable retailers to ingest historical transaction data, predict future demand and obtain optimal pricing recommendations on a regular basis, consequently improve profitability and reduce the time and effort of pricing tasks.
+This solution will enable retailers to ingest historical transaction data , predict future demand, and obtain optimal pricing recommendations on a regular basis, consequently improving profitability and reducing the time and effort required for pricing tasks.
 
 ## Analytical Approach
 In this session, we provide more details about the analytical approach taken in the solution. The price optimization approach and algorithm used in this solution follows the method described by [Ferreira et al. (2015)](#refs).

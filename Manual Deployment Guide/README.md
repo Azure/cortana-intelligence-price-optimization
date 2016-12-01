@@ -10,7 +10,7 @@
 
 ## Abstract
 
-The **Manual Deployment Guide** here explains how to biuld the **Retail Demand Forecasting and Price Optimization Solution in Cortana Intelligence Suite** step by step. Going through this manual deployment process will help implementers gain an inside view on how the solution is built and functions of each component.
+This **Manual Deployment Guide** explains how to build the **Retail Demand Forecasting and Price Optimization Solution in Cortana Intelligence Suite** step by step. Going through this manual deployment process will help implementers gain an inside view of how the solution is built and the function of each component.
 
 ## Requirements
 

@@ -7,11 +7,11 @@ The solution provided here addresses the challenges raised above by utilizing hi
 This solution will enable retailers to ingest historical transaction data , predict future demand, and obtain optimal pricing recommendations on a regular basis, consequently improving profitability and reducing the time and effort required for pricing tasks.
 
 ## Analytical Approach
-In this session, we provide more details about the analytical approach taken in the solution. The price optimization approach and algorithm used in this solution follows the method described by [Ferreira et al. (2015)](#refs).
+In this section, we provide more details about the analytical approach taken in the solution. The price optimization approach and algorithm used in this solution follows the method described by [Ferreira et al. (2015)](#refs).
 
 ### Approach Overview
 
-The following chart demonstrates the general process of the analytical approach taken in this solution. Raw data is cleaned and aggregated after ingested into the data pipelines. Demand forecasting models are trained and retrained on a regular time basis on the processed datasets. The price optimization algorithm will use the demand forecast model to predict future demand on candidate price points within feasible ranges, and solve optimization problems (specifically mixed integer programming problems) to obtain the optimal prices.
+The following chart provides a high-level illustration of the analytical approach taken in this solution. Raw data is cleaned and aggregated after ingestion into the pipeline. Demand forecasting models are trained and retrained regularly on the processed datasets. The price optimization algorithm will use the demand forecasting model to predict future demand at candidate price points within feasible ranges, and solve optimization problems (specifically mixed integer programming problems) to obtain the optimal prices.
 
 ![](Manual Deployment Guide/Figures/AnalyticalApproachProcess.png)
 
@@ -31,11 +31,11 @@ A demand forecasting model is built on the features mentioned above. The model's
 ### Price Optimization
 A competing group contains similar products that are competing against each other on the market, thus price changes on one product will affect the sales of the other products in the same competing group. (Price changes for products from different competing groups are assumed to have no impact on one another's sales.) In this solution, prices are optimized by competing group: a single optimization problem is solved to determine optimal prices for all products in each competing group (cf. [Ferreira et al.](#refs) for additional details). 
 
-While different retailers could vary a lot on how to define the competing group, this solution takes the definition of competing groups as sets of products sold in the same department and at the same store. As a result, different stores could price the same product differently in the solution, which corresponds to the reality that retailers could have different pricing or promotional strategies for different stores with various store attributes such as average traffic, store location, and store tier. 
+While different retailers could vary a lot on how to define the competing group, this solution takes the definition of competing groups as sets of products sold in the same department and at the same store. As a result, different stores could price the same product differently in the solution, which corresponds to the reality that retailers could have different pricing or promotional strategies for different stores depending on various store attributes such as average traffic, store location, and store tier. 
 
-Speaking to constrains in the price optimization problems, the major ones here are to set limitations on feasible price ranges for individual products. Different products from different department and stores could vary dramatically on reltated business constraints due to differentiated pricing strategies. Since this is also retailer-sepecific, this solution generally defines the feasible range as between product cost and MSRP. Retailers can tailor the constrains in the solution to their own business rules in real operationalization.
+During price optimization, each product's price is constrained to a feasable range bounded by the wholesale cost and manufacturer's suggested retail price (MSRP). Retailers may elect to tailor these constraints to their own business rules to reflect the differentiated pricing strategies they prefer for specific brands, departments, or stores.
 
-The optimization approahch is evaluated through an experiment on store level. Stores are balancely divided into treatment group and control group. Stores in treatment group accepts the recommended prices from optimization algorithm, whereas stores in control group use the alternate price strategy, which is a randomized price strategy in the demo scenario. The comparison of profit between the two groups will lead to the profit gain of the optimization approach.
+A experiment is employed to evaluate the effect of price optimization strategy on profit. Stores are paired based on similarity and then divided into "treatment" and "control" groups. Stores in the treatment group accept the prices recommended by the optimization algorithm, whereas stores in the control group use the retailer's previous pricing strategy (which, in this demo scenario, is a randomized pricing strategy). The profit gain of the optimization approach can be estimated from the difference in profit between the treatment and control groups.
 
 Different retailers may also follow different pricing change schedules, but as a starting example, this solution implements weekly price optimization.
 

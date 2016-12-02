@@ -62,7 +62,7 @@ retailtemplate\[UI\]\[N\]
 Where \[UI\] is the users initials and N is a random integer that you choose. Characters must be entered in in lowercase. Several services, such as Azure Storage, require a unique name for the storage account across a region and hence this format should provide the user with a unique identifier.
 So for example, Steven X. Smith might use a base service name of *retailtemplatesxs01*  
 
-**NOTE:** We create most resources in the South Central US region. The resource availability in different regions depends on your subscription. When deploying you own resources, make sure all data storage and compute resources are created in the same region to avoid inter-region data movement. Azure Resource Group and Azure Data Factory don’t have to be in the same region as the other resources. Azure Resource Group is a virtual group that groups all the resources in one solution. Azure Data Factory is a cloud-based data integration service that automates the movement and transformation of data. Data factory orchestrates the activities of the other services. Use same subscription to deploy all the mentioned resources.
+> **NOTE:** We create most resources in the South Central US region. The resource availability in different regions depends on your subscription. When deploying you own resources, make sure all data storage and compute resources are created in the same region to avoid inter-region data movement. Azure Resource Group and Azure Data Factory don’t have to be in the same region as the other resources. Azure Resource Group is a virtual group that groups all the resources in one solution. Azure Data Factory is a cloud-based data integration service that automates the movement and transformation of data. Data factory orchestrates the activities of the other services. Use same subscription to deploy all the mentioned resources.
 
 
 
@@ -199,7 +199,8 @@ Now that the storage account has been created we need to collect some informatio
             ![](Figures/selectADL_S.png)
             - On clicking the Edit icon, you will see an arrow. Click on the typing area on left of the arrow. Once you click that, you should see a list of available Data Lake Store under your subscription as shown in below image.
             ![](Figures/selectADL_S_2.png)
-            **Note** : If you don't see the Azure DataLakeStore list following the above steps(mostly if you use Chrome), start typing the name of your DataLakeStore in the typing space next to edit icon. This will display the DataLakeStore. 
+            > **Note** : If you don't see the Azure DataLakeStore list following the above steps(mostly if you use Chrome), start typing the name of your DataLakeStore in the typing space next to edit icon. This will display the DataLakeStore.
+            
             - Hover cursor over the DataLakeStore name, a small check-box will appear on the left of DataLakeStore name. Click the check-box to the left of the Data Lake Store we created in Step 2, and then click **Select**.
          - Click on the second step, **Assign selected permissions**. Click **Run** on the new opened blade and Click **Done** once run completes
         - Click on **Done** 
@@ -209,10 +210,10 @@ Now that the storage account has been created we need to collect some informatio
   - Number of Worker nodes : 2 
   - Worker Node Size : Select **D12 V2 Optimized**
   - Head Node Size : D12 V2 (2 nodes, 8 cores) - Default
-   **Note** : When you do not have enough available HDInsight cores under your subscription and in the storage account location/region, you may see the box to enter number of worker node as red. In this situation, either try to select a node with minimum configuration and reduce the worker node count to 1 or ask you account admin to add more HDInsight core under the same storage account location/region. 
+  >  **Note** : When you do not have enough available HDInsight cores under your subscription and in the storage account location/region, you may see the box to enter number of worker node as red. In this situation, either try to select a node with minimum configuration and reduce the worker node count to 1 or ask you account admin to add more HDInsight core under the same storage account location/region. 
   - Click ***Select*** on the left bottom
   
-  **Note** : HDInsight clusters billing is pro-rated per minute, whether you are using them or not. Please be sure to delete your cluster after you have finished using it. For information on deleting a cluster, see [How to delete an HDInsight cluster](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-delete-cluster). We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Cluster can be scaled with the growing data size. 
+  > **Note** : HDInsight clusters billing is pro-rated per minute, whether you are using them or not. Please be sure to delete your cluster after you have finished using it. For information on deleting a cluster, see [How to delete an HDInsight cluster](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-delete-cluster). We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Cluster can be scaled with the growing data size. 
 
 - Set the resource group to **retailtemplate\_resourcegroup** (which we created earlier) by selecting the radio button ***Use existing***
 

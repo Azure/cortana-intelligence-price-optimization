@@ -15,10 +15,11 @@ mv /tmp/lp_solve_driver/* /usr/bin/anaconda/lib/python2.7/site-packages/
 mv /tmp/lp_solve_lib/* /usr/bin/anaconda/lib/
 
 
+# HDI comes with pandas 19 now
 # Upgrade the pandas package to the latest one.
-echo "Upgrade the pandas package"
-sudo /usr/bin/anaconda/bin/pip install pandas==0.18 --upgrade
-echo "installed successfully"
+# echo "Upgrade the pandas package"
+# sudo /usr/bin/anaconda/bin/pip install pandas==0.18 --upgrade
+# echo "installed successfully"
 
 
 

@@ -304,7 +304,7 @@ This Spark job prepares the result to be displayed in PowerBI for every run of t
 
 	1.	Right click on ***Blob Containers*** and choose ***Create Blob Container***
 	2.	Enter the container's name as *adflibs*
-	3.  	Repeat steps (i) and (ii) to create another container with name *actionscript*
+	3.  Repeat steps (i) and (ii) to create another container with name *actionscript*
 
 -	Right click the *adflibs* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***

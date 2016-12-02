@@ -199,7 +199,8 @@ Now that the storage account has been created we need to collect some informatio
             ![](Figures/selectADL_S.png)
             - On clicking the Edit icon, you will see an arrow. Click on the typing area on left of the arrow. Once you click that, you should see a list of available Data Lake Store under your subscription as shown in below image.
             ![](Figures/selectADL_S_2.png)
-            - Click the check-box to the left of the Data Lake Store we created in Step 2, and then click **Select**.
+            **Note** : If you don't see the Azure DataLakeStore list following the above steps(mostly if you use Chrome), start typing the name of your DataLakeStore in the typing space next to edit icon. This will display the DataLakeStore. 
+            - Hover cursor over the DataLakeStore name, a small check-box will appear on the left of DataLakeStore name. Click the check-box to the left of the Data Lake Store we created in Step 2, and then click **Select**.
          - Click on the second step, **Assign selected permissions**. Click **Run** on the new opened blade and Click **Done** once run completes
         - Click on **Done** 
     - Click ***Select*** on the left bottom
@@ -208,9 +209,10 @@ Now that the storage account has been created we need to collect some informatio
   - Number of Worker nodes : 2 
   - Worker Node Size : Select **D12 V2 Optimized**
   - Head Node Size : D12 V2 (2 nodes, 8 cores) - Default
+   **Note** : When you do not have enough available HDInsight cores under your subscription and in the storage account location/region, you may see the box to enter number of worker node as red. In this situation, either try to select a node with minimum configuration and reduce the worker node count to 1 or ask you account admin to add more HDInsight core under the same storage account location/region. 
   - Click ***Select*** on the left bottom
   
-  **Note** : HDInsight clusters billing is pro-rated per minute, whether you are using them or not. Please be sure to delete your cluster after you have finished using it. For information on deleting a cluster, see [How to delete an HDInsight cluster](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-delete-cluster). We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Custers can be scaled with the growing data size. 
+  **Note** : HDInsight clusters billing is pro-rated per minute, whether you are using them or not. Please be sure to delete your cluster after you have finished using it. For information on deleting a cluster, see [How to delete an HDInsight cluster](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-delete-cluster). We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Cluster can be scaled with the growing data size. 
 
 - Set the resource group to **retailtemplate\_resourcegroup** (which we created earlier) by selecting the radio button ***Use existing***
 
@@ -218,8 +220,8 @@ Now that the storage account has been created we need to collect some informatio
 
 - While the cluster is being deployed, you can collect following information :
   - Navigate to the Spark Cluster under **retailtemplate\_resourcegroup** 
-  - Under **Overview** copy the **URL** and update it in the table below
-  - Click on **Secure Shell (SSH)** and copy the **Host Name** and update in the below table
+  - Under **Overview** copy/read the **URL** and update/type it in the table below
+  - Click on **Secure Shell (SSH)** and copy/read the **Host Name** and update/type in the below table
 
 | **Spark on HDInsight** |                     |
 |------------------------|---------------------|
@@ -260,7 +262,7 @@ Package Installer script (packageInstaller.sh) is used to install required pytho
 There are five different spark jobs, each performs a different task. All the Spark jobs are written in PySpark.
 
 ##### 1. Spark Job Sales_Data_Aggregation
-This Spark job turns unstructured transactional raw data in Json format to structured csv format, and also aggregates individual transactions to weekly sales data at store level for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*.
+This Spark job turns unstructured transactional raw data in Json format to structured csv format, and aggregates individual transactions to weekly sales data at store level for every run of the pipeline *RetailDFModel_PriceOptimizationPipeline*.
 - Go to the folder **"Manual Deployment Guide\Scripts\PySpark Job"** inside the downloaded GIT repo
 - Open the file **Sales_Data_Aggregation.py** in text editor
 - On line number **54**, replace the adl_name **\<Azuredatalakestore-Name>** with the one we created in step 2
@@ -466,7 +468,7 @@ We will create 3 pipelines in total using the JSON files located at ***Manual De
 
   - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\ModelRetrainPipeline.json***.
   - On line **14** replace the **\<Storage-Account-Name>** with the **Storage Account Name** we created in step 3.
-  - Set the activity perior to be half hour ahead of the RetailDataSimulatorPipeline. If RetailDataSimulatorPipeline start datetime is  **2016-11-22T16:00:00Z** then for ModelRetrainPipeline it should be half an hour ahead, i.e.  **2016-11-22T16:30:00Z**. End time should be half an hour ahead of end time of RetailDataSimulatorPipeline, i.e.  **2016-11-29T16:30:00Z**. Update the start and end date at the bottom of pipeline JSON.
+  - Set the activity period to be half hour ahead of the RetailDataSimulatorPipeline. If RetailDataSimulatorPipeline start datetime is  **2016-11-22T16:00:00Z** then for ModelRetrainPipeline it should be half an hour ahead, i.e.  **2016-11-22T16:30:00Z**. End time should be half an hour ahead of end time of RetailDataSimulatorPipeline, i.e.  **2016-11-29T16:30:00Z**. Update the start and end date at the bottom of pipeline JSON.
 
     ```JSON
     "start": "2016-11-22T16:30:00Z",
@@ -498,7 +500,7 @@ We will create 3 pipelines in total using the JSON files located at ***Manual De
 Here is how your ADF configurations should look after finishing above steps:
 ![](Figures/AzureDataFactoryConfig.png)
 
-> **Note** :Once all the pipelines are deployed, the model will generate results for the first one hour, i.e. for duration **16:00 - 17:00** in the above example. With the provided Data Simulator job configuration, the model takes around 10-15 minutes to complete the first run. 
+> **Note** : Once all the pipelines are deployed, the model will generate results for the first one hour, i.e. for duration **16:00 - 17:00** in the above example. With the provided Data Simulator job configuration, the model takes around 10-15 minutes to complete the first run. 
 
 
 
@@ -513,7 +515,7 @@ The essential goal of this part is to visualize the results from the retail pric
 -	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-retail-price-optimization/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
 - After opening the **'RetailPriceOptimizationSolution.pbix'** file, you might see message saying "There are pending changes in your queries that haven't been applied.". Please **’do not Apply Changes’** since the data source has not been updated yet. 
 -	Sign in with the same Microsoft account that you have been used for deploying the previous steps by clicking **’Sign in’** on the top-left corner. Note: You must have a Microsoft Office 365 subscription for Power BI access.
--	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor. You might also see an error message saying "DataFormat.Error: Invalid URI". Please ignore this error message for now and follow the below instructions for updating the data source. Once the data source is updated, the error will gone.
+-	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor. You might also see an error message saying "DataFormat. Error: Invalid URI". Please ignore this error message for now and follow the below instructions for updating the data source. Once the data source is updated, the error will gone.
 
 #### 2.	Update the Azure Data Lake Store account of the Power BI file
 
@@ -531,7 +533,7 @@ The essential goal of this part is to visualize the results from the retail pric
 
 ![](Figures/PowerBIInstructions3.png)
 
--	If the connection is successful, you can see the data appears similar as the following snapshot. If you see an error message saying "Expression.Error: The key didn't match any rows in the table", please click on the **’Refresh Preview’** on the top to refresh the preview of the data. 
+-	If the connection is successful, you can see the data appears similar as the following snapshot. If you see an error message saying "Expression. Error: The key didn't match any rows in the table", please click on the **’Refresh Preview’** on the top to refresh the preview of the data. 
 
 ![](Figures/PowerBIInstructions4.png)
 
@@ -562,7 +564,7 @@ Note that this step needs a Power BI account (or Office 365 account).
 ![](Figures/PowerBIInstructions9.png)
 
 -	Click on the **’Scheduled Refresh’** session, set the **’Keep your data up to date’** to **’yes’**. **’Refresh frequency’** to **’Daily’**. Click on **’Apply’**. Then this dataset will be refreshed daily as scheduled.
--	On the navigation pane, go to the **’Reports’** section, click on **’ RetailPriceOptimizationSolution’**. Click on **’Pin Live Page’** on the top. On the popped out window, choose **’New Dashboard’**, and put the name of the new dashboard, e.g RetailPriceOptimizationSolution, and click on **’Pin Live’**.
+-	On the navigation pane, go to the **’Reports’** section, click on **’ RetailPriceOptimizationSolution’**. Click on **’Pin Live Page’** on the top. On the popped-out window, choose **’New Dashboard’**, and put the name of the new dashboard, e.g RetailPriceOptimizationSolution, and click on **’Pin Live’**.
 -	On the navigation pane, go to the **’Dashboards’** section, click on **’ RetailPriceOptimizationSolution’**. Click the three dots on the top-right of the dashboard tile (the red one). Click on the middle pencil icon to edit the tile details. In **’Functionality’**, check **’Display last refresh time’**, and click on **’Apply’**. You will see the last refresh time showing up on the top-left of the dashboard.
 
 ![](Figures/PowerBIInstructions10.png)
@@ -644,7 +646,7 @@ This part explains the result datasets in more details, and also provides the in
 ### Result Datasets Overview
 There are mainly two final result datasets: **Aggregated Sales Data** and **Optimization Result Data**. Each record of **Aggregated Sales Data** contain weekly sales, product features and store features for one product sold at one store in a specific week. Each record of **Optimization Result Data** contain predicted weekly sales on this record's features, recommended optimal price, product features and store features for one product sold at one store in a specific week. **Aggregated Sales Data** only contain historical data, whereas **Optimization Result Data** contain historical recommendations as well as the future price recommendation for the coming week. **Aggregated Sales Data** contain records for all stores, whereas **Optimization Result Data** only contain records for stores in treatment group, because only stores in treatment group accepts/needs the recommended price from optimization algorithm.
 
-For both **Aggregated Sales Data** and **Optimization Result Data**, the solution produces two datasets with two different data formats which contains the exact same data. One format is [**Parquet file**](<http://parquet.apache.org/>), which a columnar storage format in the Hadoop ecosystem. The other format is **Text file**, created by `RDD.saveAsTextFile()` in Spark. The **Parquet file** versions are read and written in all the computations within Spark ecosystem, whereas the **Text file** are produced for Power BI dashboard inputs. The **Parquet file** versions can be access by sql query, using `%%sql` magic in **Jupyter Notebook** pre-installed on HDinsight Spark Cluster, whereas **Text file** can be downloaded from **Azure Data Lake Store** and open as .csv file in **Microsoft Excel**. Implmenters can choose from the above two formats for both result datasets based on their prefered access way.
+For both **Aggregated Sales Data** and **Optimization Result Data**, the solution produces two datasets with two different data formats which contains the exact same data. One format is [**Parquet file**](<http://parquet.apache.org/>), which a columnar storage format in the Hadoop ecosystem. The other format is **Text file**, created by `RDD.saveAsTextFile()` in Spark. The **Parquet file** versions are read and written in all the computations within Spark ecosystem, whereas the **Text file** are produced for Power BI dashboard inputs. The **Parquet file** versions can be access by sql query, using `%%sql` magic in **Jupyter Notebook** pre-installed on HDInsight Spark Cluster, whereas **Text file** can be downloaded from **Azure Data Lake Store** and open as .csv file in **Microsoft Excel**. Implementers can choose from the above two formats for both result datasets based on their preferred access way.
 
 All the result datasets are stored on Azure Data Lake Store, to access them, please:
   - Navigate to ***portal.azure.com*** and log in to your account
@@ -667,7 +669,7 @@ To access them in **Jupyter Notebook** on HDinsight Spark Cluster, please:
   - Click on **Sql_Query_on_Parquet_Files_Example.ipynb** to open the example notebook, which contains a toy example of how to run sql query against the Parquet file versions of the two result datasets.
   - Replace the adl_name <Azuredatalakestore-Name> on the line 1 of the first cell with the one we created in step 2.
   - Click on the first cell, and Click **Cell** on the top and select **Run Cells**. The codes in the first cell will ingest the two Parquet files and register them as temporary tables.
-  - Then use the same way to run the second and third cell. Any cells using [`%%sql` magic](<https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-jupyter-notebook-kernels#parameters-supported-with-the-sql-magic>) are able to run the **SQL queries** on the registerd temporary tables. You can write your own customized queries for post analysis. The sample SQL queries select the first 10 records in the **Aggregated Sales Data** and **Optimization Result Data**, and you can also see various visualization of the query result by choosing a different **Type** other than **Table**.
+  - Then use the same way to run the second and third cell. Any cells using [`%%sql` magic](<https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-jupyter-notebook-kernels#parameters-supported-with-the-sql-magic>) are able to run the **SQL queries** on the registered temporary tables. You can write your own customized queries for post analysis. The sample SQL queries select the first 10 records in the **Aggregated Sales Data** and **Optimization Result Data**, and you can also see various visualization of the query result by choosing a different **Type** other than **Table**.
 
 ### How to Access Text Files
 The **Text file** versions for **Aggregated Sales Data** and **Optimization Result Data** are respectively **aggregated_sales_data.csv** and **opt_data.csv** 

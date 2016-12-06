@@ -74,8 +74,6 @@ This solution template contains materials to help both technical and business au
 ## Business Audiences
 
 In this repository you will find a folder labeled **Solution Overview for Business Audiences**. This folder contains:
-- Infographic: Covers the benefits of using advanced analytics for price optimization in the retail industry
-- Solution At-a-glance: An introduction to a Cortana Intelligence Suite solution for retail price optimization
 - Walking Deck: In-depth exploration of the solution for business audiences
 
 For more information on how to tailor Cortana Intelligence to your needs, [connect with one of our partners](http://aka.ms/CISFindPartner).

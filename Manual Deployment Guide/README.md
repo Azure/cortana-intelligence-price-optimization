@@ -614,6 +614,14 @@ You can scale up the data generation by changing following parameters for the Da
     - storage_account_key = "\<Storage-Account-Primary-Access-Key>"
   - Save the file and close it
 
+**Suggested parameters and the run time estimation**
+
+| Spark Cluster Size   | number_of_stores  | number_of_brands | number_of_departments  | number_of_weeks  | DataSimulator Run Time | Pipeline Run Time |
+| ------------- |:-------------:| -----:| -----:| -----:| -----:| -----:|
+|  Spark 1.6 (D12 v2 (x2), D12 v2 (x2))    |  15 | 30 | 40 | 1 | 1 Hr | 3 Hr |
+|  Spark 1.6 (D12 v2 (x2), D12 v2 (x2))   |  10 | 50 | 100 | 1 | 4 Hr | 6 Hr |
+
+
 ### 2. Upload the updated DataSimulator job to Blob Storage
 
 -	Right click the *adflibs* container and choose ***Open Blob Container Editor***

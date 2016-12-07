@@ -209,8 +209,9 @@ Now that the storage account has been created we need to collect some informatio
 - Click on ***Pricing*** and select following on the new opened blade :
   - Number of Worker nodes : 2 
   - Worker Node Size : Select **D12 V2 Optimized**
-  - Head Node Size : D12 V2 (2 nodes, 8 cores) - Default
-  
+  - Head Node Size : D12 V2 (2 nodes, 8 cores) \- Default
+
+
   > **Note** : When you do not have enough available HDInsight cores under your subscription and in the storage account location/region, you may see the box to enter number of worker node as red. In this situation, either try to select a node with minimum configuration and reduce the worker node count to 1 or ask you account admin to add more HDInsight core under the same storage account location/region. 
   - Click ***Select*** on the left bottom
   

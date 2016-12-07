@@ -1,4 +1,4 @@
-# Retail Demand Forecasting and Price Optimization Solution in Cortana Intelligence Suite
+# Demand Forecasting and Price Optimization for Retail - A Cortana Intelligence Suite Solution
 
 While pricing is recognized as a pivotal determinant of success in the retail industry, it is also one of the most challenging merchandising tasks. Retailers face many challenges when choosing pricing strategies to maximize profit, including accurately forecasting financial impact of potential pricing tactics, taking reasonable consideration of core business constraints, and fairly validating the executed pricing decisions. Expanding product offerings add further computational requirements to make in-time pricing decisions, compounding the difficulty of this already overwhelming task.
 

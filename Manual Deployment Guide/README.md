@@ -1,4 +1,4 @@
-# Retail Demand Forecasting and Price Optimization Solution in Cortana Intelligence Suite
+# Demand Forecasting and Price Optimization for Retail 
 
 ## Table of Contents  
 - [Abstract](#abstract)  
@@ -10,7 +10,7 @@
 
 ## Abstract
 
-This **Manual Deployment Guide** explains how to build the **Retail Demand Forecasting and Price Optimization Solution in Cortana Intelligence Suite** step by step. Going through this manual deployment process will help implementers gain an inside view of how the solution is built and the function of each component.
+This **Manual Deployment Guide** explains how to build the **Demand Forecasting and Price Optimization for Retail** step by step. Going through this manual deployment process will help implementers gain an inside view of how the solution is built and the function of each component.
 
 ## Requirements
 
@@ -210,7 +210,7 @@ Now that the storage account has been created we need to collect some informatio
   - Number of Worker nodes : 2 
   - Worker Node Size : Select **D12 V2 Optimized**
   - Head Node Size : D12 V2 (2 nodes, 8 cores) - Default
-  >  **Note** : When you do not have enough available HDInsight cores under your subscription and in the storage account location/region, you may see the box to enter number of worker node as red. In this situation, either try to select a node with minimum configuration and reduce the worker node count to 1 or ask you account admin to add more HDInsight core under the same storage account location/region. 
+  > **Note** : When you do not have enough available HDInsight cores under your subscription and in the storage account location/region, you may see the box to enter number of worker node as red. In this situation, either try to select a node with minimum configuration and reduce the worker node count to 1 or ask you account admin to add more HDInsight core under the same storage account location/region. 
   - Click ***Select*** on the left bottom
   
   > **Note** : HDInsight clusters billing is pro-rated per minute, whether you are using them or not. Please be sure to delete your cluster after you have finished using it. For information on deleting a cluster, see [How to delete an HDInsight cluster](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-delete-cluster). We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Cluster can be scaled with the growing data size. 

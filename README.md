@@ -51,9 +51,7 @@ For more information on how to tailor Cortana Intelligence to your needs, [conne
 
 See the **[Manual Deployment Guide](https://github.com/Azure/cortana-intelligence-price-optimization-for-retail/blob/master/Manual%20Deployment%20Guide)]** folder for a full set of instructions on how to deploy the end-to-end pipeline, including a step-by-step walkthrough and files containing all the scripts that you’ll need to deploy resources. **For technical problems or questions about deploying this solution, please post in the issues tab of the repository.**
 
-<a name="refs"></a>
-## References
-[1] Ferreira KJ, Lee BHA, and Simchi-Levi D. (2015). "Analytics for an online retailer: Demand forecasting and price optimization." *Manufacturing & Service Operations Management* **18** (1): 69-88. [doi:10.1287/msom.2015.0561](http://dx.doi.org/10.1287/msom.2015.0561)
+
 
 
 

@@ -11,7 +11,9 @@
                     "jarLinkedService": "StorageLinkedService",
                     "arguments": [
                         "--appFile",
-                        "wasb://adflibs@<Storage-Account-Name>.blob.core.windows.net/Demand_Forecasting_Model_Training_Pipeline.py",
+                        "wasb://adflibs@<Replace with Storage Account Name noted in step 2>.blob.core.windows.net/Demand_Forecasting_Model_Training_Pipeline.py",
+                         "--app_arguments",
+                        "<Replace with DataLakeStore Name noted in step 3>",
                         "--deploy_mode",
                         "cluster"
                     ]
@@ -35,8 +37,8 @@
                 "linkedServiceName": "HDInsightLinkedService"
             }
         ],
-        "start": "<Start-Date>",
-        "end": "<End-Date>",
+        "start": "<start-time>",
+        "end": "<end-time>",
         "isPaused": false,
         "pipelineMode": "Scheduled"
     }

@@ -3,7 +3,7 @@
     "properties": { 
         "type": "AzureDataLakeStore", 
         "typeProperties": { 
-            "dataLakeStoreUri": "https://<Replace-with-DataLakeStore-Name-noted-in-step-2>.azuredatalakestore.net/webhdfs/v1", 
+            "dataLakeStoreUri": "https://<Replace with DataLakeStore Name noted in step 3>.azuredatalakestore.net/webhdfs/v1", 
             "sessionId": "<session ID>", 
             "authorization": "<authorization URL>" 
         } 

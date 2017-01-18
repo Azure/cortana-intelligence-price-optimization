@@ -5,13 +5,7 @@
         "type": "AzureDataLakeStore",
         "linkedServiceName": "AzureDataLakeLinkedService",
         "typeProperties": {
-            "fileName": "part-00000",
-            "folderPath": "medium_results/suggested_prices/",
-            "format": {
-                "type": "TextFormat",
-                "rowDelimiter": "\n",
-                "columnDelimiter": "\t"
-            }
+            "folderPath": "any"
         },
         "availability": {
             "frequency": "Hour",

@@ -2,78 +2,7 @@
     "name": "RetailDFModel_PriceOptimizationPipeline",
     "properties": {
         "description": "Retail Price Optimization Pipeline with Model Training (weekly)",
-        "activities": [
-            {
-                "type": "Copy",
-                "typeProperties": {
-                    "source": {
-                        "type": "BlobSource",
-                        "recursive": true
-                    },
-                    "sink": {
-                        "type": "AzureDataLakeStoreSink",
-                        "copyBehavior": "PreserveHierarchy",
-                        "writeBatchSize": 0,
-                        "writeBatchTimeout": "00:00:00"
-                    }
-                },
-                "inputs": [
-                    {
-                        "name": "AzureBlobInputPublicParameters"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "name": "ADLStoreOutputPublicParameters"
-                    }
-                ],
-                "policy": {
-                    "timeout": "01:00:00",
-                    "concurrency": 1
-                },
-                "scheduler": {
-                    "frequency": "Hour",
-                    "interval": 1
-                },
-                "name": "AzureBlobtoDataLakePublicParameters",
-                "description": "Copy Activity"
-            },
-            {
-                "type": "Copy",
-                "typeProperties": {
-                    "source": {
-                        "type": "BlobSource",
-                        "recursive": true
-                    },
-                    "sink": {
-                        "type": "AzureDataLakeStoreSink",
-                        "copyBehavior": "PreserveHierarchy",
-                        "writeBatchSize": 0,
-                        "writeBatchTimeout": "00:00:00"
-                    }
-                },
-                "inputs": [
-                    {
-                        "name": "AzureBlobInputRawData"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "name": "ADLStoreOutputRawData"
-                    }
-                ],
-                "policy": {
-                    "timeout": "01:00:00",
-                    "concurrency": 1,
-                     "retry": 3
-                },
-                "scheduler": {
-                    "frequency": "Hour",
-                    "interval": 1
-                },
-                "name": "AzureBlobtoDataLakeRawData",
-                "description": "Copy Activity"
-            },
+		"activities": [
             {
                 "type": "HDInsightMapReduce",
                 "typeProperties": {
@@ -82,19 +11,13 @@
                     "jarLinkedService": "StorageLinkedService",
                     "arguments": [
                         "--appFile",
-                        "wasb://adflibs@<Storage-Account-Name>.blob.core.windows.net/Sales_Data_Aggregation.py",
+                        "wasb://adflibs@<Replace with Storage Account Name noted in step 2>.blob.core.windows.net/Sales_Data_Aggregation.py",
+                        "--app_arguments",
+                        "<Replace with DataLakeStore Name noted in step 3>",
                         "--deploy_mode",
                         "cluster"
                     ]
                 },
-                "inputs": [
-                    {
-                        "name": "ADLStoreOutputRawData"
-                    },
-                    {
-                        "name": "ADLStoreOutputPublicParameters"
-                    }
-                ],
                 "outputs": [
                     {
                         "name": "ADLStoreAggOutput"
@@ -121,7 +44,9 @@
                     "jarLinkedService": "StorageLinkedService",
                     "arguments": [
                         "--appFile",
-                        "wasb://adflibs@<Storage-Account-Name>.blob.core.windows.net/Demand_Forecasting_Model_Training_First_Time_Pipeline.py",
+                        "wasb://adflibs@<Replace with Storage Account Name noted in step 2>.blob.core.windows.net/Demand_Forecasting_Model_Training_First_Time_Pipeline.py",
+                         "--app_arguments",
+                        "<Replace with DataLakeStore Name noted in step 3>",
                         "--deploy_mode",
                         "cluster"
                     ]
@@ -157,7 +82,9 @@
                     "jarLinkedService": "StorageLinkedService",
                     "arguments": [
                         "--appFile",
-                        "wasb://adflibs@<Storage-Account-Name>.blob.core.windows.net/Price_Optimization.py",
+                        "wasb://adflibs@<Replace with Storage Account Name noted in step 2>.blob.core.windows.net/Price_Optimization.py",
+                        "--app_arguments",
+                        "<Replace with DataLakeStore Name noted in step 3> <Replace with Storage Account Name noted in step 2>",
                         "--deploy_mode",
                         "cluster"
                     ]
@@ -184,81 +111,10 @@
                 "name": "PriceOptSparkJob",
                 "description": "Submits a Spark Job",
                 "linkedServiceName": "HDInsightLinkedService"
-            },
-            {
-                "type": "HDInsightMapReduce",
-                "typeProperties": {
-                    "className": "com.adf.sparklauncher.AdfSparkJobLauncher",
-                    "jarFilePath": "adflibs/com.adf.sparklauncher.jar",
-                    "jarLinkedService": "StorageLinkedService",
-                    "arguments": [
-                        "--appFile",
-                        "wasb://adflibs@<Storage-Account-Name>.blob.core.windows.net/Powerbi_Processing.py",
-                        "--deploy_mode",
-                        "cluster"
-                    ]
-                },
-                "inputs": [
-                    {
-                        "name": "ADLStorePriceOptOutput"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "name": "ADLStorePowerBIOutput"
-                    }
-                ],
-                "policy": {
-                    "timeout": "00:30:00",
-                    "concurrency": 1,
-                    "retry": 1
-                },
-                "scheduler": {
-                    "frequency": "Hour",
-                    "interval": 1
-                },
-                "name": "PowerBISparkJob",
-                "description": "Submits a Spark Job",
-                "linkedServiceName": "HDInsightLinkedService"
-            },
-            {
-                "type": "Copy",
-                "typeProperties": {
-                    "source": {
-                        "type": "AzureDataLakeStoreSource",
-                        "recursive": true
-                    },
-                    "sink": {
-                        "type": "BlobSink",
-                        "writeBatchSize": 0,
-                        "writeBatchTimeout": "00:00:00"
-                    }
-                },
-                "inputs": [
-                    {
-                        "name": "ADLStorePriceOptOutput"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "name": "AzureBlobOutputPriceChange"
-                    }
-                ],
-                "policy": {
-                    "timeout": "01:00:00",
-                    "concurrency": 1,
-                    "retry": 3
-                },
-                "scheduler": {
-                    "frequency": "Hour",
-                    "interval": 1
-                },
-                "name": "ADLtoBlobPriceChange",
-                "description": "Copy Activity"
             }
         ],
-        "start": "<Start-Date>",
-        "end": "<End-Date>",
+        "start": "<start-time>",
+        "end": "<end-time>",
         "isPaused": false,
         "pipelineMode": "Scheduled"
     }

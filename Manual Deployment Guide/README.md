@@ -30,16 +30,14 @@ You will need the following accounts and software to create this solution:
 
 It will take about four to five hours to implement this solution if you have all the required software/resources ready to use. 
 
-## Architecture (Changes Needed)
+## Architecture 
 ![](Figures/SolutionArchitecture.png)
 
 The figure above shows the overall architecture of the Retail Price Optimization solution. Here is the explanation :
 
-- **Data Sources** : The solution uses a python application for generating simulated retail data. This application runs on Spark (not distributed) and writes the raw data on Azure Blob Storage.
+- **Data Sources** : The solution uses a Web Job for generating simulated retail data. This application runs on Azure Web Apps and writes the raw data on Azure Data Lake Store. 
 
-- **Ingest** : Raw data is copied from Azure Blob Storage to Azure Data Lake Storage, which is the Big Data storage in this solution 
-
-- **Prepare** : A Spark job reads the raw data from Azure Data Lake Storage and process/prepare it for the next steps
+- **Ingest** and **Prepare** : A Spark job reads the raw data from Azure Data Lake Storage and processes/prepares it for the next steps
 
 - **Analyze** : It has two parts :
   - First Spark Job uses the processed data to train the Retail Demand Forecasting model
@@ -47,7 +45,7 @@ The figure above shows the overall architecture of the Retail Price Optimization
 
 - **Publish** : The results of both Retail Demand Forecasting and Price Optimization are stored on Azure Data Lake Store
 
-- **Visualize** : Power BI is used to visualize the results
+- **Visualize** : Power BI is linked to Apache Spark in Azure HDInsight to visualize the results
 
 - **Pipeline Scheduling** : Azure Data Factory is used to create and schedule the pipelines involving all the above mentioned activities
 
@@ -226,7 +224,7 @@ Now that the Azure Data Lake Store has been created we need to collect some info
     - Select **Script actions** under **CONFIGURATION** session
     - Click **Submit New**
     - Name : Package Installer
-    - Bash script URI (Need to change): https://raw.githubusercontent.com/praneetmsft/tmp/master/PackageInstaller/packageInstaller.sh
+    - Bash script URI (Need to change): https://github.com/Azure/cortana-intelligence-price-optimization-for-retail/blob/updatedmanual/Manual%20Deployment%20Guide/Scripts/PackageInstaller/packageInstaller.sh
     - Chek **Persist this script action to rerun when new nodes are added to the cluster.** on the bottom
     - Click "Create", the Bash script will install the optimization package on all the nodes of the Spark cluster.
   - Select the Spark Cluster we just created again 
@@ -327,7 +325,7 @@ In this step, we will create an Azure Web App to run Data Generator Web Jobs.
 -	Download and install the [Microsoft Azure Storage Explorer](http://storageexplorer.com/)
 -	Open Azure Storage Explorer and log in to your Microsoft account associated with your Azure Subscription
 -	Locate the storage account created in step 2 above and expand the nodes to see *Blob Containers*, etc.
--	Create two containers named *adflibs*  
+-	Create a container named *adflibs*  
 
 	1.	Right click on ***Blob Containers*** and choose ***Create Blob Container***
 	2.	Enter the container's name as *adflibs*
@@ -513,100 +511,28 @@ Note that this step needs a Power BI account (or Office 365 account).
 
 ![](Figures/PowerBIInstructions10.png)
 
-## [Optional] Scale-Up the Solution
-
-The solution is configured to produce small dataset so that user does not have to wait for hours to see the results. If you would like to test this solution with larger dataset, this section will help you to do so.
-
-To scale up the solution, we need to create a new Azure Data Factory and update the DataSimulator job parameters. Before that, we need to perform some cleanup. Follow the steps below:
-
-### 1. Delete Azure Data Factory
-  -   On the left tab in the ***portal.azure.com***, click ***Resource groups***
-  -   Search for the resource group created previously, ***retailtemplate\_resourcegroup***
-  -   Under Resources, click on the data factory we just created, **retailsolution\[UI\]\[N\]**
-  -   Click **Delete** on top of the new opened blade, click Ok 
-
-### 2. Cleanup the Folders in Azure Blob Storage
-  -	Open Azure Storage Explorer and log in to your Microsoft account associated with your Azure Subscription
-  -	Locate the storage account created in step 2 above and expand the nodes to see *Blob Containers*, etc.
-  - Delete the containers named **rawdata**, **publicparameters** and **privateparameters** by Right clicking and selecting Delete
-
-
-### 3. Cleanup the Folders in Azure DataLakeStore
-  - Navigate to ***portal.azure.com*** and log in to your account
-  - On the left tab click Resource Groups
-  - Click on the resource group we created earlier ***retailtemplate\_resourcegroup***
-  - Click on DataLakeStore we created in step 2
-  - Under the section *Data Lake Store* select **Data Explorer**
-  - You will see a list of folders on the new opened blade
-  - Delete all the folders by doing a right click and then delete on individual folder
-
-Once the cleanup is done, we need to update the DataSimulator job and recreate the Azure Data Factory. 
-
-### 1. Change DataSimulator Job
-You can scale up the data generation by changing following parameters for the DataSimulator job:
- - Go to the folder **"Manual Deployment Guide\Scripts\Data Simulator Job"** inside the downloaded GIT repo
-  - Open the file **RetailDataSimulator.py** in text editor
-  - Provide following parameters:
-    - number_of_stores = 
-    - number_of_brands = 
-    - number_of_departments = 
-    - number_of_weeks = 
-    - storage_account_name = "\<Storage-Account-Name>"
-    - storage_account_key = "\<Storage-Account-Primary-Access-Key>"
-  - Save the file and close it
-
-**Suggested parameters and the run time estimation**
-
-| Spark Cluster Size   | number_of_stores  | number_of_brands | number_of_departments  | number_of_weeks  | DataSimulator Run Time | Pipeline Run Time |
-| ------------- |:-------------:| -----:| -----:| -----:| -----:| -----:|
-|  Spark 1.6 (D12 v2 (x2), D12 v2 (x2))    |  15 | 30 | 40 | 1 | 1 Hr | 3 Hr |
-|  Spark 1.6 (D12 v2 (x2), D12 v2 (x2))   |  10 | 50 | 100 | 1 | 4 Hr | 6 Hr |
-
-
-### 2. Upload the updated DataSimulator job to Blob Storage
-
--	Right click the *adflibs* container and choose ***Open Blob Container Editor***
--	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
--	Browse to the ***Manual Deployment Guide\Scripts\Data Simulator Job*** folder inside the downloaded GIT repo, , select the file **RetailDataSimulator.py** and click **Upload**. This will upload the updated Data Simulator Job.
-
-### 3. Setup Azure Data Factory (ADF)
-
-This new ADF has all the Datasets and Pipeline which are configured to run every 24 hours (once a day). **Linked Services remains the same**. New Datasets and Pipeline can be found under the path **Manual Deployment Guide\Scripts\ScaleUp Solution-Azure Data Factory\**
-
-#### 1. Create Azure Data Factory
-
-  - Follow the instruction mentioned in step 8, section 1: **Create Azure Data Factory**
-
-#### 2. Create Linked Services
-
-- As the Linked Services remains same, use the Linked Services files which we updated earlier under the path **Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services** 
-- Follow the instruction mentioned in step 8, section 2: **Create Linked Services** and use the files under path mentioned in above step
-
-#### 3. Create Datasets
-
-- All the files for Datasets are under the path **Manual Deployment Guide\Scripts\ScaleUp Solution-Azure Data Factory\Datasets_ScaleUp**
-- Follow the instruction mentioned in step 8, section 3: **Create Datasets** and use the files under path mentioned in above step
-
-#### 4. Create Pipelines
-
-- All the files for Datasets are under the path **Manual Deployment Guide\Scripts\ScaleUp Solution-Azure Data Factory\Pipelines_ScaleUp**
-- Follow the instruction mentioned in step 8, section 4: **Create Pipelines** and use the files under path mentioned in above step
-
 ## Validation and Results
 This part explains the result datasets in more details, and also provides the instructions on how to access those datasets for post analysis.
 
 ### Result Datasets Overview
 There are mainly two final result datasets: **Aggregated Sales Data** and **Optimization Result Data**. Each record of **Aggregated Sales Data** contain weekly sales, product features and store features for one product sold at one store in a specific week. Each record of **Optimization Result Data** contain predicted weekly sales on this record's features, recommended optimal price, product features and store features for one product sold at one store in a specific week. **Aggregated Sales Data** only contain historical data, whereas **Optimization Result Data** contain historical recommendations as well as the future price recommendation for the coming week. **Aggregated Sales Data** contain records for all stores, whereas **Optimization Result Data** only contain records for stores in treatment group, because only stores in treatment group accepts/needs the recommended price from optimization algorithm.
 
-### How to Access Text Files
-The **Text file** versions for **Aggregated Sales Data** and **Optimization Result Data** are respectively **aggregated_sales_data.csv** and **opt_data.csv** 
-under *powerbi_data\csv_data* folder in Azure DataLakeStore.
+For both **Aggregated Sales Data** and **Optimization Result Data**, the solution produces result datasets in [**Parquet file**](<http://parquet.apache.org/>) format, which is a columnar storage format in the Hadoop ecosystem. The **Parquet files** can be access by sql query, using `%%sql` magic in **Jupyter Notebook** pre-installed on HDinsight Spark Cluster. 
 
-To access them:
-
- - Click on **aggregated_sales_data.csv** and click on **part-00000** on the popped-out blade.
- - Click on **Download** on the top to download the file. Find the downloaded file and renamed it **aggregated_sales_data.csv**, and you can now open the result datasets on Excel.  
- - Repeat the steps above on **opt_data.csv** and you can conduct post analysis on the result csv datasets with your preferred analyzing tools such as R and Python.
+### How to Access Parquet Files
+ The **Parquet file** results for **Aggregated Sales Data** and **Optimization Result Data** are respectively in folder **aggregated_sales_data** and **opt_results_data**. They are both partitioned by week and the name for each partition indicates the start date of the corresponding week.
+ To access them in **Jupyter Notebook** on HDinsight Spark Cluster, please:
+   - Navigate to ***portal.azure.com*** and log in to your account.
+   - On the left tab click Resource Groups.
+   - Click on the resource group we created earlier ***retailtemplate\_resourcegroup***.
+   - Click on the HDInsight Spark Cluster we created in step 4.
+   - Click **Cluster Dashboards** under **Quick Links** session, and click on **Jupyter Notebook** on the popped-out blade.
+   - On the popped-out window, enter Cluster Login Username and Cluster Login Password recorded in step 4. After authentication, you will see the **jupyter notebook** for the HDInsight Spark cluster launched.
+   - Click on **Upload** on the top right. Browse to the *Manual Deployment Guide\Scripts\Validation Results PySpark Code* folder inside the downloaded GIT repo, and select **Sql_Query_on_Parquet_Files_Example.ipynb**. Then, click **upload** to upload the script.
+   - Click on **Sql_Query_on_Parquet_Files_Example.ipynb** to open the example notebook, which contains a toy example of how to run sql query against the Parquet file versions of the two result datasets.
+   - Replace the adl_name <Azuredatalakestore-Name> on the line 1 of the first cell with the one we created in step 2.
+   - Click on the first cell, and Click **Cell** on the top and select **Run Cells**. The codes in the first cell will ingest the two Parquet files and register them as temporary tables.
+   - Then use the same way to run the second and third cell. Any cells using [`%%sql` magic](<https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-jupyter-notebook-kernels#parameters-supported-with-the-sql-magic>) are able to run the **SQL queries** on the registerd temporary tables. You can write your own customized queries for post analysis. The sample SQL queries select the first 10 records in the **Aggregated Sales Data** and **Optimization Result Data**, and you can also see various visualization of the query result by choosing a different **Type** other than **Table**.
 
 
 ## Deleting the Solution

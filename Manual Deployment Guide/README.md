@@ -5,8 +5,8 @@
 - [Requirements](#requirements)
 - [Architecture](#architecture)
 - [Setup Steps](#setup-steps)
-- [Scale-Up the Solution](#optional-scale-up-the-solution)
 - [Validation and Results](#validation-and-results)
+- [Delete the Solution](#delete-the-solution)
 
 ## Abstract
 
@@ -301,7 +301,7 @@ In this step, we will create an Azure Web App to run Data Generator Web Jobs.
     - Click Save on the top
 
 #### 3) Upload and Run the Web Job for Data Simulation
- Navigate to ***portal.azure.com*** and log in to your account
+- Navigate to ***portal.azure.com*** and log in to your account
 
 - On the left tab click Resource Groups
 
@@ -335,9 +335,11 @@ In this step, we will create an Azure Web App to run Data Generator Web Jobs.
 -	Browse to the ***Manual Deployment Guide\Scripts\PySpark Job*** folder inside the downloaded GIT repo, select all the files including **com.adf.sparklauncher.jar** and click **Upload**. This will upload the required Spark Jobs.
 
 ### 7. Setup Azure Data Factory (ADF)
-Azure Data Factory can be used to orchestrate the entire data pipeline. In this solution, it is mainly used to schedule the data aggregation, demand forecasting and price optimization. Here is an overview of the ADF pipelines.
+Azure Data Factory can be used to orchestrate the entire data pipeline. In this solution, it is mainly used to schedule the data aggregation, demand forecasting and price optimization. 
 
-> **Note**: In the demo here, ADF is scheduled to process, and output the results for **one week's** data **in one hour**. And the simulator which will be set up in later steps will generate **one week's** simulated data in **one hour** correspondingly. That is to say, in this solution demo, one week is condensed to one hour. In this case, you are able to view multiple weeks' results in a few hours, rather than waiting for multiple weeks to get the results for a few weeks. However, in the reality deployment, the ADF cycle time should be consistent with the real time.
+> **Note**: In the demo here, ADF is scheduled to process, and output the results for **one week's** data **in one hour**. And the simulator which was set up in previous steps will generate **one week's** simulated data in **one hour** correspondingly. That is to say, in this solution demo, one week is condensed to one hour. In this case, you are able to view multiple weeks' results in a few hours, rather than waiting for multiple weeks to get the results for a few weeks. However, in the reality deployment, the ADF cycle time should be consistent with the real time.
+
+Here is an overview of the ADF pipelines.
 
 **RetailDFModel_PriceOptimizationPipeline**: In each cycle, Spark activities will ingest the raw data from Azure Data Lake Store, aggregate the raw unstructured transaction data to weekly sales data, train demand forecasting model, solve price optimization problems and prepare the data for Power BI visualization.
 
@@ -474,7 +476,8 @@ The essential goal of this part is to visualize the results from the retail pric
 #### 1.	Download the Power BI report file and sign-in 
 
 -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
--	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-retail-price-optimization/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
+-	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-retail-price-optimization/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. 
+> **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
 - After opening the **'RetailPriceOptimizationSolution.pbix'** file, you might see message saying "There are pending changes in your queries that haven't been applied.". Please **DO NOT** Apply Changes since the data source has not been updated yet. 
 -	Sign in by clicking **’Sign in’** on the top-left corner. Note: You must have a Microsoft Office 365 subscription for Power BI access.
 -	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor. You might also see an error message saying "DataFormat.Error: Invalid URI: The hostname could not be parsed.
@@ -535,5 +538,5 @@ For both **Aggregated Sales Data** and **Optimization Result Data**, the solutio
    - Then use the same way to run the second and third cell. Any cells using [`%%sql` magic](<https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-jupyter-notebook-kernels#parameters-supported-with-the-sql-magic>) are able to run the **SQL queries** on the registerd temporary tables. You can write your own customized queries for post analysis. The sample SQL queries select the first 10 records in the **Aggregated Sales Data** and **Optimization Result Data**, and you can also see various visualization of the query result by choosing a different **Type** other than **Table**.
 
 
-## Deleting the Solution
+## Delete the Solution
 If you want to delete the solution, select the resource group **retailtemplate\_resourcegroup**, click on **Delete** on top of the new opened blade. Confirm the resource group name and click **Delete** on the bottom on this blade.

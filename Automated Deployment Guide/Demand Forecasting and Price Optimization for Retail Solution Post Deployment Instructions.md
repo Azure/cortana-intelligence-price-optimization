@@ -80,6 +80,7 @@ The essential goal of this part is to visualize the results from the retail pric
 
 -	On the popped-out Advanced Editor window, replace the **\<cluster-name>** on the first line with the name of the Azure HDInsight Spark Cluster that created by the deployable solution. 
 - Then, click **’Done’** on the bottom-right corner of the Advanced Editor window.
+- You will be asked to enter the credentials for the Spark cluster. Click on **’Edit Credentials’** and enter the Cluster Login Username and Cluster Login Password for the Spark cluster created by the deployed solution.
 -	If the connection is successful, you can see the data appears similar as the following snapshot. If you see an error message saying "Expression. Error: The key didn't match any rows in the table", please click on the **’Refresh Preview’** on the top to refresh the preview of the data. 
 
 ![](Figures/PowerBIInstructions4.png)
@@ -100,9 +101,6 @@ Note that this step needs a Power BI account (or Office 365 account).
 -	Click the link "Open 'RetailPriceOptimizationSolution.pbix' in Power BI" on the screen to open it in a browser. 
 -	On the navigation pane, go to the **’Reports’** section, click on **’ RetailPriceOptimizationSolution’**. Click on **’Pin Live Page’** on the top. On the popped-out window, choose **’New Dashboard’**, and put the name of the new dashboard, e.g RetailPriceOptimizationSolution, and click on **’Pin Live’**.
 -	On the navigation pane, go to the **’Dashboards’** section, click on **’ RetailPriceOptimizationSolution’**. Click the three dots on the top-right of the dashboard tile (the red one). Click on the middle pencil icon to edit the tile details. In **’Functionality’**, check **’Display last refresh time’**, and click on **’Apply’**. You will see the last refresh time showing up on the top-left of the dashboard.
-
-## Scale Solution
-
 
 ## Customize Solution
 For solution customization, you can refer to the manual deployment guide offered [here](<https://github.com/Azure/cortana-intelligence-price-optimization-for-retail/tree/master/Manual%20Deployment%20Guide>) to gain an inside view of how the solution is built, the function of each component and access to all the source codes used in the demo solution. You can customize the components accordingly to satisfy the business needs of your organization. Or you can [connect with one of our partners](http://aka.ms/CISFindPartner) for more information on how to tailor Cortana Intelligence to your needs.

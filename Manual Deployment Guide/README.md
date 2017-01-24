@@ -491,6 +491,7 @@ The essential goal of this part is to visualize the results from the retail pric
 
 -	On the popped-out Advanced Editor window, replace the **\<cluster-name>** on the first line with the name of the Azure HDInsight Spark Cluster that you deployed in the previous steps. 
 - Then, click **’Done’** on the bottom-right corner of the Advanced Editor window.
+- You will be asked to enter the credentials for the Spark cluster. Click on **’Edit Credentials’** and enter the Cluster Login Username and Cluster Login Password for the Spark cluster created in step 4.
 -	If the connection is successful, you can see the data appears similar as the following snapshot. If you see an error message saying "Expression. Error: The key didn't match any rows in the table", please click on the **’Refresh Preview’** on the top to refresh the preview of the data. 
 
 ![](Figures/PowerBIInstructions4.png)

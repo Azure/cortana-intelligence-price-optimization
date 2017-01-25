@@ -102,6 +102,9 @@ Note that this step needs a Power BI account (or Office 365 account).
 -	On the navigation pane, go to the **’Reports’** section, click on **’ RetailPriceOptimizationSolution’**. Click on **’Pin Live Page’** on the top. On the popped-out window, choose **’New Dashboard’**, and put the name of the new dashboard, e.g RetailPriceOptimizationSolution, and click on **’Pin Live’**.
 -	On the navigation pane, go to the **’Dashboards’** section, click on **’ RetailPriceOptimizationSolution’**. Click the three dots on the top-right of the dashboard tile (the red one). Click on the middle pencil icon to edit the tile details. In **’Functionality’**, check **’Display last refresh time’**, and click on **’Apply’**. You will see the last refresh time showing up on the top-left of the dashboard.
 
+## Scale Solution
+The architecture of this solution is designed to be scalable. [Azure Data Lake Store](https://azure.microsoft.com/en-us/services/data-lake-store/) can scale throughput to support any size of analytic workload without redesigning your application or repartitioning your data at higher scale. Apache Spark for Azure HDInsight, either existing clusters or new ones, can also be scaled up to fit into heavier computation needs. 
+
 ## Customize Solution
 For solution customization, you can refer to the manual deployment guide offered [here](<https://github.com/Azure/cortana-intelligence-price-optimization-for-retail/tree/master/Manual%20Deployment%20Guide>) to gain an inside view of how the solution is built, the function of each component and access to all the source codes used in the demo solution. You can customize the components accordingly to satisfy the business needs of your organization. Or you can [connect with one of our partners](http://aka.ms/CISFindPartner) for more information on how to tailor Cortana Intelligence to your needs.
 

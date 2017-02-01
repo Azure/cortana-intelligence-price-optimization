@@ -59,7 +59,7 @@ You will need the following accounts and software to create Power BI visualizati
 ### Setup Power BI
 
 The essential goal of this part is to visualize the results from the retail price optimization solution. Power BI can directly connect to the Hive tables created by Spark activities, where the results are stored.
-> **Note**:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize.
+> **Note**:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize. 3) The mape (mean average percentage error) of the demand forecasting model can be high at the very first several round, and it will goes down as more rounds of data are available for model training.
 
 #### 1.	Download the Power BI report file and sign-in 
 

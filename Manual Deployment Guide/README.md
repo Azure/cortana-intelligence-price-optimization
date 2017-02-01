@@ -60,7 +60,7 @@ retailtemplate\[UI\]\[N\]
 Where \[UI\] is the users initials and N is a random integer that you choose. Characters must be entered in in lowercase. Several services, such as Azure Storage, require a unique name for the storage account across a region and hence this format should provide the user with a unique identifier.
 So for example, Steven X. Smith might use a base service name of *retailtemplatesxs01*  
 
-> **NOTE:** We create most resources in the South Central US region. The resource availability in different regions depends on your subscription. When deploying you own resources, make sure all data storage and compute resources are created in the same region to avoid inter-region data movement. Azure Resource Group and Azure Data Factory don’t have to be in the same region as the other resources. Azure Resource Group is a virtual group that groups all the resources in one solution. Azure Data Factory is a cloud-based data integration service that automates the movement and transformation of data. Data factory orchestrates the activities of the other services. Use same subscription to deploy all the mentioned resources.
+> **NOTE:** We create most resources in Central US region. The resource availability in different regions depends on your subscription. When deploying you own resources, make sure all data storage and compute resources are created in the same region to avoid inter-region data movement. Azure Resource Group and Azure Data Factory don’t have to be in the same region as the other resources. Azure Resource Group is a virtual group that groups all the resources in one solution. Azure Data Factory is a cloud-based data integration service that automates the movement and transformation of data. Data factory orchestrates the activities of the other services. Use same subscription to deploy all the mentioned resources.
 
 In the below steps, following Azure resources will be created under your subscription: Azure Storage Account, Azure Data Lake Store, Azure HDInsight Spark Cluster, Azure Web Apps and Azure Data Factory. And related configurataion instructions are also provided to build the above components as an end-to-end solution.
 
@@ -90,8 +90,8 @@ An Azure Storage account is used by the Data Simulator to write raw data and by 
 
   - Set the resource group to the resource group we created by selecting the radio button ***Use existing***
 
-  -  Location set to South Central US
-  > **NOTE:** This Azure Storage Account will be used as the default storage account of the Azure HDInsight Spark Cluster which will be created in later steps. Because it is required that the HDInsight cluster and its default storage account must be located at the same Azure location, you should set the location of the storage account to one of the locations where your subscription have enough quotas for building a HDInsight Spark Cluster.
+  -  Location set to Central US
+  > **NOTE:** This Azure Storage Account will be used as the additional storage account of the Azure HDInsight Spark Cluster which will be created in later steps. Because it is required that the HDInsight cluster and its additional storage account must be located at the same Azure location, you should set the location of the storage account to one of the locations where your subscription have enough quotas for building a HDInsight Spark Cluster.
 	
   - Click ***Create***
 
@@ -123,9 +123,9 @@ Now that the storage account has been created we need to collect some informatio
 - Click **NEW**, click **Storage**, and then click **Data Lake Store**. 
 
 - Set the name to ***retailtemplate[UI][N]***
-
 - Set the resource group to the **retailtemplate\_resourcegroup** which we created, by selecting the radio button ***Use existing***
-
+- Set Location to Central US 
+> **NOTE:** This Azure Data Lake Store will be used as the primary storage account of the Azure HDInsight Spark Cluster which will be created in later steps. Because it is required that the HDInsight cluster and its primary storage account must be located at the same Azure location, you should set the location of the Azure Data Lake Store account to one of the locations where your subscription have enough quotas for building a HDInsight Spark Cluster.
 - Click **Create** in the bottom left corner of the blade
 
 - Wait for the Azure Data Lake Store to be created
@@ -154,28 +154,27 @@ Now that the Azure Data Lake Store has been created we need to collect some info
 
 - On the left tab click ***New > Intelligence + analytics > HDInsight***
 
-- Set the cluster name to ***retailtemplate[UI][N]***
+- Choose **Custom (size, settings, apps)** in the left blade
+- 1 Basics
+  - Set the cluster name to ***retailtemplate[UI][N]***
 
-- Click on ***Cluster configuration*** and select following in the new opened blade(panel) :
+  - Click on ***Cluster type*** and select following in the new opened blade(panel) :
     - Cluster Type : Spark
     - Operating System : Linux
     - Version : Spark 1.6.2 (HDI 3.5)
     - Cluster Tier : Standard
     - Click ***Select*** at the left bottom of the blade
-
-- Click on ***Credentials*** and provide following information on the new opened blade :
-    - Cluster Login Username : \<admin/or whatever you want>
-    - Cluster Login Password : \<cluster password>
-    - SSH Username : \<secure Shell login username>
-    - SSH Password : \<SSH password>
-    - Save the credentials in the table mentioned later in this section
-    - Click ***Select*** at the bottom-left of the blade
-
-- Click on ***Data Source*** and provide following information on the new opened blade :
-    - Select Primary storage type: Azure Storage 
-    - Select a Storage account : Select the Storage Account we created in step 2
-    - Choose Default Container : ***retailtemplate[UI][N]***
-    - Click on **Data Lake Store access**
+  - Cluster Login Username : \<admin/or whatever you want>
+  - Cluster login and SSH password: \<cluster password>
+  - Resource group : choose **Use Existing** and select the resource group created earlier ***retailtemplate_resourcegroup***
+  - Location : Select the **same** location as the Azure Data Lake Store created in step 3
+  - Click **Next**
+- 2 Storage 
+  - Primary storage type : Data Lake Store
+  - Select Data Lake Store account : Select the Azure Data Lake Store created in step 3
+  - Root path : /retailtemplate[UI][N]/
+  >Note: This root path is where the Spark cluster related files are kept on Azure Data Lake Store.
+  - Data Lake Store access : 
        - Select Azure AD service principal : Create New
        - Click on Service Principle : 
          - Service principal name : ***retailtemplate[UI][N]***
@@ -189,19 +188,29 @@ Now that the Azure Data Lake Store has been created we need to collect some info
           - Click **Done**
           - [Optional] If you want to use this Service Principle in the future, you can click **Download certificate**, save the downloaded certificate file (.pfx) and use it together with the Service principal name and Certificate Password above for the next time
           - Click on **Select**
-    - Click on **Select** 
-- Click on ***Cluster Size***
-    - Set Number of Worker nodes to 2
+  - Additional storage accounts :
+       - \+ Add a storage key
+       - Select a Storage account : select the storage account created in step 2 
+       - Click **Select**
+       - Click **Select**
+  - Click **Next**
+- 3 Applications (optional)
+  - Click **SELECT** 
+
+- 4 Cluster size
+  
+  - Set Number of Worker nodes to 2
     > **Note** : When you do not have enough available HDInsight cores under your subscription and in the storage account location/region, you may see the box to enter number of worker node as red. In this situation, either try to select a node with minimum configuration and reduce the worker node count to 1 or ask you account admin to add more HDInsight core under the same storage account location/region. 
     
-    - Click on Worker node size: select **D12 V2** and click Select
-    - The esimated cost per hour for this cluster will show up in this page as well
+  - Click on Worker node size: select **D12 V2** and click Select
+  - The esimated cost per hour for this cluster will show up in this page as well
     > **Note** : HDInsight clusters billing is pro-rated per minute, whether you are using them or not. Please be sure to delete your cluster after you have finished using it. For information on deleting a cluster, see [How to delete an HDInsight cluster](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-delete-cluster). We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Cluster can be scaled with the growing data size. 
+- 5 Advanced settings 
+  - Secure Shell (SSH) username : sshuser
+  - Click **Next**
+- 6 Summary
+  - Click on ***Create*** to initiate the deployment of Spark HDInsight cluster. This can take 15 - 20 mins to complete
 
-    - Click Select
-
-- Resource group : choose **Use Existing** and select the resource group created earlier ***retailtemplate_resourcegroup***
-- Click on ***Create*** to initiate the deployment of Spark HDInsight cluster. This can take 15 - 20 mins to complete
 - While the cluster is being deployed, you can collect following information :
   - Navigate to the Spark Cluster under **retailtemplate\_resourcegroup** 
   - Under **Overview** copy/read the **URL** and update/type it in the table below
@@ -215,7 +224,7 @@ Now that the Azure Data Lake Store has been created we need to collect some info
     | SSH Username     |             |
     | SSH Password     |             |
     | Cluster URI     |https://\<cluster-name>.azurehdinsight.net|
-    |Host Name             |\<cluster-name>-ssh.azurehdinsight.net|
+    |Host Name             |\<cluster-name>-ssh.azurehdinsight.net| 
 
 - After the cluster deployment finishes, navigate to ***portal.azure.com*** and log in to your account
   - On the left tab click Resource Groups
@@ -471,7 +480,7 @@ Here is how your ADF configurations should look after finishing above steps:
 ### 8. Setup Power BI
 
 The essential goal of this part is to visualize the results from the retail price optimization solution. Power BI can directly connect to the Hive tables created by Spark activities, where the results are stored.
-> **Note**:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize.
+> **Note**:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize. 3) The mape (mean average percentage error) of the demand forecasting model can be high at the very first several round, and it will goes down as more rounds of data are available for model training.
 
 #### 1.	Download the Power BI report file and sign-in 
 

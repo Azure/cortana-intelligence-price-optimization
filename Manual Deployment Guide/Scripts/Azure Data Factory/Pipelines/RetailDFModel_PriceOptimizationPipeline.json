@@ -84,7 +84,7 @@
                         "--appFile",
                         "wasb://adflibs@<Replace with Storage Account Name noted in step 2>.blob.core.windows.net/Price_Optimization.py",
                         "--app_arguments",
-                        "<Replace with DataLakeStore Name noted in step 3> <Replace with Storage Account Name noted in step 2>",
+                        "<Replace with DataLakeStore Name noted in step 3>",
                         "--deploy_mode",
                         "cluster"
                     ]

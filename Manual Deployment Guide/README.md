@@ -460,8 +460,8 @@ We will create 2 pipelines in total using the JSON files located at ***Manual De
 
 - **RetailDFModel_PriceOptimizationPipeline**
   - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\RetailDFModel_PriceOptimizationPipeline.json***
-  - On line **14**, **47**, **85** and **87** replace the **\<Replace with Storage Account Name noted in step 2>** with the **Storage Account Name** we created in step 2, eg, ***retailtemplate[UI][N]*** 
-  - On line **16**, **49** and **87** replace the **\<Replace with DataLakeStore Name noted in step 3>** with the **Azure Data Lake Store Account Name** we created in step 3, eg, ***retailtemplate[UI][N]***. For line **87**, there should be exact one blank space between **\<Replace with DataLakeStore Name noted in step 3>** and **\<Replace with Storage Account Name noted in step 2>**.
+  - On line **14**, **47** and **85** replace the **\<Replace with Storage Account Name noted in step 2>** with the **Storage Account Name** we created in step 2, eg, ***retailtemplate[UI][N]*** 
+  - On line **16**, **49** and **87** replace the **\<Replace with DataLakeStore Name noted in step 3>** with the **Azure Data Lake Store Account Name** we created in step 3, eg, ***retailtemplate[UI][N]***. 
  
   - The Start and End date for this pipeline should be same as that of **ModelRetrainPipeline** :
 

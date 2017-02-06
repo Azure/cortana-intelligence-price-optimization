@@ -1,3 +1,6 @@
+## 1. mark off the sc and sqlContext
+## 2. change the loc of the input and output paths
+
 # In[1]:
 
 ################################################## 0: import modules, create Spark Context and define functions
@@ -275,9 +278,9 @@ def create_filter_condition(p):
 ## adl name
 adl_name = sys.argv[1]
 ## blob storage name
-storage_name = sys.argv[2]
+#storage_name = sys.argv[2]
 ## default container name for blob storage
-default_container_name = sys.argv[1]
+#default_container_name = sys.argv[1]
 ## adl link
 adl_loc = "adl://" + adl_name + ".azuredatalakestore.net/"
 ## input paths
@@ -289,7 +292,7 @@ modelDir = adl_loc + "Models/"
 # df_time_loc=adl_loc+"powerbi_data/time_data/"
 price_change_d_loc = adl_loc + "medium_results/suggested_prices"
 opt_results_d_loc = adl_loc + "opt_results_data/"
-df_time_hive_loc = "wasb://" + storage_name + "@" + default_container_name + ".blob.core.windows.net/hive/warehouse/df_time"
+#df_time_hive_loc = "wasb://" + storage_name + "@" + default_container_name + ".blob.core.windows.net/hive/warehouse/df_time"
 
 # In[9]:
 
@@ -449,7 +452,8 @@ if dir_exists == 1:
     # df_time.repartition(1).write.parquet(df_time_loc,mode='append')
     ## for Power BI
     df_time.write.saveAsTable("df_time", format="parquet", mode="append")
-    df_time = sqlContext.read.parquet(df_time_hive_loc)
+    #df_time = sqlContext.read.parquet(df_time_hive_loc)
+    df_time = sqlContext.sql("select * from df_time")
     ################################################## 3: deal with the df_time
     ## make the model training zero when model not trained
     exec_date_list = df_time.select('exec_date').distinct().collect()
@@ -462,5 +466,4 @@ if dir_exists == 1:
     df_time = df_time.join(df_time_all, ['step', 'exec_date'], 'outer')
     df_time = df_time.fillna({'time': 0})
     df_time.write.saveAsTable("df_time_final", format="parquet", mode="overwrite")
-
 df.unpersist()

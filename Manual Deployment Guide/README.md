@@ -438,38 +438,38 @@ For each JSON file under ***Manual Deployment Guide\Scripts\Azure Data Factory\D
 
 We will create 2 pipelines in total using the JSON files located at ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines***. At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active (in UTC time). You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/). 
   
-
-- **ModelRetrainPipeline**
-  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\ModelRetrainPipeline.json***.
-  - On line **14** : replace the **\<Replace with Storage Account Name noted in step 2>** with the **Storage Account Name** we created in step 2, eg, ***retailtemplate[UI][N]*** 
-  - On line **16** : replace the **\<Replace with DataLakeStore Name noted in step 3>** with the **Azure Data Lake Store Account Name** we created in step 3, eg, ***retailtemplate[UI][N]***
-  - On line **40** : set the start time on the 0th minutes of the hour of the currnet UTC time. For example, the current UTC time is ***2017-01-10T22:15:09Z***. Then set the start time as ***2017-01-10T22:00:00Z***. The first slice of the pipeline will start to run at one hour behind the start time, for the example here, ***2017-01-10T23:00:00Z***. 
-  
-  > **Note**: If before the running time of the first slice, ***2017-01-10T23:00:00Z*** in the example above, the data simulator has not even run for the first time, the first slice of the pipelines will fail because no data is ready for analysis. But the second slice and following slices will succeed if all components are configured properly.
-  - On line **41** : set the end time one week ahead the start time, thus it is ***2017-01-17T22:00:00Z*** if following the above example. You may also set your own end time according to your preference over how long the pipeline should run. However, it is recommended that the pipelines are run at least for more than 1 day to get meaningful visualizations in Power BI, which will be set up in later steps.
-
-    ```JSON
-    "start": "2017-01-10T22:00:00Z",
-    "end": "2017-01-17T22:00:00Z",
-    ```
-  - On ***portal.azure.com***, navigate to your data factory and click the ***Author and Deploy*** button.
-  - At the top of the tab, click ***...More*** and then ***New pipeline***.
-  - Copy the content of the modified JSON file into the editor.
-  - Click ***Deploy***.
-
-
 - **RetailDFModel_PriceOptimizationPipeline**
   - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\RetailDFModel_PriceOptimizationPipeline.json***
   - On line **14**, **47** and **85** replace the **\<Replace with Storage Account Name noted in step 2>** with the **Storage Account Name** we created in step 2, eg, ***retailtemplate[UI][N]*** 
   - On line **16**, **49** and **87** replace the **\<Replace with DataLakeStore Name noted in step 3>** with the **Azure Data Lake Store Account Name** we created in step 3, eg, ***retailtemplate[UI][N]***. 
  
-  - The Start and End date for this pipeline should be same as that of **ModelRetrainPipeline** :
+  - On line **116** : set the start time on the 0th minutes of the hour of the currnet UTC time. For example, the current UTC time is ***2017-01-10T22:15:09Z***. Then set the start time as ***2017-01-10T22:00:00Z***. The first slice of the pipeline will start to run at one hour behind the start time, for the example here, ***2017-01-10T23:00:00Z***. 
+  
+  > **Note**: If before the running time of the first slice, ***2017-01-10T23:00:00Z*** in the example above, the data simulator has not even run for the first time, the first slice of the pipelines will fail because no data is ready for analysis. But the second slice and following slices will succeed if all components are configured properly.
+  - On line **117** : set the end time one week ahead the start time, thus it is ***2017-01-17T22:00:00Z*** if following the above example. You may also set your own end time according to your preference over how long the pipeline should run. However, it is recommended that the pipelines are run at least for more than 1 day to get meaningful visualizations in Power BI, which will be set up in later steps.
 
     ```JSON
     "start": "2017-01-10T22:00:00Z",
     "end": "2017-01-17T22:00:00Z",
     ```
   - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
+  - At the top of the tab, click ***...More*** and then ***New pipeline***.
+  - Copy the content of the modified JSON file into the editor.
+  - Click ***Deploy***.
+
+- **ModelRetrainPipeline**
+  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\ModelRetrainPipeline.json***.
+  - On line **14** : replace the **\<Replace with Storage Account Name noted in step 2>** with the **Storage Account Name** we created in step 2, eg, ***retailtemplate[UI][N]*** 
+  - On line **16** : replace the **\<Replace with DataLakeStore Name noted in step 3>** with the **Azure Data Lake Store Account Name** we created in step 3, eg, ***retailtemplate[UI][N]***
+
+  - The Start and End date for this pipeline should be 30 minutes later than those of **RetailDFModel_PriceOptimizationPipeline** :
+
+    ```JSON
+    "start": "2017-01-10T22:30:00Z",
+    "end": "2017-01-17T22:30:00Z",
+    ```
+  
+  - On ***portal.azure.com***, navigate to your data factory and click the ***Author and Deploy*** button.
   - At the top of the tab, click ***...More*** and then ***New pipeline***.
   - Copy the content of the modified JSON file into the editor.
   - Click ***Deploy***.

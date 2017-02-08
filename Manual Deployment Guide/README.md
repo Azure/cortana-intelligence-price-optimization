@@ -309,7 +309,7 @@ In this step, we will create an Azure Web App to run Data Generator Web Jobs.
       - Key: ClientSecret and Value: \<client-secret>
     - Click Save on the top
 
-#### 3) Upload and Run the Web Job for Data Simulation
+#### 4) Upload and Run the Web Job for Data Simulation
 - Navigate to ***portal.azure.com*** and log in to your account
 
 - On the left tab click Resource Groups

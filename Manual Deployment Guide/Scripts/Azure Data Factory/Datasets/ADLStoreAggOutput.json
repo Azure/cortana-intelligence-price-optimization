@@ -5,7 +5,7 @@
         "type": "AzureDataLakeStore",
         "linkedServiceName": "AzureDataLakeLinkedService",
         "typeProperties": {
-            "folderPath": "aggregated_data/"
+            "folderPath": "any"
         },
         "availability": {
             "frequency": "Hour",

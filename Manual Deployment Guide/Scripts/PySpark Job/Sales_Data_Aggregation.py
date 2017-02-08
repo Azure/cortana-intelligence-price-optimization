@@ -1,11 +1,8 @@
-
-# coding: utf-8
-
 # In[1]:
 
 ################################################## 0: import modules, create Spark Context and define functions
 from pyspark import SparkConf
-from pyspark import SparkContext 
+from pyspark import SparkContext
 from pyspark.sql import HiveContext
 from pyspark.sql.types import *
 from pyspark.sql import functions as F
@@ -14,9 +11,10 @@ from pyspark.sql.window import Window
 from pyspark.mllib.clustering import KMeans, KMeansModel
 import time
 import numpy as np
-import re 
+import re
 from datetime import datetime, timedelta
 import subprocess
+import sys 
 sc = SparkContext()
 sqlContext = HiveContext(sc)
 start_time = time.time()
@@ -51,7 +49,7 @@ def define_group(p):
 
 ################################################## 1: define paths of input files and output files
 ## adl Name
-adl_name="<Azuredatalakestore-Name>"
+adl_name=sys.argv[1]
 ## adl link
 adl_loc="adl://"+adl_name+".azuredatalakestore.net/"
 ## input paths
@@ -61,15 +59,15 @@ stores_d_loc=adl_loc+"publicparameters/stores.csv"
 processed_time_d_loc=adl_loc+"publicparameters/processed_time_df.csv"
 ## output paths
 df_sales_loc=adl_loc+"aggregated_sales_data/"
-df_time_loc=adl_loc+"powerbi_data/time_data/"
-## input path if exists, output path if not exist 
+#df_time_loc=adl_loc+"powerbi_datatest/time_data/"
+## input path if exists, output path if not exist
 df_stores_loc=adl_loc+"publicparameters/stores_processed"
 
 
 # In[4]:
 
 ################################################## 2: data aggregation
-########################## 2.1 read in products, stores, sales, price_changes data from Data Lake 
+########################## 2.1 read in products, stores, sales, price_changes data from Data Lake
 ## get the start date and end date of the current sales cycle
 processed_time_d_file = sc.textFile(processed_time_d_loc).collect()
 processed_time_d=[datetime.strptime(s, '%Y-%m-%d').date() for s in processed_time_d_file[1].split(',')]
@@ -220,9 +218,17 @@ df_sales=df_sales.join(df_products,["product_id"],"inner").join(df_stores_join,[
 df_sales_date_max=processed_time_d[1]-timedelta(7)
 dir_exists=subprocess.call(["hadoop", "fs", "-test", "-d", df_sales_loc+'week_start='+df_sales_date_max.strftime('%Y-%m-%d')])
 if dir_exists==1:
+    df_sales.cache()
     df_sales.write.partitionBy('week_start').parquet(df_sales_loc, mode='append')
+    ## for Power BI
+    df_sales.write.saveAsTable("df_sales",format="parquet",mode="append",partitionBy='week_start')
+    ## for Power BI
     end_time=time.time()
     agg_time=df_sales_date_max
     df_time=sqlContext.createDataFrame(sc.parallelize([["data_clean_and_aggregation",(end_time - start_time),str(agg_time)]]),                                       StructType([StructField("step", StringType(), True),StructField("time", DoubleType(), True),StructField("exec_date", StringType(), True)]))
-    df_time.repartition(1).write.parquet(df_time_loc,mode='append')
+    #df_time.repartition(1).write.parquet(df_time_loc,mode='append')
+    ## for Power BI
+    df_time.write.saveAsTable("df_time",format="parquet",mode="append")
+    ## for Power BI
+    df_sales.unpersist()
 

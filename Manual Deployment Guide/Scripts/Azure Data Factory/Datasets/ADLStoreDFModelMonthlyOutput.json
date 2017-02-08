@@ -5,7 +5,7 @@
         "type": "AzureDataLakeStore",
         "linkedServiceName": "AzureDataLakeLinkedService",
         "typeProperties": {
-            "folderPath": "Models/"
+            "folderPath": "any"
         },
         "availability": {
             "frequency": "Hour",

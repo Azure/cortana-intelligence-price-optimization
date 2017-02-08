@@ -20,6 +20,15 @@ This solution combines several Azure services to provide powerful advantages. Az
 
 The 'Deploy' button will launch a workflow that will deploy an instance of the solution within a Resource Group in the Azure subscription you specify. The solution includes multiple Azure services (described below) along with a web job that simulates data so that immediately after deployment you have a working end-to-end solution. 
 
+## Prerequisites
+<Guide type="Prerequisites">
+* This pattern requires creation of **1 HDInsight Cluster with 16 cores** and **1 Data Lake Store**. Ensure adequate HDInsight quotas and Data Lake Stores are available before provisioning. By default one subscription can create a maximum of 20 core cluster. 
+The limit can be increased. Please consider deleting any unused HDInsight Cluster and Data Lake Store from your subscription. You may contact [Azure Support](https://azure.microsoft.com/support/faq/) if you need to increase the limit. 
+
+* This pattern requires user to have admin or owner privilege in order to create Service Principal in later steps during solution deployment. Check your account permissions using the document [Required permissions](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal#required-permissions).  It also requires PowerShell to create Service Principal. Access to the latest [Azure PowerShell](http://aka.ms/webpi-azps) to run (CLI) commands.   
+
+* For now, the PowerShell script used in this pattern is supported only by Windows machine. If you have a Windows machine, please proceed with deployment, else consider installing a Windows VM to run the script. Use [Deploy Windows VM](https://github.com/Azure/azure-quickstart-templates/tree/master/101-vm-simple-windows) to deploy a Windows VM. 
+</Guide>
 ## Solution Diagram
 ![Solution Diagram](Figures/SolutionArchitecture.png)
 

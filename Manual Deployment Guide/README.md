@@ -233,7 +233,7 @@ Now that the Azure Data Lake Store has been created we need to collect some info
     - Select **Script actions** under **CONFIGURATION** session
     - Click **Submit New**
     - Name : Package Installer
-    - Bash script URI : https://github.com/Azure/cortana-intelligence-price-optimization-for-retail/blob/master/Manual%20Deployment%20Guide/Scripts/PackageInstaller/packageInstaller.sh   
+    - Bash script URI : https://raw.githubusercontent.com/Azure/cortana-intelligence-price-optimization-for-retail/master/Manual%20Deployment%20Guide/Scripts/PackageInstaller/packageInstaller.sh   
     - Chek **Persist this script action to rerun when new nodes are added to the cluster.** on the bottom
     - Click "Create", the Bash script will install the optimization package on all the nodes of the Spark cluster.
   - Select the Spark Cluster we just created again 

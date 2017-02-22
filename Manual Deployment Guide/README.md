@@ -173,7 +173,9 @@ Now that the Azure Data Lake Store has been created we need to collect some info
   - Primary storage type : Data Lake Store
   - Select Data Lake Store account : Select the Azure Data Lake Store created in step 3
   - Root path : /retailtemplate[UI][N]/
+  
   >Note: This root path is where the Spark cluster related files are kept on Azure Data Lake Store.
+  
   - Data Lake Store access : 
        - Select Azure AD service principal : Create New
        - Click on Service Principle : 

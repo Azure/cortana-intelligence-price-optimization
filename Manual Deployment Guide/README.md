@@ -161,11 +161,12 @@ Now that the Azure Data Lake Store has been created we need to collect some info
   - Click on ***Cluster type*** and select following in the new opened blade(panel) :
     - Cluster Type : Spark
     - Operating System : Linux
-    - Version : Spark 1.6.2 (HDI 3.5)
+    - Version : Spark 1.6.3 (HDI 3.5)
     - Cluster Tier : Standard
     - Click ***Select*** at the left bottom of the blade
-  - Cluster Login Username : \<admin/or whatever you want>
-  - Cluster login and SSH password: \<cluster password>
+  - Cluster login username : \<admin/or whatever you want>
+  - Cluster login password : \<cluster password>
+  - Secure Shell (SSH) username : \<ssh username>
   - Resource group : choose **Use Existing** and select the resource group created earlier ***retailtemplate_resourcegroup***
   - Location : Select the **same** location as the Azure Data Lake Store created in step 3
   - Click **Next**
@@ -197,18 +198,22 @@ Now that the Azure Data Lake Store has been created we need to collect some info
        - Click **Select**
   - Click **Next**
 - 3 Applications (optional)
-  - Click **SELECT** 
+  - Click **NEXT** 
 
 - 4 Cluster size
   
   - Set Number of Worker nodes to 2
+    
     > **Note** : When you do not have enough available HDInsight cores under your subscription and in the storage account location/region, you may see the box to enter number of worker node as red. In this situation, either try to select a node with minimum configuration and reduce the worker node count to 1 or ask you account admin to add more HDInsight core under the same storage account location/region. 
     
+  
   - Click on Worker node size: select **D12 V2** and click Select
   - The esimated cost per hour for this cluster will show up in this page as well
+    
     > **Note** : HDInsight clusters billing is pro-rated per minute, whether you are using them or not. Please be sure to delete your cluster after you have finished using it. For information on deleting a cluster, see [How to delete an HDInsight cluster](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-delete-cluster). We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Cluster can be scaled with the growing data size. 
+
+
 - 5 Advanced settings 
-  - Secure Shell (SSH) username : sshuser
   - Click **Next**
 - 6 Summary
   - Click on ***Create*** to initiate the deployment of Spark HDInsight cluster. This can take 15 - 20 mins to complete
@@ -313,6 +318,8 @@ In this step, we will create an Azure Web App to run Data Generator Web Jobs.
     - Click Save on the top
 
 #### 4) Upload and Run the Web Job for Data Simulation
+- Download [the GIT repo](<https://github.com/Azure/cortana-intelligence-price-optimization-for-retail/archive/master.zip>) and unzip it. Please keep the downloaded GIT repo folder during the entire deployment as we will use the files inside the folder in multiple steps.
+
 - Navigate to ***portal.azure.com*** and log in to your account
 
 - On the left tab click Resource Groups
@@ -323,7 +330,7 @@ In this step, we will create an Azure Web App to run Data Generator Web Jobs.
 - Click on **Webjobs** under **SETTINGS** session
 - Click **+ Add** on the left top of the new blade
     - Name : DataSimulator
-    - File Upload : Upload the zip file ***Manual Deployment Guide\Scripts\Data Simulator Job\RetailDataSimulator.zip***. 
+    - File Upload : Upload the zip file ***Manual Deployment Guide\Scripts\Data Simulator Job\RetailDataSimulator.zip*** from the downloaded GIT repo folder.
     - Type : Triggered
     - Triggers : Schedules
     - [CRON Expression](<https://docs.microsoft.com/en-us/azure/app-service-web/web-sites-create-web-jobs#a-namecreatescheduledcronacreate-a-scheduled-webjob-using-a-cron-expression>) : 0 30 * * * *
@@ -344,6 +351,7 @@ In this step, we will create an Azure Web App to run Data Generator Web Jobs.
 
 -	Right click the *adflibs* container and choose ***Open Blob Container Editor***
 -	In the right panel, above the container listing, click the arrow on the ***Upload*** button and choose ***Upload Files***
+
 -	Browse to the ***Manual Deployment Guide\Scripts\PySpark Job*** folder inside the downloaded GIT repo, select all the files including **com.adf.sparklauncher.jar** and click **Upload**. This will upload the required Spark Jobs.
 
 ### 7. Setup Azure Data Factory (ADF)
@@ -388,11 +396,11 @@ In the ***Author and deploy*** blade, we will create all the components of the d
 
 
 #### 2) Create Linked Services
-We will create 3 Linked Services in this solution. The scripts of the Linked Services are located in the folder ***Scripts\Azure Data Factory\Linked Services*** of the solution package.
+We will create 3 Linked Services in this solution. The scripts of the Linked Services are located in the folder ***Scripts\Azure Data Factory\Linked Services*** of the downloaded GIT repo.
 
 - **StorageLinkedService**: This is the Linked Service for the Azure Storage Account.
 
-  -   Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services\StorageLinkedService.json***. Under **connectionString** replace the following items with your Azure Storage credentials.
+  -   Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services\StorageLinkedService.json*** in the downloaded GIT repo. Under **connectionString** replace the following items with your Azure Storage credentials.
     - AccountName=\<Replace with Storage Account Name noted in step 2>
     - AccountKey=\<Replace with Primary Access Key noted in step 2>
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com***.
@@ -402,7 +410,7 @@ We will create 3 Linked Services in this solution. The scripts of the Linked Ser
 
 - **HDInsightLinkedService**: This is the Linked Service for the Azure HDInsight cluster running Spark.
 
-  -   Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services\HDInsightLinkedService.json***. Replace the following items with HDInsight with Spark information you recorded in step 4.
+  -   Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services\HDInsightLinkedService.json*** in the downloaded GIT repo. Replace the following items with HDInsight with Spark information you recorded in step 4.
     - clusterUri : "\<Replace With Cluster URI recorded in step 4>"
     - userName : "\<Replace with Cluster Login Username recorded in step 4>"
     - password : "\<Replace with Cluster Login Password recorded in step 4>"
@@ -413,7 +421,7 @@ We will create 3 Linked Services in this solution. The scripts of the Linked Ser
 
 - **AzureDataLakeLinkedService**: This is the Linked Service for the Azure Data Lake Store.
 
-  -   Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services\AzureDataLakeLinkedService.json***. Replace the following items with Azure Data Lake Store information you recorded in step 3.
+  -   Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Linked Services\AzureDataLakeLinkedService.json*** in the downloaded GIT repo. Replace the following items with Azure Data Lake Store information you recorded in step 3.
     - dataLakeStoreUri : "https://\<Replace with DataLakeStore Name noted in step 3>.azuredatalakestore.net/webhdfs/v1"
   -   sessionId and authorization will be updated automatically once you authorize this linked service.
   -   Go back to ***Author and deploy*** in the data factory on ***portal.azure.com.***
@@ -428,28 +436,29 @@ We will create 3 Linked Services in this solution. The scripts of the Linked Ser
 
 #### 3. Create Datasets
 
-We will create 4 ADF datasets pointing to Azure Data Lake Store. We will use the JSON files located at ***Scripts\Azure Data Factory\Datasets***. No modification is needed on the JSON files.
+We will create 4 ADF datasets pointing to Azure Data Lake Store. We will use the JSON files located at ***Scripts\Azure Data Factory\Datasets*** in the downloaded GIT repo. No modification is needed on the JSON files.
 
 - On ***portal.azure.com*** navigate to your data factory and click the ***Author and Deploy*** button.
 
-For each JSON file under ***Manual Deployment Guide\Scripts\Azure Data Factory\Datasets***:
+For each JSON file under ***Manual Deployment Guide\Scripts\Azure Data Factory\Datasets*** in the downloaded GIT repo:
 -   At the top of the left tab, click ***New dataset*** and select ***Azure Data Lake Store***.
 -   Copy the content of the file into the editor.
 -   Click ***Deploy***.
 
 #### 4. Create Pipelines
 
-We will create 2 pipelines in total using the JSON files located at ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines***. At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active (in UTC time). You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/). 
+We will create 2 pipelines in total using the JSON files located at ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines*** in the downloaded GIT repo. At the bottom of each JSON file, the “start” and “end” fields identify when the pipeline should be active (in UTC time). You will need to modify the start and end time of each file to customize the schedule. For more information on scheduling in Data Factory, see [Create Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/) and [Scheduling and Execution with Data Factory](https://azure.microsoft.com/en-us/documentation/articles/data-factory-scheduling-and-execution/). 
   
 - **RetailDFModel_PriceOptimizationPipeline**
-  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\RetailDFModel_PriceOptimizationPipeline.json***
+  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\RetailDFModel_PriceOptimizationPipeline.json*** in the downloaded GIT repo
   - On line **14**, **47** and **85** replace the **\<Replace with Storage Account Name noted in step 2>** with the **Storage Account Name** we created in step 2, eg, ***retailtemplate[UI][N]*** 
   - On line **16**, **49** and **87** replace the **\<Replace with DataLakeStore Name noted in step 3>** with the **Azure Data Lake Store Account Name** we created in step 3, eg, ***retailtemplate[UI][N]***. 
  
   - On line **116** : set the start time on the 0th minutes of the hour of the currnet UTC time. For example, the current UTC time is ***2017-01-10T22:15:09Z***. Then set the start time as ***2017-01-10T22:00:00Z***. The first slice of the pipeline will start to run at one hour behind the start time, for the example here, ***2017-01-10T23:00:00Z***. 
   
   > **Note**: If before the running time of the first slice, ***2017-01-10T23:00:00Z*** in the example above, the data simulator has not even run for the first time, the first slice of the pipelines will fail because no data is ready for analysis. But the second slice and following slices will succeed if all components are configured properly.
-  - On line **117** : set the end time one week ahead the start time, thus it is ***2017-01-17T22:00:00Z*** if following the above example. You may also set your own end time according to your preference over how long the pipeline should run. However, it is recommended that the pipelines are run at least for more than 1 day to get meaningful visualizations in Power BI, which will be set up in later steps.
+  
+  -  On line **117** : set the end time one week ahead the start time, thus it is ***2017-01-17T22:00:00Z*** if following the above example. You may also set your own end time according to your preference over how long the pipeline should run. However, it is recommended that the pipelines are run at least for more than 1 day to get meaningful visualizations in Power BI, which will be set up in later steps.
 
     ```JSON
     "start": "2017-01-10T22:00:00Z",
@@ -461,7 +470,7 @@ We will create 2 pipelines in total using the JSON files located at ***Manual De
   - Click ***Deploy***.
 
 - **ModelRetrainPipeline**
-  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\ModelRetrainPipeline.json***.
+  - Open the file ***Manual Deployment Guide\Scripts\Azure Data Factory\Pipelines\ModelRetrainPipeline.json*** in the downloaded GIT repo
   - On line **14** : replace the **\<Replace with Storage Account Name noted in step 2>** with the **Storage Account Name** we created in step 2, eg, ***retailtemplate[UI][N]*** 
   - On line **16** : replace the **\<Replace with DataLakeStore Name noted in step 3>** with the **Azure Data Lake Store Account Name** we created in step 3, eg, ***retailtemplate[UI][N]***
 
@@ -483,14 +492,20 @@ Here is how your ADF configurations should look after finishing above steps:
 ### 8. Setup Power BI
 
 The essential goal of this part is to visualize the results from the retail price optimization solution. Power BI can directly connect to the Hive tables created by Spark activities, where the results are stored.
+
 > **Note**:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize. 3) The mape (mean average percentage error) of the demand forecasting model can be high at the very first several round, and it will goes down as more rounds of data are available for model training.
 
 #### 1.	Download the Power BI report file and sign-in 
 
 -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
 -	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-retail-price-optimization/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. 
+
 > **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
+
 - After opening the **'RetailPriceOptimizationSolution.pbix'** file, you might see message saying "There are pending changes in your queries that haven't been applied.". Please **DO NOT** Apply Changes since the data source has not been updated yet. 
+
+> **Note:** The visualizations that you see now in your Power BI report are the cached results from a previous demo deployment, rather than the real data in your deployment. You will see the visualizations that corresponds to the data sitting under your subscription after you follow the below steps to change the data connection to your own Spark cluster.  
+
 -	Sign in by clicking **’Sign in’** on the top-left corner. Note: You must have a Microsoft Office 365 subscription for Power BI access.
 -	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor. You might also see an error message saying "DataFormat.Error: Invalid URI: The hostname could not be parsed.
 ". Please ignore this error message for now and follow the below instructions for updating the data source. Once the data source is updated, the error will gone.

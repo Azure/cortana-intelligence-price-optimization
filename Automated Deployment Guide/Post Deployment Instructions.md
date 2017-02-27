@@ -67,8 +67,13 @@ The essential goal of this part is to visualize the results from the retail pric
 -	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-retail-price-optimization/tree/master/Automated%20Deployment%20Guide/Power%20BI) and then open it. 
 
 > **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
+
 - After opening the **'RetailPriceOptimizationSolution.pbix'** file, you might see message saying "There are pending changes in your queries that haven't been applied.". Please **DO NOT** Apply Changes since the data source has not been updated yet. 
+
+> **Note:** The visualizations that you see now in your Power BI report are the cached results from a previous demo deployment, rather than the real data in your deployment. You will see the visualizations that corresponds to the data sitting under your subscription after you follow the below steps to change the data connection to your own Spark cluster. 
+
 -	Sign in by clicking **’Sign in’** on the top-left corner. Note: You must have a Microsoft Office 365 subscription for Power BI access.
+
 -	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor. You might also see an error message saying "DataFormat.Error: Invalid URI: The hostname could not be parsed.
 ". Please ignore this error message for now and follow the below instructions for updating the data source. Once the data source is updated, the error will gone.
 

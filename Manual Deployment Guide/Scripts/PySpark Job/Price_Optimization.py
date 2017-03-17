@@ -357,7 +357,7 @@ competing_group_index_column_name_StringIndexed = competing_group_index_column_n
 indexer = StringIndexer(inputCol=competing_group_index_column_name,
                         outputCol=competing_group_index_column_name_StringIndexed)
 df = indexer.fit(df).transform(df)
-df=df.cache()  ##need to unpersist
+df.cache()  ##need to unpersist
 ## step 4.2: input for optimization for each batch
 ## tuning parameter 1: batch_size
 ## tuning parameter 2: price_K
@@ -382,7 +382,7 @@ for batch_size_index in range(len(batch_size_index_starts) - 1):
     df_batch_scored, df_batch_scored_names = scoring_df_batch(df_batch, price_K, competing_group_vars,
                                                               features_categorical_train_and_test,
                                                               features_numerical_train_and_test, rfModel)
-    df_batch_scored=df_batch_scored.cache()
+    df_batch_scored.cache()
     ## 4.2.2: reduce the df_batch_scored to the competing group level
     ## calculate the objective function: (price-cost)*pred_demand
     reduce_value_vars = ['product_id', 'price', 'cost', 'msrp']

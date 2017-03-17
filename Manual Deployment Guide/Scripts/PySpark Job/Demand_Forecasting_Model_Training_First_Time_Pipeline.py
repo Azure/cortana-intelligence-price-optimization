@@ -78,7 +78,7 @@ except:
 if not model_exist:
     ################################################## 2: read into aggregated sales data
     df_sales = sqlContext.read.parquet(df_sales_loc)
-    df_sales.cache()
+    df_sales=df_sales.cache()
     ## get the time the model is built
     model_time = df_sales.agg(F.max(col('week_start'))).collect()
     ################################################## 3: feature engineering: build the features

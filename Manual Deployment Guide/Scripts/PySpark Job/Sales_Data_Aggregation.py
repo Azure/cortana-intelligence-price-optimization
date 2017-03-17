@@ -218,7 +218,7 @@ df_sales=df_sales.join(df_products,["product_id"],"inner").join(df_stores_join,[
 df_sales_date_max=processed_time_d[1]-timedelta(7)
 dir_exists=subprocess.call(["hadoop", "fs", "-test", "-d", df_sales_loc+'week_start='+df_sales_date_max.strftime('%Y-%m-%d')])
 if dir_exists==1:
-    df_sales.cache()
+    df_sales=df_sales.cache()
     df_sales.write.partitionBy('week_start').parquet(df_sales_loc, mode='append')
     ## for Power BI
     df_sales.write.saveAsTable("df_sales",format="parquet",mode="append",partitionBy='week_start')

@@ -243,10 +243,13 @@ Now that the Azure Data Lake Store has been created we need to collect some info
     - Bash script URI : https://raw.githubusercontent.com/Azure/cortana-intelligence-price-optimization-for-retail/master/Manual%20Deployment%20Guide/Scripts/PackageInstaller/packageInstaller.sh   
     - Chek **Persist this script action to rerun when new nodes are added to the cluster.** on the bottom
     - Click "Create", the Bash script will install the optimization package on all the nodes of the Spark cluster.
+  
+  > **NOTE:** The above step is to install the python modules needed for optimization on all of the nodes of the HDInsight Spark cluster.
+
   - Select the Spark Cluster we just created again 
     - Select **Data Lake Store Access** under **PROPERTIES** session, you should see Service Principal is Enabled with the Service Principle you just created. 
   
-  > **NOTE:** Only when Service Principle is enabled, the Spark Cluster can read data from and write data to the corresponding Azure Data Lake Store. Otherwise, the Spark jobs will fail in the later data pipelines. So please make sure that the Service Principle is enabled after the cluster is created. If you see the Service Principle is Disabled, please recheck the above steps of your cluster deployment.
+  > **NOTE:** Only when Service Principle is enabled, the Spark Cluster can read data from and write data to the corresponding Azure Data Lake Store. Otherwise, the Spark jobs will fail in the later data pipelines. So the above step is to make sure that the Service Principle is enabled after the cluster is created. If you see the Service Principle is Disabled, please recheck the above steps of your cluster deployment.
 
 ### 5. Setup Azure Web App
 

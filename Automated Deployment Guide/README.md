@@ -27,7 +27,7 @@ The limit can be increased. Please consider deleting any unused HDInsight Cluste
 
 ## Description
 
-#### Estimated Provisioning Time: <Guide type="EstimatedTime">40 Minutes</Guide>
+#### Estimated Provisioning Time: <Guide type="EstimatedTime">1 Hour</Guide>
 <Guide type="Description">
 The Cortana Intelligence Suite provides advanced analytics tools through Microsoft Azure — data ingestion, data storage, data processing and advanced analytics components — all of the essential elements for building an demand forecasting and price optimization for retail solution.
 

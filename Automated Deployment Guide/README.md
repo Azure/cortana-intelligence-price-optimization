@@ -17,10 +17,11 @@ This solution will enable retailers to ingest historical transaction data, predi
 
 ## Prerequisites
 <Guide type="Prerequisites">
-* This pattern requires creation of **1 HDInsight Cluster with 16 cores**, **1 Virtual Machine** and **1 Data Lake Store**. Ensure adequate HDInsight/Virtual Machine quotas and Data Lake Stores are available before provisioning. By default one subscription can create a maximum of 20 core cluster. 
-The limit can be increased. Please consider deleting any unused HDInsight Cluster and Data Lake Store from your subscription. You may contact [Azure Support](https://azure.microsoft.com/support/faq/) if you need to increase the limit. 
 
-* This pattern requires user to have admin or owner privilege in order to create Service Principal in later steps during solution deployment. Check your account permissions using the document [Required permissions](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal#required-permissions). 
+- This pattern requires creation of **1 HDInsight Cluster with 16 cores**, **1 Virtual Machine** and **1 Data Lake Store**. Ensure adequate HDInsight/Virtual Machine quotas and Data Lake Stores are available before provisioning. By default one subscription can create a maximum of 20 core cluster. 
+The limit can be increased. Please consider deleting any unused HDInsight Cluster and Data Lake Store from your subscription. You may contact [Azure Support](https://azure.microsoft.com/support/faq/) if you need to increase the limit.
+
+- This pattern requires user to have admin or owner privilege in order to create Service Principal in later steps during solution deployment. Check your account permissions using the document [Required permissions](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal#required-permissions). 
 </Guide>
 
 ## Description

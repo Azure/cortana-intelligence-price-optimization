@@ -2,12 +2,16 @@
 
 Get-AzureRmSubscription
 
+
 $subscriptionName = Read-Host 'Enter the Subscription Name?'
 $certName ="retailopt"+[guid]::NewGuid().toString().subString(0,8)
 $certPassword = Read-Host -Prompt 'Please enter a new Password here, which will be used as the password for the certificate to be created?' 
 $clusterName = $certName
 
+$ErrorActionPreference = "Stop"
+$VerbosePreference = "Continue"
 
+try{
 
 Get-AzureRmSubscription -SubscriptionName $subscriptionName | Select-AzureRmSubscription
 
@@ -72,3 +76,7 @@ Add-Content $certFolder\Demo_Inputs_$certName.txt "$OFS Client Secret: get clien
 Write-Output "Text file location:"$certFolder"\Demo_Inputs_"$certName".txt"
     
 Start-Process $certFolder\Demo_Inputs_$certName.txt
+}
+catch{
+$Error[0]
+}

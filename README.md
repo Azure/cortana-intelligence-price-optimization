@@ -11,7 +11,7 @@ For a discussion of the analytical approach used in this solution, see the [Solu
 ## Solution Architecture
 In this session, we provide more details about how the above analytical approach is operationalized in Cortana Intelligence Suite. The following chart describes the solution architecture.
 
-![](Manual Deployment Guide/Figures/SolutionArchitecture.png)
+![Architecture Diagram](https://github.com/Azure/cortana-intelligence-price-optimization-for-retail/blob/master/Manual%20Deployment%20Guide/Figures/SolutionArchitecture.png)
 
 ### What’s Under the Hood
 Raw simulated transactional data are pushed into Azure Data Lake Storage, whence the Spark Jobs run on HDInsight Cluster will take the raw data as inputs and:
@@ -28,7 +28,7 @@ A parallel version of the price optimization algorithm is implemented on Spark. 
 ## Solution Dashboard
 The snapshot below shows the Power BI dashboard that visualizes the results of retail price optimization. 
 
-![](Manual Deployment Guide/Figures/RetailPriceOptDashboard.png)
+![Dashboard](https://github.com/Azure/cortana-intelligence-price-optimization-for-retail/blob/master/Manual%20Deployment%20Guide/Figures/RetailPriceOptDashboard.png)
 
 The dashboard contains four parts:
 1. **Price Elasticity**: shows the relationship between sales and price, and using the filters on the right, you can select to view the results for a specific store, department or product.

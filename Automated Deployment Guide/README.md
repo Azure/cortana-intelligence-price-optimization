@@ -48,5 +48,6 @@ The 'Deploy' button will launch a workflow that will deploy an instance of the s
 
 7.	Finally, **Power BI** is used for results visualization, so that users can monitor the results of the sales, predicted future demand as well as recommended optimal prices for a variety of products sold in different stores.
 </Guide>
+
 ##### Disclaimer
 ©2017 Microsoft Corporation. All rights reserved.  This information is provided "as-is" and may change without notice. Microsoft makes no warranties, express or implied, with respect to the information provided here.  Third party data was used to generate the solution.  You are responsible for respecting the rights of others, including procuring and complying with relevant licenses in order to create similar datasets.

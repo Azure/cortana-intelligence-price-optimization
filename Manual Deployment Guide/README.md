@@ -1,4 +1,4 @@
-# Demand Forecasting and Price Optimization
+# Demand Forecasting and Price Optimization Solution
 
 ## Table of Contents  
 - [Abstract](#abstract)  
@@ -10,7 +10,7 @@
 
 ## Abstract
 
-This **Manual Deployment Guide** explains how to build the **Demand Forecasting and Price Optimization** step by step. Going through this manual deployment process will help implementers gain an inside view of how the solution is built and the function of each component.
+This **Manual Deployment Guide** explains how to build the **Demand Forecasting and Price Optimization Solution** step by step. Going through this manual deployment process will help implementers gain an inside view of how the solution is built and the function of each component.
 
 ## Requirements
 

@@ -1,4 +1,4 @@
-# Demand Forecasting and Price Optimization
+# Demand Forecasting and Price Optimization Solution
 
 ## Abstract
 This document is focusing on the post deployment instructions for the automated deployment through [Cortana Intelligence Solutions](https://gallery.cortanaintelligence.com/solutions). The source code of the solution as well as manual deployment instructions can be found [here](https://github.com/Azure/cortana-intelligence-price-optimization/tree/master/Manual%20Deployment%20Guide).

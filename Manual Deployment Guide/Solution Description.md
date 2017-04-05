@@ -1,4 +1,4 @@
-# Demand Forecasting and Price Optimization
+# Demand Forecasting and Price Optimization Solution
 
 ## Analytical Approach
 In this section, we provide more details about the analytical approach taken in the solution. The price optimization approach and algorithm used in this solution follows the method described by [Ferreira et al. (2015)](#refs).

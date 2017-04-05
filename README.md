@@ -26,7 +26,7 @@ The final results are visualized in Power BI Dashboard. The whole process is sch
 A parallel version of the price optimization algorithm is implemented on Spark. Utilizing `RDD.map()`, the independent price optimization problems for products in different competing group can be solved in parallel, reducing runtime.
 
 ## Solution Dashboard
-The snapshot below shows the Power BI dashboard that visualizes the results of demand forecasting and price optimization. 
+The snapshot below shows the Power BI dashboard that visualizes the results of demand forecasting and price optimization solution. 
 
 ![Dashboard](https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Manual%20Deployment%20Guide/Figures/PriceOptDashboard.png)
 

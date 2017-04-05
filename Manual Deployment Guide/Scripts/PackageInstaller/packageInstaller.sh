@@ -6,7 +6,7 @@ wget -O /tmp/HDInsightUtilities-v01.sh -q https://hdiconfigactions.blob.core.win
 
 #wnload LP_Solve binary to temporary location.
 echo "Download LP_Solve binary to temprorary location"
-download_file https://github.com/Azure/cortana-intelligence-price-optimization-for-retail/raw/master/Manual%20Deployment%20Guide/Scripts/PackageInstaller/lp_solve.tar.gz /tmp/lp_solve.tar.gz
+download_file https://github.com/Azure/cortana-intelligence-price-optimization/raw/master/Manual%20Deployment%20Guide/Scripts/PackageInstaller/lp_solve.tar.gz /tmp/lp_solve.tar.gz
 
 # Untar the lp_solve binary and move it to proper location.
 echo "Untar binary file"

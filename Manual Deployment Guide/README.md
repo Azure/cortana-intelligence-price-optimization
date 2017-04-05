@@ -1,4 +1,4 @@
-# Demand Forecasting and Price Optimization for Retail 
+# Demand Forecasting and Price Optimization
 
 ## Table of Contents  
 - [Abstract](#abstract)  
@@ -10,7 +10,7 @@
 
 ## Abstract
 
-This **Manual Deployment Guide** explains how to build the **Demand Forecasting and Price Optimization for Retail** step by step. Going through this manual deployment process will help implementers gain an inside view of how the solution is built and the function of each component.
+This **Manual Deployment Guide** explains how to build the **Demand Forecasting and Price Optimization** step by step. Going through this manual deployment process will help implementers gain an inside view of how the solution is built and the function of each component.
 
 ## Requirements
 
@@ -33,17 +33,17 @@ It will take about four to five hours to implement this solution if you have all
 ## Architecture 
 ![](Figures/SolutionArchitecture.png)
 
-The figure above shows the overall architecture of the Retail Price Optimization solution. Here is the explanation :
+The figure above shows the overall architecture of the Demand Forecasting and Price Optimization solution. Here is the explanation :
 
 - **Data Sources** : The solution uses a Web Job for generating simulated retail data. This application runs on Azure Web Apps and writes the raw data on Azure Data Lake Store. 
 
 - **Ingest** and **Prepare** : A Spark job reads the raw data from Azure Data Lake Storage and processes/prepares it for the next steps
 
 - **Analyze** : It has two parts :
-  - First Spark Job uses the processed data to train the Retail Demand Forecasting model
+  - First Spark Job uses the processed data to train the Demand Forecasting model
   - Second Spark Job solves the Price Optimization problems and outputs the recommended optimal prices  
 
-- **Publish** : The results of both Retail Demand Forecasting and Price Optimization are stored on Azure Data Lake Store
+- **Publish** : The results of both Demand Forecasting and Price Optimization are stored on Azure Data Lake Store
 
 - **Visualize** : Power BI is linked to Apache Spark in Azure HDInsight to visualize the results
 
@@ -240,7 +240,7 @@ Now that the Azure Data Lake Store has been created we need to collect some info
     - Select **Script actions** under **CONFIGURATION** session
     - Click **Submit New**
     - Name : Package Installer
-    - Bash script URI : https://raw.githubusercontent.com/Azure/cortana-intelligence-price-optimization-for-retail/master/Manual%20Deployment%20Guide/Scripts/PackageInstaller/packageInstaller.sh   
+    - Bash script URI : https://raw.githubusercontent.com/Azure/cortana-intelligence-price-optimization/master/Manual%20Deployment%20Guide/Scripts/PackageInstaller/packageInstaller.sh   
     - Chek **Persist this script action to rerun when new nodes are added to the cluster.** on the bottom
     - Click "Create", the Bash script will install the optimization package on all the nodes of the Spark cluster.
   
@@ -321,7 +321,7 @@ In this step, we will create an Azure Web App to run Data Generator Web Jobs.
     - Click Save on the top
 
 #### 4) Upload and Run the Web Job for Data Simulation
-- Download [the GIT repo](<https://github.com/Azure/cortana-intelligence-price-optimization-for-retail/archive/master.zip>) and unzip it. Please keep the downloaded GIT repo folder during the entire deployment as we will use the files inside the folder in multiple steps.
+- Download [the GIT repo](<https://github.com/Azure/cortana-intelligence-price-optimization/archive/master.zip>) and unzip it. Please keep the downloaded GIT repo folder during the entire deployment as we will use the files inside the folder in multiple steps.
 
 - Navigate to ***portal.azure.com*** and log in to your account
 
@@ -494,14 +494,14 @@ Here is how your ADF configurations should look after finishing above steps:
 
 ### 8. Setup Power BI
 
-The essential goal of this part is to visualize the results from the retail price optimization solution. Power BI can directly connect to the Hive tables created by Spark activities, where the results are stored.
+The essential goal of this part is to visualize the results from the demand forecasting and price optimization solution. Power BI can directly connect to the Hive tables created by Spark activities, where the results are stored.
 
 > **Note**:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize. 3) The mape (mean average percentage error) of the demand forecasting model can be high at the very first several round, and it will goes down as more rounds of data are available for model training.
 
 #### 1.	Download the Power BI report file and sign-in 
 
 -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
--	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-retail-price-optimization/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. 
+-	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-price-optimization/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. 
 
 > **Note:** If you see an error massage, please make sure you have installed the latest version of Power BI Desktop.
 

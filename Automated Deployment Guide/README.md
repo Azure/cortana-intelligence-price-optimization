@@ -35,7 +35,7 @@ This solution combines several Azure services to provide powerful advantages. Az
 The 'Deploy' button will launch a workflow that will deploy an instance of the solution within a Resource Group in the Azure subscription you specify. The solution includes multiple Azure services (described below) along with a web job that simulates data so that immediately after deployment you have a working end-to-end solution. 
 
 ## Solution Diagram
-![Solution Diagram](Figures/SolutionArchitecture.png)
+![Solution Diagram](https://cloud.githubusercontent.com/assets/16085124/24881410/ae6c8dae-1e0b-11e7-8f27-41812512f31b.png)
 
 ## Technical details and workflow
 1.	The simulation data is generated hourly by newly deployed **Azure Web Jobs**.

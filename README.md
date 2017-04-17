@@ -1,4 +1,4 @@
-# Demand Forecasting and Price Optimization- A Cortana Intelligence Suite Solution
+# Demand Forecasting and Price Optimization- A Cortana Intelligence Solution How-To Guide
 
 While pricing is recognized as a pivotal determinant of success in many industries such as retail industry, it is also one of the most challenging merchandising tasks. Companies face many challenges when choosing pricing strategies to maximize profit, including accurately forecasting financial impact of potential pricing tactics, taking reasonable consideration of core business constraints, and fairly validating the executed pricing decisions. Expanding product offerings add further computational requirements to make in-time pricing decisions, compounding the difficulty of this already overwhelming task.
 
@@ -9,7 +9,7 @@ This solution will enable companies to ingest historical transaction data , pred
 For a discussion of the analytical approach used in this solution, see the [Solution Description](https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Manual%20Deployment%20Guide/Solution%20Description.md) in the Manual Deployment Guide.
 
 ## Solution Architecture
-In this session, we provide more details about how the above analytical approach is operationalized in Cortana Intelligence Suite. The following chart describes the solution architecture.
+In this session, we provide more details about how the above analytical approach is operationalized in Cortana Intelligence. The following chart describes the solution architecture.
 
 ![Architecture Diagram](https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Manual%20Deployment%20Guide/Figures/SolutionArchitecture.png)
 
@@ -38,7 +38,7 @@ The dashboard contains four parts:
 
 ## Getting Started
 
-This solution template contains materials to help both technical and business audiences understand our demand forecasting and price optimization solution built on the [Cortana Intelligence Suite](https://www.microsoft.com/en-us/server-cloud/cortana-intelligence-suite/Overview.aspx).
+This solution template contains materials to help both technical and business audiences understand our demand forecasting and price optimization solution built on [Cortana Intelligence](https://www.microsoft.com/en-us/server-cloud/cortana-intelligence-suite/Overview.aspx).
 
 ## Business Audiences
 

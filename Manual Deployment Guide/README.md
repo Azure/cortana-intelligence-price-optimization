@@ -51,7 +51,7 @@ The figure above shows the overall architecture of the Demand Forecasting and Pr
 
 
 ## Setup Steps
-This section walks the readers through the creation of each of the Cortana Intelligence Suite services in the architecture defined in Figure 1.
+This section walks the readers through the creation of each of the Cortana Intelligence services in the architecture defined in Figure 1.
 As there are usually many interdependent components in a solution, Azure Resource Manager enables you to group all Azure services in one solution into a [resource group](https://azure.microsoft.com/en-us/documentation/articles/resource-group-overview/#resource-groups). Each component in the resource group is called a resource.
 We want to use a common name for the different services we are creating. The remainder of this document will use the assumption that the base service name is:
 

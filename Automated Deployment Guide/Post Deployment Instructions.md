@@ -1,7 +1,16 @@
 # Demand Forecasting and Price Optimization Solution
 
 ## Abstract
-This document is focusing on the post deployment instructions for the automated deployment through [Cortana Intelligence Solutions](https://gallery.cortanaintelligence.com/solutions). The source code of the solution as well as manual deployment instructions can be found [here](https://github.com/Azure/cortana-intelligence-price-optimization/tree/master/Manual%20Deployment%20Guide).
+This document is focused on the post deployment instructions for the [automated deployment](https://gallery.cortanaintelligence.com/solution/513038e359b7464390be575513043ef3) through the Cortana Intelligence Gallery. The source code of the solution as well as manual deployment instructions can be found [here](https://github.com/Azure/cortana-intelligence-price-optimization/tree/master/Manual%20Deployment%20Guide).
+
+### Quick links
+[Monitor Progress](https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Automated%20Deployment%20Guide/Post%20Deployment%20Instructions.md#monitor-progress) - see how you can monitor the resources that have been deployed to your subscription.
+
+[Visualization Steps](https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Automated%20Deployment%20Guide/Post%20Deployment%20Instructions.md#visualization) - instructions to connect up a Power BI dashboard to your deployment that visualized the results.
+
+[Scaling](https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Automated%20Deployment%20Guide/Post%20Deployment%20Instructions.md#scaling) - guidance on how to think about scaling this solution according to your needs.
+
+[Customization](https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Automated%20Deployment%20Guide/Post%20Deployment%20Instructions.md#customization) - guidance on how to think about customizing this solution with your own data.
 
 ## Monitor Progress
 Once the solution is deployed to the subscription, you can see the services deployed by clicking the resource group name on the final deployment screen in the CIS.
@@ -111,7 +120,7 @@ Note that this step needs a Power BI account (or Office 365 account).
 The architecture of this solution is designed to be scalable. [Azure Data Lake Store](https://azure.microsoft.com/en-us/services/data-lake-store/) can scale throughput to support any size of analytic workload without redesigning your application or repartitioning your data at higher scale. Apache Spark for Azure HDInsight, either existing clusters or new ones, can also be scaled up to fit into heavier computation needs. 
 
 ## Customization
-For solution customization, you can refer to the manual deployment guide offered [here](<https://github.com/Azure/cortana-intelligence-price-optimization/tree/master/Manual%20Deployment%20Guide>) to gain an inside view of how the solution is built, the function of each component and access to all the source codes used in the demo solution. You can customize the components accordingly to satisfy the business needs of your organization. Or you can [connect with one of our partners](http://aka.ms/CISFindPartner) for more information on how to tailor Cortana Intelligence to your needs.
+For solution customization, you can refer to the manual deployment guide offered [here](https://github.com/Azure/cortana-intelligence-price-optimization/tree/master/Manual%20Deployment%20Guide) to gain an inside view of how the solution is built, the function of each component and access to all the source codes used in the demo solution. You can customize the components accordingly to satisfy the business needs of your organization. Or you can [connect with one of our partners](https://appsource.microsoft.com/en-us/product/cortana-intelligence/microsoft-cortana-intelligence.demand-forecasting-for-retail-preview?flightCodes=demand-forecasting-hidekey) for more information on how to tailor Cortana Intelligence to your needs.
 
 ##### Disclaimer
 ©2016 Microsoft Corporation. All rights reserved.  This information is provided "as-is" and may change without notice. Microsoft makes no warranties, express or implied, with respect to the information provided here.  Third party data was used to generate the solution.  You are responsible for respecting the rights of others, including procuring and complying with relevant licenses in order to create similar datasets.

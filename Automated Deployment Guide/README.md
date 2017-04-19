@@ -1,18 +1,18 @@
 # Demand Forecasting and Price Optimization Solution
 
 ## Abstract
-This **Automated Deployment Guide** contains the post-deployment instructions for the deployable **Demand Forecasting and Price Optimization Solution** solution in the Cortana Intelligence Gallery. 
+This **Automated Deployment Guide** contains the post-deployment instructions for the deployable [**Demand Forecasting and Price Optimization Solution**](https://gallery.cortanaintelligence.com/solution/513038e359b7464390be575513043ef3) solution in the Cortana Intelligence Gallery. 
 
 <Guide type="PostDeploymentGuidance" url="https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Automated%20Deployment%20Guide/Post%20Deployment%20Instructions.md"/>
 
 
 ## Summary
 <Guide type="Summary">
-While pricing is recognized as a pivotal determinant of success in many industries such as retail industry, it is also one of the most challenging merchandising tasks. Companies face many challenges when choosing pricing strategies to maximize profit, including accurately forecasting financial impact of potential pricing tactics, taking reasonable consideration of core business constraints, and fairly validating the executed pricing decisions. Expanding product offerings add further computational requirements to make in-time pricing decisions, compounding the difficulty of this already overwhelming task.
+Pricing is recognized as a pivotal determinant of success in many industries and can be one of the most challenging tasks. Companies often struggle with several aspects of the pricing process, including accurately forecasting the financial impact of potential tactics, taking reasonable consideration of core business constraints, and fairly validating the executed pricing decisions. Expanding product offerings add further computational requirements to make real-time pricing decisions, compounding the difficulty of this already overwhelming task. 
 
-The solution provided here addresses the challenges raised above by utilizing historical transaction data to train a demand forecasting model. Pricing of products in a competing group is also incorporated to predict cross product impact such as cannibalization. A price optimization algorithm can then employ the model to forecast demand at various candidate price points while considering business constraints such as feasible price ranges, and choose the combination which maximizes profit. An experiment is designed to evaluate algorithm performance, compared to the alternate pricing strategy. For illustration purpose, the solution is running on a simulated typical retail scenario. However, the solution can also be adpated to other scenarios as long as the general data science approach remains similar. The whole process described above is operationalized and deployed using Cortana Intelligence.
+This solution addresses the challenges raised above by utilizing historical transaction data to train a demand forecasting model. Pricing of products in a competing group is also incorporated to predict cross-product impacts such as cannibalization. A price optimization algorithm then employs the model to forecast demand at various candidate price points and takes into account business constraints to maximize profit. The solution can be customized to analyze various pricing scenarios as long as the general data science approach remains similar. 
 
-This solution will enable companies to ingest historical transaction data , predict future demand, and obtain optimal pricing recommendations on a regular basis, consequently improving profitability and reducing the time and effort required for pricing tasks.
+The process described above is operationalized and deployed in the Cortana Intelligence Suite. This solution will enable companies to ingest historical transaction data, predict future demand, and obtain optimal pricing recommendations on a regular basis. As a result, the solution drives opportunities for improved profitability and reductions in time and effort allocated to pricing tasks.
 </Guide>
 
 ## Prerequisites

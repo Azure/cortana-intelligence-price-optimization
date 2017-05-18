@@ -52,7 +52,7 @@ $servicePrincipal = New-AzureRmADServicePrincipal -ApplicationId $application.Ap
 
 #### 4. Retrieve Service Principal information needed for HDInsight(Spark) deployment
 
-$tenant_ID = (Get-AzureRmContext).Tenant.TenantId
+$tenant_ID = (Get-AzureRmContext).Tenant.Id
 
 $object_ID = $servicePrincipal.Id
 

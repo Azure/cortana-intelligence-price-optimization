@@ -1,4 +1,4 @@
-# Demand Forecasting and Price Optimization Solution
+﻿# Demand Forecasting and Price Optimization Solution
 
 ## Table of Contents  
 - [Abstract](#abstract)  
@@ -62,7 +62,7 @@ So for example, Steven X. Smith might use a base service name of *retailtemplate
 
 > **NOTE:** We create most resources in Central US region. The resource availability in different regions depends on your subscription. When deploying you own resources, make sure all data storage and compute resources are created in the same region to avoid inter-region data movement. Azure Resource Group and Azure Data Factory don’t have to be in the same region as the other resources. Azure Resource Group is a virtual group that groups all the resources in one solution. Azure Data Factory is a cloud-based data integration service that automates the movement and transformation of data. Data factory orchestrates the activities of the other services. Use same subscription to deploy all the mentioned resources.
 
-In the below steps, following Azure resources will be created under your subscription: Azure Storage Account, Azure Data Lake Store, Azure HDInsight Spark Cluster, Azure Web Apps and Azure Data Factory. And related configurataion instructions are also provided to build the above components as an end-to-end solution.
+In the below steps, following Azure resources will be created under your subscription: Azure Storage Account, Azure Data Lake Store, Azure HDInsight Spark Cluster, Azure Web Apps and Azure Data Factory. And related configuration instructions are also provided to build the above components as an end-to-end solution.
 
 ### 1. Create a new Azure Resource Group
 
@@ -152,7 +152,7 @@ Now that the Azure Data Lake Store has been created we need to collect some info
 
 - Navigate to ***portal.azure.com*** and log in to your account
 
-- On the left tab click ***New > Intelligence + analytics > HDInsight***
+- On the left tab click ***New > Data + analytics > HDInsight***
 
 - Choose **Custom (size, settings, apps)** in the left blade
 - 1 Basics
@@ -208,7 +208,7 @@ Now that the Azure Data Lake Store has been created we need to collect some info
     
   
   - Click on Worker node size: select **D12 V2** and click Select
-  - The esimated cost per hour for this cluster will show up in this page as well
+  - The estimated cost per hour for this cluster will show up in this page as well
     
     > **Note** : HDInsight clusters billing is pro-rated per minute, whether you are using them or not. Please be sure to delete your cluster after you have finished using it. For information on deleting a cluster, see [How to delete an HDInsight cluster](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-delete-cluster). We have selected low configuration spark to save the cost of the solution as the data size for this solution is not big initially. Spark Cluster can be scaled with the growing data size. 
 
@@ -237,11 +237,11 @@ Now that the Azure Data Lake Store has been created we need to collect some info
   - On the left tab click Resource Groups
   - Click on the resource group we created earlier ***retailtemplate\_resourcegroup***
   - Select the Spark Cluster we just created 
-    - Select **Script actions** under **CONFIGURATION** session
+    - Select **Script actions** under **CONFIGURATION** section
     - Click **Submit New**
     - Name : Package Installer
     - Bash script URI : https://raw.githubusercontent.com/Azure/cortana-intelligence-price-optimization/master/Manual%20Deployment%20Guide/Scripts/PackageInstaller/packageInstaller.sh   
-    - Chek **Persist this script action to rerun when new nodes are added to the cluster.** on the bottom
+    - Check **Persist this script action to rerun when new nodes are added to the cluster.** on the bottom
     - Click "Create", the Bash script will install the optimization package on all the nodes of the Spark cluster.
   
   > **NOTE:** The above step is to install the python modules needed for optimization on all of the nodes of the HDInsight Spark cluster.
@@ -280,7 +280,7 @@ In this step, we will create an Azure Web App to run Data Generator Web Jobs.
 
 #### 2) Collect Information for App Service Configuration
 - Navigate to ***portal.azure.com*** and login in to your account
-- Click on Azure Active Direcoty icon ![](Figures/AzureActiveDirectoryIcon.png) on the left ribbon
+- Click on Azure Active Directory icon ![](Figures/AzureActiveDirectoryIcon.png) on the left ribbon
 - Select **Properties** under **MANAGE** session
 - Copy the **Directory ID** and save it as **TenantId** in the table below
 - Select **App registrations** under **MANAGE** session
@@ -291,7 +291,7 @@ In this step, we will create an Azure Web App to run Data Generator Web Jobs.
    - EXPIRES: In 1 year
 - Click **Save** on the top
 - Copy the generated **VALUE** and save it as **ClientSecret** in the table below
-- Add the name of the Azure Dala Lake Store created in step 3 and save it as DataLakeStoreName in the table below
+- Add the name of the Azure Data Lake Store created in step 3 and save it as DataLakeStoreName in the table below
 
     Parameter | Value 
     --- | --- 
@@ -330,7 +330,7 @@ In this step, we will create an Azure Web App to run Data Generator Web Jobs.
 - Click on the resource group we created earlier ***retailtemplate_resourcegroup***. If you don’t see the resource group, click ***Refresh*** 
 
 - Click on the App Service ![](Figures/AppServiceIcon.png) just created 
-- Click on **Webjobs** under **SETTINGS** session
+- Click on **Webjobs** under **SETTINGS** section
 - Click **+ Add** on the left top of the new blade
     - Name : DataSimulator
     - File Upload : Upload the zip file ***Manual Deployment Guide\Scripts\Data Simulator Job\RetailDataSimulator.zip*** from the downloaded GIT repo folder.
@@ -375,7 +375,7 @@ There are 3 main components of ADF: linked service, dataset and pipeline. You ca
 
 - Navigate to ***portal.azure.com*** and log in to your account.
 
-- On the left tab, click ***+ (New) > Intelligence + analytics > Data Factory*** and select the following options:
+- On the left tab, click ***+ (New) > Data + analytics > Data Factory*** and select the following options:
 
   -   Name : ***retailtemplate[UI][N]***
 
@@ -566,7 +566,7 @@ For both **Aggregated Sales Data** and **Optimization Result Data**, the solutio
    - Click on **Sql_Query_on_Parquet_Files_Example.ipynb** to open the example notebook, which contains a toy example of how to run sql query against the Parquet file versions of the two result datasets.
    - Replace the adl_name <Azuredatalakestore-Name> on the line 1 of the first cell with the one we created in step 2.
    - Click on the first cell, and Click **Cell** on the top and select **Run Cells**. The codes in the first cell will ingest the two Parquet files and register them as temporary tables.
-   - Then use the same way to run the second and third cell. Any cells using [`%%sql` magic](<https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-jupyter-notebook-kernels#parameters-supported-with-the-sql-magic>) are able to run the **SQL queries** on the registerd temporary tables. You can write your own customized queries for post analysis. The sample SQL queries select the first 10 records in the **Aggregated Sales Data** and **Optimization Result Data**, and you can also see various visualization of the query result by choosing a different **Type** other than **Table**.
+   - Then use the same way to run the second and third cell. Any cells using [`%%sql` magic](<https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-jupyter-notebook-kernels#parameters-supported-with-the-sql-magic>) are able to run the **SQL queries** on the registered temporary tables. You can write your own customized queries for post analysis. The sample SQL queries select the first 10 records in the **Aggregated Sales Data** and **Optimization Result Data**, and you can also see various visualization of the query result by choosing a different **Type** other than **Table**.
 
 
 ## Delete the Solution

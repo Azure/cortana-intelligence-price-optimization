@@ -254,7 +254,7 @@ Now that the Azure Data Lake Store has been created we need to collect some info
 **Stop and check yourself:** Checking your work for typos and other errors throughout the process makes troubleshooting easier. Now is a good time to quickly check your progress:
   - On the left tab click Resource Groups
   - Click on the resource group created earlier **retailtemplate_resourcegroup**. If you don't see the resource group, click Refresh
-  -At this point you should see the Storage Account, the Data Lake Store, and the HDInsight cluster. Confirm the names match your notes and the locations are the same.
+  - At this point you should see the Storage Account, the Data Lake Store, and the HDInsight cluster. Confirm the names match your notes and the locations are the same.
 
 ### 5. Setup Azure Web App
 

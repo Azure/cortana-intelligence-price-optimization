@@ -251,6 +251,11 @@ Now that the Azure Data Lake Store has been created we need to collect some info
   
   > **NOTE:** Only when Service Principle is enabled, the Spark Cluster can read data from and write data to the corresponding Azure Data Lake Store. Otherwise, the Spark jobs will fail in the later data pipelines. So the above step is to make sure that the Service Principle is enabled after the cluster is created. If you see the Service Principle is Disabled, please recheck the above steps of your cluster deployment.
 
+**Stop and check yourself:** Checking your work for typos and other errors throughout the process makes troubleshooting easier. Now is a good time to quickly check your progress:
+  - On the left tab click Resource Groups
+  - Click on the resource group created earlier **retailtemplate_resourcegroup**. If you don't see the resource group, click Refresh
+  - At this point you should see the Storage Account, the Data Lake Store, and the HDInsight cluster. Confirm the names match your notes and the locations are the same.
+
 ### 5. Setup Azure Web App
 
 In this step, we will create an Azure Web App to run Data Generator Web Jobs.
@@ -342,6 +347,13 @@ In this step, we will create an Azure Web App to run Data Generator Web Jobs.
     
     - Click **OK** to create the web job
 - Now you should be able to see the DataSimulator web job in the list of webjobs. If not, please wait for several seconds and click **Refresh** on the top
+
+**Stop and check yourself:** Checking your work for typos and other errors throughout the process makes troubleshooting easier. Now is a good time to quickly check your progress:
+  - On the left tab click Resource Groups
+  - Click on the resource group created earlier **retailtemplate_resourcegroup**. If you don't see the resource group, click Refresh
+  - At this point you should see six items: Data Lake Store, HDInsight cluster, Application Insights, Storage account, App Service plan and App Service. Confirm all items exist and locations are close (if not the same).
+  - Click on the App Service and go to WebJobs under SETTINGS section
+  - Click Refresh and confirm that the items displayed match your input and that the Status is not failing. If it's failing, first check your configuration of the App Service plan and its location. Next, you can return to the WebJobs page and select "Logs" in the top ribbon. This pop-out window will show you a log of everything that was attempted by the WebJob and whether it was successful.
 
 ### 6. Prepare the storage account
 -	Download and install the [Microsoft Azure Storage Explorer](http://storageexplorer.com/)
@@ -491,6 +503,15 @@ We will create 2 pipelines in total using the JSON files located at ***Manual De
 
 Here is how your ADF configurations should look after finishing above steps:
 ![](Figures/AzureDataFactoryConfig.png)
+
+**Stop and check yourself:** Checking your work for typos and other errors throughout the process makes troubleshooting easier. Now is a good time to quickly check your progress:
+  - On the left tab click Resource Groups
+  - Click on the resource group created earlier **retailtemplate_resourcegroup**. If you don't see the resource group, click Refresh
+  - At this point you should see seven items: Data factory, Data Lake Store, HDInsight cluster, Application Insights, Storage account, App Service plan and App Service. Confirm all items exist and locations are close (if not the same).
+  - Open Azure Storage Explorer and confirm five files were uploaded to a blob container "adflibs" in your storage account.
+  - On portal.azure.com, navigate to your data factory and select Author and Deploy. Confirm you ADF configurations match the image shown above, and it's not a bad idea to perform a quick scan of each to check for typos and confirm you put in the right dates and times.
+  - Additionally, you can navigate to your data factory and select Monitor and Manage. This pop-out will show you the pipeline you've created. You can click on the various activities and datasets and check their success, failure, and timing. If there are failures, click on them and on the right bar under "Attempts", it is possible to see what failed during the execution.
+  - Setting up the Power BI will only be successful after the above steps are successful, so confirm success before moving on.
 
 ### 8. Setup Power BI
 

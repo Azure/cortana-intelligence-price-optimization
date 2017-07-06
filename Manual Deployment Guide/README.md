@@ -519,7 +519,27 @@ The essential goal of this part is to visualize the results from the demand fore
 
 > **Note**:  1) In this step, the prerequisite is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop). 2) We recommend you start this process 2-3 hours after you finish deploying the ADF pipelines so that you have more data points to visualize. 3) The mape (mean average percentage error) of the demand forecasting model can be high at the very first several round, and it will goes down as more rounds of data are available for model training.
 
-#### 1.	Download the Power BI report file and sign-in 
+#### 1. Configure parameters on Spark Thrift Server
+In this solution, Power BI is communicating with Spark Thrift Server to query the data in hive tables. Since in this demo solution, the Spark cluster created is relatively small, we need to firstly configure the parameters on Spark Thrift Server so that it will not occupy too much memory and computing resources of the Spark cluster and affect the execution of the Spark applications in the ADF pipelines. For more information about Spark Thrift Server configuration, please visit [this website](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-resource-manager).
+
+- Navigate to ***portal.azure.com*** and log in to your account
+
+- On the left tab click Resource Groups
+
+- Click on the resource group we created earlier ***retailtemplate_resourcegroup***. If you don’t see the resource group, click ***Refresh*** 
+
+- Click on the HDInsight Spark Cluster that you created during the solution
+- From the right blade, click on **HDInsight cluster dashboard**
+- On the new page that pops out, click on **Spark** from left blade
+- Click on **Config** tab from the top
+- Expand **Advanced spark-thrift-sparkconf** category to update the parameters to the corresponding value as below
+  - spark.dynamicAllocation.maxExecutors : 2
+  - spark.executor.memory : 2048m
+- Expand **Custom spark-thrift-sparkconf** category to update the parameters to the corresponding value as below
+  - spark.executor.cores : 2
+
+
+#### 2.	Download the Power BI report file and sign-in 
 
 -  Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop).
 -	In this GitHub repository, you can download the **'RetailPriceOptimizationSolution.pbix'** file under the folder [*Power BI*](https://github.com/Azure/cortana-intelligence-price-optimization/tree/master/Manual%20Deployment%20Guide/Power%20BI) and then open it. 
@@ -534,7 +554,7 @@ The essential goal of this part is to visualize the results from the demand fore
 -	Click on **’Edit Queries’** on the top and open the query editor. You will see 9 Queries in the left pane of the query editor. You might also see an error message saying "DataFormat.Error: Invalid URI: The hostname could not be parsed.
 ". Please ignore this error message for now and follow the below instructions for updating the data source. Once the data source is updated, the error will gone.
 
-#### 2.	Update the Azure HDInsight account in the Power BI file
+#### 3.	Update the Azure HDInsight account in the Power BI file
 
 -	Click on **’Sales_Aggregation_Week_Start’** query and you will see that this query is highlighted in a darker color as the following screenshot. Then, click on the **’Advanced Editor’** on the top, which is next to the **’Refresh Preview’**.
 
@@ -556,7 +576,7 @@ The essential goal of this part is to visualize the results from the demand fore
 
 ![](Figures/PowerBIInstructions6.png)
 
-#### 3)	[Optional] Publish the dashboard to [Power BI online](http://www.powerbi.com/)
+#### 4. [Optional] Publish the dashboard to [Power BI online](http://www.powerbi.com/)
 
 Note that this step needs a Power BI account (or Office 365 account).
 -	 Click **’Publish’** on the top panel. Choose **'My Workspace'** (or other workspaces where you wish to publish the dashboard) and few seconds later a window appears displaying "Publishing succeeded".

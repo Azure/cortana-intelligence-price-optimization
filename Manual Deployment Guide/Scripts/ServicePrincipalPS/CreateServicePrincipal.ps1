@@ -5,7 +5,7 @@ Get-AzureRmSubscription
 
 $subscriptionName = Read-Host 'Enter the Subscription Name?'
 $certName ="retailopt"+[guid]::NewGuid().toString().subString(0,8)
-$certPassword = Read-Host -Prompt 'Please enter a new Password here, which will be used as the password for the certificate to be created?' 
+$certPassword = Read-Host -Prompt 'Please enter a new Password here, which will be used as the password for the certificate to be created. Password rules(Size min 13, Alphanumeric, Atleast one Uppercase)?' 
 $clusterName = $certName
 
 $ErrorActionPreference = "Stop"

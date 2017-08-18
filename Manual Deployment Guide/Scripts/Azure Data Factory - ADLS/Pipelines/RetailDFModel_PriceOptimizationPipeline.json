@@ -1,0 +1,121 @@
+{
+    "name": "RetailDFModel_PriceOptimizationPipeline",
+    "properties": {
+        "description": "Retail Price Optimization Pipeline with Model Training (weekly)",
+		"activities": [
+            {
+                "type": "HDInsightMapReduce",
+                "typeProperties": {
+                    "className": "com.adf.sparklauncher.AdfSparkJobLauncher",
+                    "jarFilePath": "adflibs/com.adf.sparklauncher.jar",
+                    "jarLinkedService": "StorageLinkedService",
+                    "arguments": [
+                        "--appFile",
+                        "wasb://adflibs@<Replace with Storage Account Name noted in step 2>.blob.core.windows.net/Sales_Data_Aggregation.py",
+                        "--app_arguments",
+                        "<Replace with DataLakeStore Name noted in step 3>",
+                        "--deploy_mode",
+                        "cluster"
+                    ]
+                },
+                "outputs": [
+                    {
+                        "name": "ADLStoreAggOutput"
+                    }
+                ],
+                "policy": {
+                    "timeout": "00:30:00",
+                    "concurrency": 1,
+                    "retry": 1
+                },
+                "scheduler": {
+                    "frequency": "Hour",
+                    "interval": 1
+                },
+                "name": "AggDataSparkJob",
+                "description": "Submits a Spark Job",
+                "linkedServiceName": "HDInsightLinkedService"
+            },
+            {
+                "type": "HDInsightMapReduce",
+                "typeProperties": {
+                    "className": "com.adf.sparklauncher.AdfSparkJobLauncher",
+                    "jarFilePath": "adflibs/com.adf.sparklauncher.jar",
+                    "jarLinkedService": "StorageLinkedService",
+                    "arguments": [
+                        "--appFile",
+                        "wasb://adflibs@<Replace with Storage Account Name noted in step 2>.blob.core.windows.net/Demand_Forecasting_Model_Training_First_Time_Pipeline.py",
+                         "--app_arguments",
+                        "<Replace with DataLakeStore Name noted in step 3>",
+                        "--deploy_mode",
+                        "cluster"
+                    ]
+                },
+                "inputs": [
+                    {
+                        "name": "ADLStoreAggOutput"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "ADLStoreDFModelOutput"
+                    }
+                ],
+                "policy": {
+                    "timeout": "00:30:00",
+                    "concurrency": 1,
+                    "retry": 1
+                },
+                "scheduler": {
+                    "frequency": "Hour",
+                    "interval": 1
+                },
+                "name": "DFMdoelSparkJob",
+                "description": "Submits a Spark Job",
+                "linkedServiceName": "HDInsightLinkedService"
+            },
+            {
+                "type": "HDInsightMapReduce",
+                "typeProperties": {
+                    "className": "com.adf.sparklauncher.AdfSparkJobLauncher",
+                    "jarFilePath": "adflibs/com.adf.sparklauncher.jar",
+                    "jarLinkedService": "StorageLinkedService",
+                    "arguments": [
+                        "--appFile",
+                        "wasb://adflibs@<Replace with Storage Account Name noted in step 2>.blob.core.windows.net/Price_Optimization.py",
+                        "--app_arguments",
+                        "<Replace with DataLakeStore Name noted in step 3>",
+                        "--deploy_mode",
+                        "cluster"
+                    ]
+                },
+                "inputs": [
+                    {
+                        "name": "ADLStoreDFModelOutput"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "ADLStorePriceOptOutput"
+                    }
+                ],
+                "policy": {
+                    "timeout": "00:30:00",
+                    "concurrency": 1,
+                    "retry": 1
+                },
+                "scheduler": {
+                    "frequency": "Hour",
+                    "interval": 1
+                },
+                "name": "PriceOptSparkJob",
+                "description": "Submits a Spark Job",
+                "linkedServiceName": "HDInsightLinkedService"
+            }
+        ],
+        "start": "<start-time>",
+        "end": "<end-time>",
+        "isPaused": false,
+        "pipelineMode": "Scheduled"
+    }
+}

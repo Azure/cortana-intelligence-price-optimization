@@ -1,5 +1,5 @@
 {
-    "name": "BlobtoreDFModelOutput",
+    "name": "BlobStoreDFModelOutput",
     "properties": {
         "published": false,
         "type": "AzureBlob",

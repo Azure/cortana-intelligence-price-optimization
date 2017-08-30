@@ -17,6 +17,7 @@ The process described above is operationalized and deployed in the Cortana Intel
 
 ## Prerequisites
 <Guide type="Prerequisites">
+
 This pattern requires creation of **1 HDInsight Cluster with 16 cores**. Ensure adequate HDInsight core quotas are available before provisioning. By default one subscription can create a maximum of 20 core cluster.
 The limit can be increased. Please consider deleting any unused HDInsight Cluster from your subscription. You may contact [Azure Support](https://azure.microsoft.com/support/faq/) if you need to increase the limit.
 </Guide>

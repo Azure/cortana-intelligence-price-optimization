@@ -24,7 +24,7 @@ The limit can be increased. Please consider deleting any unused HDInsight Cluste
 
 ## Description
 
-#### Estimated Provisioning Time: <Guide type="EstimatedTime">30 Minutes</Guide>
+#### Estimated Provisioning Time: <Guide type="EstimatedTime">36 Minutes</Guide>
 <Guide type="Description">
 Cortana Intelligence provides advanced analytics tools through Microsoft Azure — data ingestion, data storage, data processing and advanced analytics components — all of the essential elements for building a demand forecasting and price optimization solution.
 
@@ -33,7 +33,7 @@ This solution combines several Azure services to provide powerful advantages. Az
 The 'Deploy' button will launch a workflow that will deploy an instance of the solution within a Resource Group in the Azure subscription you specify. The solution includes multiple Azure services (described below) along with a web job that simulates data so that immediately after deployment you have a working end-to-end solution. 
 
 ## Solution Diagram
-![Solution Diagram](https://cloud.githubusercontent.com/assets/16085124/24881410/ae6c8dae-1e0b-11e7-8f27-41812512f31b.png)
+![Solution Diagram](https://user-images.githubusercontent.com/20048518/29930577-b0e50cfe-8e3c-11e7-865a-4fed7f38b6af.png)
 
 ## Technical details and workflow
 1.	The simulation data is generated hourly by newly deployed **Azure Web Jobs**.

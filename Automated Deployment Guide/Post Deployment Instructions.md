@@ -1,7 +1,7 @@
 # [Demand Forecasting and Price Optimization](https://gallery.cortanaintelligence.com/solution/513038e359b7464390be575513043ef3)
 
 ## Abstract
-This document is focused on the post deployment instructions for the [automated deployment](https://gallery.cortanaintelligence.com/solution/513038e359b7464390be575513043ef3) through the Cortana Intelligence Gallery. The source code of the solution as well as manual deployment instructions can be found [here](https://github.com/Azure/cortana-intelligence-price-optimization/tree/master/Manual%20Deployment%20Guide).
+This document is focused on the post deployment instructions for the [automated deployment](https://gallery.cortanaintelligence.com/solution/513038e359b7464390be575513043ef3) through the Cortana Intelligence Gallery. The source code of the solution as well as manual deployment instructions can be found [here](https://gallery.cortanaintelligence.com/Solution/Demand-Forecasting-and-Price-Optimization).
 
 ### Quick links
 [Monitor Progress](https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Automated%20Deployment%20Guide/Post%20Deployment%20Instructions.md#monitor-progress) - see how you can monitor the resources that have been deployed to your subscription.
@@ -20,7 +20,7 @@ This will show all the resources under this resource groups on [Azure management
 After successful deployment, the entire solution is automatically started on cloud. You can monitor the progress from the following resources.
 This part contains instructions for managing different Azure componenets in the deployed solution.
 ### Web Jobs
-A web job is created during the deployment. You can monitor the web job by clicking the link on your deployment page. This web job will generate weekly sales data hourly. The generated sales data will be stored in **Azure Data Lake Store**.
+A web job is created during the deployment. You can monitor the web job by clicking the link on your deployment page. This web job will generate weekly sales data hourly. The generated sales data will be stored in **Azure Blob Storage**.
 > **Note**: In the demo here, the simulator will generate **one week's** simulated data in **one hour**. And **Azure Data Factory** is scheduled to process, and output the results for **one week's** data **in one hour**. 
  That is to say, in this solution demo, one week is condensed to one hour. In this case, you are able to view multiple weeks' results in a few hours, rather than waiting for multiple weeks to get the results for a few weeks. However, in the reality deployment, the cycle time should be consistent with the real time.
 
@@ -29,12 +29,12 @@ A web job is created during the deployment. You can monitor the web job by click
 
 Here is an overview of the generated ADF pipelines.
 
-**RetailDFModel_PriceOptimizationPipeline**: In each cycle, Spark activities will ingest the raw data from Azure Data Lake Store, aggregate the raw unstructured transaction data to weekly sales data, train demand forecasting model, solve price optimization problems and prepare the data for Power BI visualization.
+**RetailDFModel_PriceOptimizationPipeline**: In each cycle, Spark activities will ingest the raw data from Azure Blob Storage, aggregate the raw unstructured transaction data to weekly sales data, train demand forecasting model, solve price optimization problems and prepare the data for Power BI visualization.
 
 **ModelRetrainPipeline**: Demand forecasting model is retrained on up-to-date sales data to keep improving the predictive performance. The **ModelRetrainPipeline** can be deployed in a different cycle time from the two pipelines above, since there are no dependencies between **ModelRetrainPipeline** and **RetailDFModel_PriceOptimizationPipeline**. In this solution demo, the **RetailDFModel_PriceOptimizationPipeline** are scheduled to run **hourly**, which represents **weekly** in the reality. While **ModelRetrainPipeline** is scheduled to run **every four hours**, which represents **four weeks (approximately one month)** in the reality.
 
-### Azure Data Lake Store
-Both raw data and analytical results are saved in **Azure Data Lake Store** in this solution. You can monitor the generated datasets by clicking the link on your deployment page.
+### Azure Blob Storage
+Both raw data and analytical results are saved in **Azure Blob Storage** in this solution. You can monitor the generated datasets by clicking the link on your deployment page.
 
 There are mainly two final result datasets: **Aggregated Sales Data** and **Optimization Result Data**. Each record of **Aggregated Sales Data** contain weekly sales, product features and store features for one product sold at one store in a specific week. Each record of **Optimization Result Data** contain predicted weekly sales on this record's features, recommended optimal price, product features and store features for one product sold at one store in a specific week. **Aggregated Sales Data** only contain historical data, whereas **Optimization Result Data** contain historical recommendations as well as the future price recommendation for the coming week. **Aggregated Sales Data** contain records for all stores, whereas **Optimization Result Data** only contain records for stores in treatment group, because only stores in treatment group accepts/needs the recommended price from optimization algorithm.
 
@@ -117,7 +117,7 @@ Note that this step needs a Power BI account (or Office 365 account).
 -	On the navigation pane, go to the **’Dashboards’** section, click on **’ RetailPriceOptimizationSolution’**. Click the three dots on the top-right of the dashboard tile (the red one). Click on the middle pencil icon to edit the tile details. In **’Functionality’**, check **’Display last refresh time’**, and click on **’Apply’**. You will see the last refresh time showing up on the top-left of the dashboard.
 
 ## Scaling
-The architecture of this solution is designed to be scalable. [Azure Data Lake Store](https://azure.microsoft.com/en-us/services/data-lake-store/) can scale throughput to support any size of analytic workload without redesigning your application or repartitioning your data at higher scale. Apache Spark for Azure HDInsight, either existing clusters or new ones, can also be scaled up to fit into heavier computation needs. 
+The architecture of this solution is designed to be scalable. [Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/) can scale throughput to support any size of analytic workload without redesigning your application or repartitioning your data at higher scale. Apache Spark for Azure HDInsight, either existing clusters or new ones, can also be scaled up to fit into heavier computation needs. 
 
 ## Customization
 For solution customization, you can refer to the manual deployment guide offered [here](https://github.com/Azure/cortana-intelligence-price-optimization/tree/master/Manual%20Deployment%20Guide) to gain an inside view of how the solution is built, the function of each component and access to all the source codes used in the demo solution. You can customize the components accordingly to satisfy the business needs of your organization. Or you can [connect with one of our partners](https://appsource.microsoft.com/en-us/product/cortana-intelligence/microsoft-cortana-intelligence.demand-forecasting-for-retail?tab=Partners) for more information on how to tailor Cortana Intelligence to your needs.

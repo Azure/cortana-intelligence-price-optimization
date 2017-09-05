@@ -11,10 +11,10 @@ For a discussion of the analytical approach used in this solution, see the [Solu
 ## Solution Architecture
 In this session, we provide more details about how the above analytical approach is operationalized in Cortana Intelligence. The following chart describes the solution architecture.
 
-![Architecture Diagram](https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Manual%20Deployment%20Guide/Figures/SolutionArchitecture.png)
+![Architecture Diagram](https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Manual%20Deployment%20Guide/Figures/SolutionArchitectureBlob.png)
 
 ### What’s Under the Hood
-Raw simulated transactional data are pushed into Azure Data Lake Storage, whence the Spark Jobs run on HDInsight Cluster will take the raw data as inputs and:
+Raw simulated transactional data are pushed into Azure Blob Storage, whence the Spark Jobs run on HDInsight Cluster will take the raw data as inputs and:
 
 1. Turn the unstructured raw data into structured data and aggregate the individual transactions into weekly sales data.
 2. Train demand forecasting model on the aggregated sales data.

@@ -1,7 +1,7 @@
 # Demand Forecasting and Price Optimization Solution
 
 ## Abstract
-This **Automated Deployment Guide** contains the post-deployment instructions for the deployable [**Demand Forecasting and Price Optimization Solution**](https://gallery.cortanaintelligence.com/solution/513038e359b7464390be575513043ef3) solution in the Cortana Intelligence Gallery. 
+This **Automated Deployment Guide** contains the post-deployment instructions for the deployable [**Demand Forecasting and Price Optimization Solution**](https://gallery.cortanaintelligence.com/Solution/Demand-Forecasting-and-Price-Optimization) solution in the Cortana Intelligence Gallery. 
 
 <Guide type="PostDeploymentGuidance" url="https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Automated%20Deployment%20Guide/Post%20Deployment%20Instructions.md"/>
 
@@ -18,29 +18,28 @@ The process described above is operationalized and deployed in the Cortana Intel
 ## Prerequisites
 <Guide type="Prerequisites">
 
-- This pattern requires creation of **1 HDInsight Cluster with 16 cores**, **1 Virtual Machine** and **1 Data Lake Store**. Ensure adequate HDInsight/Virtual Machine quotas and Data Lake Stores are available before provisioning. By default one subscription can create a maximum of 20 core cluster. 
-The limit can be increased. Please consider deleting any unused HDInsight Cluster and Data Lake Store from your subscription. You may contact [Azure Support](https://azure.microsoft.com/support/faq/) if you need to increase the limit.
-
-- This pattern requires user to have admin or owner privilege in order to create Service Principal in later steps during solution deployment. Check your account permissions using the document [Required permissions](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal#required-permissions). 
+This pattern requires creation of **1 HDInsight Cluster with 16 cores**. Ensure adequate HDInsight core quotas are available before provisioning. By default one subscription can create a maximum of 20 core cluster.
+The limit can be increased. Please consider deleting any unused HDInsight Cluster from your subscription. You may contact [Azure Support](https://azure.microsoft.com/support/faq/) if you need to increase the limit.
 </Guide>
+
 
 ## Description
 
-#### Estimated Provisioning Time: <Guide type="EstimatedTime">1 Hour</Guide>
+#### Estimated Provisioning Time: <Guide type="EstimatedTime">36 Minutes</Guide>
 <Guide type="Description">
 Cortana Intelligence provides advanced analytics tools through Microsoft Azure — data ingestion, data storage, data processing and advanced analytics components — all of the essential elements for building a demand forecasting and price optimization solution.
 
-This solution combines several Azure services to provide powerful advantages. Azure Data Lake Store stores the weekly raw sales data. Apache Spark for Azure HDInsight ingests the data and executes data preprocessing, forecasting modeling and price optimization algorithms. Finally, Data Factory orchestrates and schedules the entire data flow.
+This solution combines several Azure services to provide powerful advantages. Azure Blob Storage Store stores the weekly raw sales data. Apache Spark for Azure HDInsight ingests the data and executes data preprocessing, forecasting modeling and price optimization algorithms. Finally, Data Factory orchestrates and schedules the entire data flow.
 
 The 'Deploy' button will launch a workflow that will deploy an instance of the solution within a Resource Group in the Azure subscription you specify. The solution includes multiple Azure services (described below) along with a web job that simulates data so that immediately after deployment you have a working end-to-end solution. 
 
 ## Solution Diagram
-![Solution Diagram](https://cloud.githubusercontent.com/assets/16085124/24881410/ae6c8dae-1e0b-11e7-8f27-41812512f31b.png)
+![Solution Diagram](https://user-images.githubusercontent.com/20048518/29930577-b0e50cfe-8e3c-11e7-865a-4fed7f38b6af.png)
 
 ## Technical details and workflow
 1.	The simulation data is generated hourly by newly deployed **Azure Web Jobs**.
 
-2.	This synthetic data is stored at **Azure Data Lake Store**, that will be used in the rest of the solution flow.
+2.	This synthetic data is stored at **Azure Blob Storage**, that will be used in the rest of the solution flow.
 
 3.	**Spark on HDInsight** is used to ingest and preprocess the raw data, build and retrain the demand forecasting models, and execute price optimization algorithms. 
 

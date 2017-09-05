@@ -1,4 +1,4 @@
-﻿# Demand Forecasting and Price Optimization Solution
+# Demand Forecasting and Price Optimization Solution
 
 ## Table of Contents  
 - [Abstract](#abstract)  
@@ -12,7 +12,7 @@
 
 This **Manual Deployment Guide** explains how to build the **Demand Forecasting and Price Optimization Solution** step by step. Going through this manual deployment process will help implementers gain an inside view of how the solution is built and the function of each component.
 
-> **NOTE:** In this manual deployment guide, the **Azure Blob Storage** is used as the main storage in the solution architecture. We have another version of manual deployment guide which is for audience who are more interested to use **Azure Data Lake Store** as the main storage. Please check **the Manual Deployment Guide - ADLS version.md** for detailed instructions.
+> **NOTE:** In this manual deployment guide, the **Azure Blob Storage** is used as the main storage in the solution architecture. We have another version of manual deployment guide which is for audience who are more interested to use **Azure Data Lake Store** as the main storage. Please check the **[Manual Deployment Guide - ADLS version.md](https://github.com/Azure/cortana-intelligence-price-optimization/blob/addblob/Manual%20Deployment%20Guide/Manual%20Deployment%20Guide%20-%20ADLS%20version.md)** for detailed instructions.
 
 ## Requirements
 

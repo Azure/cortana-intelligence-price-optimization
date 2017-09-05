@@ -1,7 +1,7 @@
 # Demand Forecasting and Price Optimization Solution
 
 ## Abstract
-This **Automated Deployment Guide** contains the post-deployment instructions for the deployable [**Demand Forecasting and Price Optimization Solution**](https://gallery.cortanaintelligence.com/solution/513038e359b7464390be575513043ef3) solution in the Cortana Intelligence Gallery. 
+This **Automated Deployment Guide** contains the post-deployment instructions for the deployable [**Demand Forecasting and Price Optimization Solution**](https://gallery.cortanaintelligence.com/Solution/Demand-Forecasting-and-Price-Optimization) solution in the Cortana Intelligence Gallery. 
 
 <Guide type="PostDeploymentGuidance" url="https://github.com/Azure/cortana-intelligence-price-optimization/blob/master/Automated%20Deployment%20Guide/Post%20Deployment%20Instructions.md"/>
 
@@ -21,6 +21,7 @@ The process described above is operationalized and deployed in the Cortana Intel
 This pattern requires creation of **1 HDInsight Cluster with 16 cores**. Ensure adequate HDInsight core quotas are available before provisioning. By default one subscription can create a maximum of 20 core cluster.
 The limit can be increased. Please consider deleting any unused HDInsight Cluster from your subscription. You may contact [Azure Support](https://azure.microsoft.com/support/faq/) if you need to increase the limit.
 </Guide>
+
 
 ## Description
 

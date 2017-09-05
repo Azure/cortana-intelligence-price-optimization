@@ -1,0 +1,45 @@
+{
+    "name": "ModelRetrainPipeline",
+    "properties": {
+        "description": "Runs every month once (1 Month = 4 Hours) ",
+        "activities": [
+            {
+                "type": "HDInsightMapReduce",
+                "typeProperties": {
+                    "className": "com.adf.sparklauncher.AdfSparkJobLauncher",
+                    "jarFilePath": "adflibs/com.adf.sparklauncher.jar",
+                    "jarLinkedService": "StorageLinkedService",
+                    "arguments": [
+                        "--appFile",
+                        "wasb://adflibs@<Replace with Storage Account Name noted in step 2>.blob.core.windows.net/Demand_Forecasting_Model_Training_Pipeline.py",
+                         "--app_arguments",
+                        "<Replace with DataLakeStore Name noted in step 3>",
+                        "--deploy_mode",
+                        "cluster"
+                    ]
+                },
+                "outputs": [
+                    {
+                        "name": "ADLStoreDFModelMonthlyOutput"
+                    }
+                ],
+                "policy": {
+                    "timeout": "01:00:00",
+                    "concurrency": 1,
+                    "retry": 1
+                },
+                "scheduler": {
+                    "frequency": "Hour",
+                    "interval": 4
+                },
+                "name": "DFModelRetrainSparkJob",
+                "description": "Retrain Model every month(1 week = 1 hr so a month = 4 hours)",
+                "linkedServiceName": "HDInsightLinkedService"
+            }
+        ],
+        "start": "<start-time>",
+        "end": "<end-time>",
+        "isPaused": false,
+        "pipelineMode": "Scheduled"
+    }
+}
